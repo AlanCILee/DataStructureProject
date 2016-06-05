@@ -1,0 +1,11 @@
+COMMAND			SQL
+
+Create Table		CREATE TABLE table_name
+Create Field		***done when creating table?
+Add Record		INSERT INTO
+Update Record		UPDATE
+Delete Record		DELETE
+Select			SELECT
+Where			WHERE
+Order			ORDER BY
+Like			LIKE
