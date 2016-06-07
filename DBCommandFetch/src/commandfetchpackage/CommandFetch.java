@@ -5,6 +5,7 @@ DO NOT INCLUDE THIS IN THE FINAL PROGRAM
 */
 package commandfetchpackage;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -19,7 +20,7 @@ public class CommandFetch
 		tf.setVisible(true);
 	}
 	
-	public static class testFrame extends JFrame
+	public static class testFrame extends JFrame implements ActionListener
 	{
 		Container con;
 		JTextArea txtCommand;
@@ -46,6 +47,7 @@ public class CommandFetch
 			txtCommand.setFont(fCon);
 			
 			btnExecute = new JButton("Execute");
+			btnExecute.addActionListener(this);
 			pA.add(txtCommand);
 			pA.add(btnExecute);
 			
@@ -58,6 +60,20 @@ public class CommandFetch
 			
 			con.add(pA);
 			con.add(pB);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			if (e.getSource() instanceof JButton)
+			{
+				if (e.getSource() == btnExecute)
+				{
+					commandinterpreter cin = new commandinterpreter();
+					cin.loadCommand(txtCommand.getText());
+				}
+			}
+			
 		}
 	}
 }
