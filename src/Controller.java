@@ -6,7 +6,7 @@ public class Controller {
 	Search	searchObj;
 	FileHandler fileHandlerObj;
 	
-	String userCommand;
+//	String userCommand;
 	
 	public Controller(UserGui _gui){
 		guiObj = _gui;
