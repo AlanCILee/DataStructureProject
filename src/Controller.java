@@ -6,6 +6,8 @@ public class Controller {
 	Search	searchObj;
 	FileHandler fileHandlerObj;
 	
+	String userCommand;
+	
 	public Controller(UserGui _gui){
 		guiObj = _gui;
 		
@@ -38,5 +40,8 @@ public class Controller {
 		guiObj.updateContents();
 	}
 	
-
+	public void getCommand(String _input){
+		//Deliver this input string to command fetch
+		System.out.println(_input); 	//test
+	}
 }

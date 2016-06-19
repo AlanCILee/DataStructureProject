@@ -7,12 +7,15 @@ public class UserGui extends CFrame implements ActionListener{
 	JTextArea taResult;
 	JButton bRun;
 	
+	Controller ctrl;
+	
 	UserGui(int x, int y, int w, int h) {
 		super(x, y, w, h);
 		
-		new Controller(this);
+		ctrl = new Controller(this);
 
 		JPanel topGui = new JPanel();
+		topGui.setLayout(null);
 		createGui(topGui,0,0,1280,80,this);
 		topGui.setBackground(Color.cyan);		//For test
 		//-----------------------------------
@@ -20,6 +23,7 @@ public class UserGui extends CFrame implements ActionListener{
 		//-----------------------------------		
 		
 		JPanel sideGui = new JPanel();
+		sideGui.setLayout(null);
 		createGui(sideGui,0,81,300,688,this);
 		sideGui.setBackground(Color.yellow);	//For test
 		//-----------------------------------
@@ -27,6 +31,7 @@ public class UserGui extends CFrame implements ActionListener{
 		//-----------------------------------
 		
 		JPanel centerGui = new JPanel();
+		centerGui.setLayout(null);
 		createGui(centerGui,301,81,979,688,this);
 		centerGui.setBackground(Color.green);	//For test
 		
@@ -48,7 +53,9 @@ public class UserGui extends CFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		
+		if(arg0.getSource() == bRun){
+			ctrl.getCommand(taCommand.getText());
+		}		
 	}
 
 	public void updateTableList(){
