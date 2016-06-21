@@ -21,16 +21,20 @@ public class Controller {
 		newField.add(new Field(Field.TYPE.VARCHAR,"Name"));
 		
 		Table testTable = new Table(newField,"testTable");
+		
+		String names[] = {"Alan Lee","Matt","Ronnie","Joy","Park"};
+		for (int i=0;i<names.length;i++){
+			Record newRecord = new Record();
+			newRecord.add(new Value(newField.get(0),i));
+			newRecord.add(new Value(newField.get(1),names[i]));
 			
-		Record newRecord = new Record();
-		newRecord.add(new Value(newField.get(0),Integer.valueOf(1)));
-		newRecord.add(new Value(newField.get(1),"Alan Lee"));
-		
-		if(!testTable.addRow(newRecord)){
-			System.out.println("Failed to add row");
-		}
-		
+			if(!testTable.addRow(newRecord)){
+				System.out.println("Failed to add row");
+			}
+		}		
 		System.out.println(testTable.toString());
+		
+		searchObj.doSearch(testTable, "ID > 1 && ID <=3 ");		
 		//Example to create table ==============================================
 		
 		//Call back function to update Table List : Parameters need to be defined

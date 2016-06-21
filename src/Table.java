@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Table {	
 	String tableName;
-	ArrayList<Record> alTable;
+	ArrayList<Record> alRecord;
 	ArrayList<Field> alField;
 	
 //=====================================================================	
@@ -12,7 +12,7 @@ public class Table {
 		
 		tableName = _tableName;
 		alField = _alField;
-		alTable = new ArrayList<Record>();
+		alRecord = new ArrayList<Record>();
 	}
 
 //=====================================================================	
@@ -53,7 +53,7 @@ public class Table {
 			}
 		}
 
-		alTable.add(_record);
+		alRecord.add(_record);
 		return true;
 	}
 	
@@ -67,9 +67,9 @@ public class Table {
 			result += "\n";
 		}
 		
-		if(alTable !=null){
-			for (int i=0;i<alTable.size();i++){
-				result += alTable.get(i).toString() + "\n";
+		if(alRecord !=null){
+			for (int i=0;i<alRecord.size();i++){
+				result += alRecord.get(i).toString() + "\n";
 			}		
 		}
 		return result;

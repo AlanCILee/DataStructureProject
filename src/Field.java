@@ -1,5 +1,5 @@
 public class Field implements Comparable<Field> {
-	public enum TYPE{INTEGER,VARCHAR,FLOAT,DATE };
+	public enum TYPE{INTEGER,VARCHAR,FLOAT,DATE,NULL };
 
 	TYPE fType;
 	String fName;
