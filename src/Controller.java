@@ -5,6 +5,7 @@ public class Controller {
 	Sort	sortObj;
 	Search	searchObj;
 	FileHandler fileHandlerObj;
+	CommandFetch fetchObj;
 	
 //	String userCommand;
 	
@@ -47,5 +48,7 @@ public class Controller {
 	public void getCommand(String _input){
 		//Deliver this input string to command fetch
 		System.out.println(_input); 	//test
+		
+		fetchObj.loader(_input); //Matt: something like this?
 	}
 }

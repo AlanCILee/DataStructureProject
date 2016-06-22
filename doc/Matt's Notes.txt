@@ -1,3 +1,4 @@
+=============================================================================================
 COMMAND			SQL
 
 Create Table		CREATE TABLE table_name
@@ -9,3 +10,36 @@ Select			SELECT
 Where			WHERE
 Order			ORDER BY
 Like			LIKE
+
+=============================================================================================
+LEGAL STARTING COMMANDS/WORDS
+
+CREATE TABLE: for creating tables; need one for intersect? consult spec + group
+	> table name
+	> field data types 
+		>> String
+		>> Int
+		>> Double
+		>> Time
+		>> Date
+	> field names
+
+INSERT: for adding records into a specified table
+	> table name
+	> fields of that table (requires the user to know beforehand?)
+	> corresponding datatypes (how to sync)
+
+UPDATE: for updating (a) specific field in a table
+	> table name
+	> row number
+	> field to be changed
+	> note: SQL uses the WHERE command to determine which row to update, but I think for the sake
+	of our simple DB it'd be better if the UPDATE command was it's own standalone entity
+
+SELECT: showing records, this has several modifiers
+	> columns
+	> table name
+	> modifiers
+		>> WHERE: throw the whole string at the corresponding command
+		>> ORDER BY: col name
+		>> LIKE: ???
