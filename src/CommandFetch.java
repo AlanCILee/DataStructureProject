@@ -15,6 +15,9 @@ public class CommandFetch
 		text = text.replace("\n", "");
 		String[] command = text.split(" ");
 		
+		//DEBUG MESSAGE
+		System.out.println(text);
+		
 		interpret(command);
 	}
 	
@@ -65,15 +68,14 @@ public class CommandFetch
 	{
 		String tableName = command[2];
 		
-		String fullcommand = command.toString();
-		String[] temp = fullcommand.split("\\(");
-		fullcommand = temp[1];
-		
 		if (tableName.contains("("))
 		{
 			String[] s = tableName.split("\\(");
 			tableName = s[0];
 		}
+		
+		//DEBUG MESSAGE
+		System.out.println(tableName);
 		
 		ArrayList<String> dataTypes;
 		ArrayList<String> colNames;
