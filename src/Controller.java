@@ -5,8 +5,8 @@ public class Controller {
 	Sort	sortObj;
 	Search	searchObj;
 	FileHandler fileHandlerObj;
-//	CommandFetch fetchObj;
-	
+	CommandFetch fetchObj = new CommandFetch();
+
 //	String userCommand;
 	
 	public Controller(UserGui _gui){
