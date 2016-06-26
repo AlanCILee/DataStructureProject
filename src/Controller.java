@@ -5,7 +5,7 @@ public class Controller {
 	Sort	sortObj;
 	Search	searchObj;
 	FileHandler fileHandlerObj;
-	CommandFetch fetchObj;
+//	CommandFetch fetchObj;
 	
 //	String userCommand;
 	
@@ -26,8 +26,8 @@ public class Controller {
 		String names[] = {"Alan Lee","Matt","Ronnie","Joy","Park"};
 		for (int i=0;i<names.length;i++){
 			Record newRecord = new Record();
-			newRecord.add(new Value(newField.get(0),i));
-			newRecord.add(new Value(newField.get(1),names[i]));
+			newRecord.getAlRecord().add(new Value(newField.get(0),i));
+			newRecord.getAlRecord().add(new Value(newField.get(1),names[i]));
 			
 			if(!testTable.addRow(newRecord)){
 				System.out.println("Failed to add row");
@@ -49,6 +49,6 @@ public class Controller {
 		//Deliver this input string to command fetch
 		System.out.println(_input); 	//test
 		
-		fetchObj.loader(_input); //Matt: something like this?
+//		fetchObj.loader(_input); //Matt: something like this?
 	}
 }

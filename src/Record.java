@@ -10,10 +10,6 @@ public class Record implements Comparable<Record>{
 	public Record(ArrayList<Value> _alValue){
 		alRecord = _alValue;
 	}
-	
-	public void add(Value _in){
-		alRecord.add(_in);
-	}
 
 	public String toString(){
 		String result = "";

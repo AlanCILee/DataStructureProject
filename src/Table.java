@@ -15,6 +15,28 @@ public class Table {
 		alRecord = new ArrayList<Record>();
 	}
 
+
+// Can create table before creating field information =================
+	public Table(String _tableName){
+		
+		tableName = _tableName;
+		alRecord = new ArrayList<Record>();
+	}
+
+//=====================================================================
+//	Get Field Index to get Field Object in alField
+//=====================================================================	
+	public int getFieldInx(Field.TYPE _fType, String _fname){
+		int idx = -1;
+		for (int i=0;i<alField.size();i++){
+			if(alField.get(i).compareTo(new Field(_fType,_fname))==0){
+				idx = i;
+				break;
+			}				
+		}
+		return idx;
+	}
+	
 //=====================================================================	
 // Add Record to Table
 // 	Return 	true : success to add
