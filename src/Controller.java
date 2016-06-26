@@ -49,6 +49,7 @@ public class Controller {
 		//Deliver this input string to command fetch
 		System.out.println(_input); 	//test
 		
-//		fetchObj.loader(_input); //Matt: something like this?
+		//BELOW: uncomment to test the command fetching
+		//fetchObj.loader(_input);
 	}
 }
