@@ -29,5 +29,5 @@ class Key {
 	KEY kKey;			//type of key
 	Table rTable;		//reference Table
 	Field rField;		//reference Field
-	
+	// KKK
 }
