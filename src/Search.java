@@ -197,7 +197,7 @@ public class Search {
 		String searchStr = _searchStr.trim();
 		String tempWord, tempStr;
 		
-		String words[] = searchStr.split("[\\s\\r\\t]+");		
+		String words[] = searchStr.split("[\\s\\r\\t\'()]+");		
 		
 		for (int i=0; i<words.length;i++){
 			tempWord = words[i];
