@@ -33,7 +33,7 @@ UPDATE: for updating (a) specific field in a table
 	> table name
 	> row number
 #####################alan
-
+#######################alan
 	> field to be changed
 	> note: SQL uses the WHERE command to determine which row to update, but I think for the sake
 	of our simple DB it'd be better if the UPDATE command was it's own standalone entity
