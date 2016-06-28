@@ -8,22 +8,21 @@ public class Search {
 	ArrayList result;
 	Table searchTable;
 	
-	public void doSearch(Table _targetTable, String _searchString){
-		result = new ArrayList();		
-		
+	public void doSearch(Table _targetTable, String _searchString) throws SearchException{
+		result = new ArrayList();			
 		
 		searchElement = splitSchString(_searchString);
-		searchTable = _targetTable;
+		searchTable = _targetTable.clone();
 		
-		while(searchElement.size() != 0){
-			ArrayList<Record> partResult = new ArrayList<Record>();		
-			partSearchElement = getPartSearchElement(searchElement); 
-			if(partSearch(partSearchElement,searchTable,partResult))
-				result.add(partResult);			
+		while(searchElement.size() != 0){								//Do part search : part means [A operator B]
+			ArrayList<Record> partResult;		
+			partSearchElement = getPartSearchElement(searchElement);
+			partResult = partSearch(partSearchElement,searchTable);
+			result.add(partResult);		
 		}		
 		
-		while(result.size() > 1){
-			ArrayList<Record> left = (ArrayList<Record>)result.get(0);
+		while(result.size() > 1){										//Combine part search results : part result means [partA && partB || partC ...]   
+			ArrayList<Record> left = (ArrayList<Record>)result.get(0);	
 			ArrayList<Record> right = (ArrayList<Record>)result.get(2);
 			ArrayList<Record> tempResult = new ArrayList<Record>();
 			
@@ -80,11 +79,11 @@ public class Search {
 					break;
 					
 				// Second Element : Operator	
-				case 1:
+/*				case 1:
 					partSearchElement.add(element);					
 					if (element.equalsIgnoreCase("BETWEEN"))
 						operationLength = 5;
-					break;
+					break;*/
 					
 				default:
 					partSearchElement.add(element);
@@ -102,59 +101,56 @@ public class Search {
 	// Return Search Result of [ X operator Y ] to _partResult
 	// 
 	//====================================================================================	
-	public boolean partSearch(ArrayList<String> alCommand, Table _targetTable, ArrayList<Record> _partResult ){
+	public ArrayList<Record> partSearch(ArrayList<String> alCommand, Table _targetTable) throws SearchException{
+		ArrayList<Record> partResult = new ArrayList<Record>();		//Result Record
 		ArrayList<Field> searchField = searchTable.alField;
 		ArrayList<Record> searchRecord = searchTable.alRecord;
 
-		String targetField = alCommand.get(0);		
-		Field.TYPE fType = getFieldType(targetField);		
+		String targetField = alCommand.get(0);	
+		String operator = alCommand.get(1);
+		operator = operator.toLowerCase();
+		int targetFieldIdx = _targetTable.getFieldIdx(targetField);		//Find index of variable		
 
-		if(fType != Field.TYPE.NULL){
-			String operator = alCommand.get(1);
-			switch (operator){
+		if(targetFieldIdx >= 0){
 			
-				case ">" :
-				case "<" :
-				case "=" :
-				case ">=" :
-				case "<=" :									
-					for(int i=0;i<searchRecord.size();i++){
-						Record rec = searchRecord.get(i);
+			for(int i=0;i<searchRecord.size();i++){		//search each rows
+				Record rec = searchRecord.get(i);
+				Value val = rec.getAlRecord().get(targetFieldIdx);
+			
+				switch (operator){				
+					case ">" :
+					case "<" :
+					case "=" :
+					case ">=" :
+					case "<=" :																	
+						if((operator.equals(">") && val.compareTo(alCommand.get(2)) > 0)
+								|| (operator.equals("<") && val.compareTo(alCommand.get(2)) < 0) 
+								|| (operator.equals(">=") && val.compareTo(alCommand.get(2)) >= 0)
+								|| (operator.equals("<=") && val.compareTo(alCommand.get(2)) <= 0)
+								|| (operator.equals("=") && val.compareTo(alCommand.get(2)) == 0))
+						{
+							partResult.add(rec);
+						}		
+						break;
+	
+					case "like" :
+						if(((String)(val.data)).contains(alCommand.get(2).toLowerCase()))
+							partResult.add(rec);
+						break;
 						
-						for (int j=0;j<rec.getAlRecord().size();j++){
-							Value val = rec.getAlRecord().get(j);
-							
-							if(val.field.fName.equalsIgnoreCase(targetField)){								
-								if((operator.equals(">") && val.compareTo(alCommand.get(2)) > 0)
-										|| (operator.equals("<") && val.compareTo(alCommand.get(2)) < 0) 
-										|| (operator.equals(">=") && val.compareTo(alCommand.get(2)) >= 0)
-										|| (operator.equals("<=") && val.compareTo(alCommand.get(2)) <= 0)
-										|| (operator.equals("=") && val.compareTo(alCommand.get(2)) == 0))
-								{
-									_partResult.add(rec);
-									break;
-								}								
-							}						
-						}						
-					}
-					System.out.println(_partResult);
-					break;
-
-				case "LIKE" :
-					break;
-					
-				case "BETWEEN" :
-					break;
-					
-				case "IN" :
-					break;		
-					
-			}
+					default:
+						System.out.println("Not supported Command");
+						throw new SearchException("Not supported Command");
+						
+				}	//end of switch
+			}	//end of for
+			System.out.println(partResult);
 		}else{
 			System.out.println("No such Field in the table");
+			throw new SearchException("No such Field in the table");
 		}
 		
-		return true;
+		return partResult;
 	}
 	
 
