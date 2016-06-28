@@ -36,7 +36,7 @@ public class Controller {
 		}		
 		System.out.println(testTable.toString());
 		try{
-			searchObj.doSearch(testTable, "Name like a");
+			searchObj.doSearch(testTable, "ID >= 1 && name like a");
 		}catch(SearchException ex){
 			System.out.println(ex.getMessage());
 		}

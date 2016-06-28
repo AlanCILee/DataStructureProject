@@ -28,7 +28,22 @@ public class Record implements Comparable<Record>{
 
 	public void addValue(Value _value){
 		Field valueField = _value.field;
-		int fieldIndex = table.getFieldIdx(valueField);
+
+		switch(valueField.fType){						//Converting Data to Matched DataType
+			case INTEGER:
+				_value.data = (Integer)(_value.data);	
+				break;
+				
+			case DOUBLE:
+				_value.data = (Double)(_value.data);		
+				break;
+				
+			default:	
+				_value.data = (String)(_value.data);			
+				break;
+		}		
+		
+		int fieldIndex = table.getFieldIdx(valueField);	//Find location to be stored in ArrayList depends on table's filed information
 		
 		if(fieldIndex >=0)
 			alRecord.set(fieldIndex,_value);
