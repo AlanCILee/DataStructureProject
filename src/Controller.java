@@ -29,15 +29,17 @@ public class Controller {
 			Record newRecord = new Record(testTable);			// create record : specify table to check added data type	
 			newRecord.addValue(new Value(testTable.getField("Name"),names[i]));
 			newRecord.addValue(new Value(testTable.getField("ID"),i));
-/*			newRecord.addValue(new Value(newField.get(1),names[i]));
-			newRecord.addValue(new Value(newField.get(0),i));*/
 			
 			if(!testTable.addRow(newRecord)){
 				System.out.println("Failed to add row");
 			}
 		}		
 		System.out.println(testTable.toString());
-		searchObj.doSearch(testTable, "ID > 1 && ID <=3 ");		
+		try{
+			searchObj.doSearch(testTable, "Name like a");
+		}catch(SearchException ex){
+			System.out.println(ex.getMessage());
+		}
 		//Example to create table ==============================================
 		
 		//Call back function to update Table List : Parameters need to be defined
