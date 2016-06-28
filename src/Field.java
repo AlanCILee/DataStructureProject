@@ -1,15 +1,24 @@
 public class Field implements Comparable<Field> {	
 	public enum TYPE{INTEGER,VARCHAR,FLOAT,DATE,NULL };
-
-	Key fKey;			//Optional member
+	public enum KEY {PRIMARY, FOREIGN, NORMAL};
+	
+	KEY fKey;			
 	TYPE fType;
 	String fName;
-
-	public Field(TYPE _type,String _fName){
+	ForeignKey fForeign;		// Additional information is required if it is foreign key
+	
+	public Field(TYPE _type,String _fName){			
+		fKey = Field.KEY.NORMAL;
 		fType = _type;
 		fName = _fName;
 	}
 
+	public Field(KEY _key, TYPE _type,String _fName){			
+		fKey = _key;
+		fType = _type;
+		fName = _fName;
+	}
+	
 	@Override
 	public int compareTo(Field o) {
 		if(fType == o.fType && fName.equalsIgnoreCase(o.fName))
@@ -23,11 +32,7 @@ public class Field implements Comparable<Field> {
 	}
 }
 
-class Key {
-	public enum KEY {PRIMARY, FOREIGN, NULL};
-	
-	KEY kKey;			//type of key
-	Table rTable;		//reference Table
-	Field rField;		//reference Field
-	// KKK
+class ForeignKey {
+	Table rTable;		//reference Table if this field is foreign key
+	Field rField;		//reference Field if this field is foreign key
 }
