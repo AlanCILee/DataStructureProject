@@ -7,16 +7,19 @@ import java.util.*;
 
 public class CommandFetch 
 {
+	public String fullCommand;
+	
 	//loader: takes the input from the GUI text area as input; removing the line
 	//breaks and placing the 'words' into a string array (command). This array is
 	//then passed to the interpret method.
 	public void loader(String text)
 	{
 		text = text.replace("\n", "");
+		fullCommand = text;
 		String[] command = text.split(" ");
 		
 		//DEBUG MESSAGE
-		System.out.println(text);
+		System.out.println(fullCommand);
 		
 		interpret(command);
 	}
@@ -68,6 +71,9 @@ public class CommandFetch
 	{
 		String tableName = command[2];
 		
+		String data = fullCommand.split("\\(")[1];
+		data = data.split("\\)")[0];
+		
 		if (tableName.contains("("))
 		{
 			String[] s = tableName.split("\\(");
@@ -75,9 +81,26 @@ public class CommandFetch
 		}
 		
 		//DEBUG MESSAGE
+		System.out.println(data);
 		System.out.println(tableName);
 		
-		ArrayList<String> dataTypes;
-		ArrayList<String> colNames;
+		ArrayList<String> colNames = new ArrayList<String>();
+		ArrayList<String> dataTypes = new ArrayList<String>();
+		
+		String dataArr[] = data.split(",");
+		
+		for (int i = 0; i < dataArr.length; i++)
+		{
+			String tempArr[] = dataArr[i].split(" ");
+			colNames.add(tempArr[0]);
+			dataTypes.add(tempArr[1]);
+		}
+		
+		//AND THEN I JUST PASS THE TWO ARRAYLISTS TO THE CREATE TABLE METHOD
+		
+		//DEBUG MESSAGE
+		System.out.println(colNames);
+		System.out.println(dataTypes);
 	}
 }
+
