@@ -27,16 +27,17 @@ public class UserGui extends CFrame implements ActionListener, KeyListener{
 		JPanel topGui = new JPanel();
 		topGui.setLayout(null);
 		createGui(topGui,0,0,1280,80,this); //add topGui
-		topGui.setBackground(Color.cyan);		//For test
+		topGui.setBackground(Color.DARK_GRAY);		//For test
 		JLabel dbtitle = new JLabel("CSIS 3475 Database Structure - Alan, Caleb, Matt, Ronnie, Joy");	
 		dbtitle.setFont(titleFont);
+		dbtitle.setForeground(Color.white);
 		createGui(dbtitle,10,10,500,50,topGui); //add title label
 		
 		//---------Side Panel----------------------------
 		JPanel sideGui = new JPanel();
 		sideGui.setLayout(null);
 		createGui(sideGui,0,81,300,688,this);
-		sideGui.setBackground(Color.yellow);	//For test
+		sideGui.setBackground(Color.ORANGE);	//For test
 		JLabel tableTitle = new JLabel("Tables");	
 		tableTitle.setFont(titleFont);
 		createGui(tableTitle,120,-10,300,50,sideGui); //add title label
@@ -69,7 +70,8 @@ public class UserGui extends CFrame implements ActionListener, KeyListener{
 		
 		bRun = new JButton("Run");
 		createGui(bRun,570,100,100,50,centerGui);
-		bRun.setBorder(BorderFactory.createLineBorder(Color.cyan));
+		bRun.setOpaque(true);
+		bRun.setBackground(Color.DARK_GRAY);
 		bRun.addActionListener(this);
 	}
 
