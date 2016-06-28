@@ -97,6 +97,7 @@ public class CommandFetch
 		}
 		
 		//AND THEN I JUST PASS THE TWO ARRAYLISTS TO THE CREATE TABLE METHOD
+		Controller.createTable(tableName, colNames, dataTypes);
 		
 		//DEBUG MESSAGE
 		System.out.println(colNames);
