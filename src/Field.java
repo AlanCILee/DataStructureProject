@@ -1,5 +1,5 @@
 public class Field implements Comparable<Field> {	
-	public enum TYPE{INTEGER,VARCHAR,FLOAT,DATE,NULL };
+	public enum TYPE{INTEGER,VARCHAR,DOUBLE,DATE,NULL };
 	public enum KEY {PRIMARY, FOREIGN, NORMAL};
 	
 	KEY fKey;			
@@ -19,6 +19,13 @@ public class Field implements Comparable<Field> {
 		fName = _fName;
 	}
 	
+	public void setForeignKey(Table _rTable,Field _rField){
+		fKey = Field.KEY.FOREIGN;
+		fForeign = new ForeignKey();
+		fForeign.rTable = _rTable;
+		fForeign.rField = _rField;
+	}
+	
 	@Override
 	public int compareTo(Field o) {
 		if(fType == o.fType && fName.equalsIgnoreCase(o.fName))
@@ -29,7 +36,8 @@ public class Field implements Comparable<Field> {
 	
 	public String toString(){		
 		return String.valueOf(fType) + " : "+fName;
-	}
+	}	
+
 }
 
 class ForeignKey {

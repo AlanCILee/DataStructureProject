@@ -41,8 +41,8 @@ public class Value <T extends Comparable<T>> implements Comparable <Object>{
 			case DATE:	
 				result = ((String)data).compareTo(oString);
 				break;
-			case FLOAT:
-				result = ((Float)data).compareTo(Float.valueOf(oString));
+			case DOUBLE:
+				result = ((Double)data).compareTo(Double.valueOf(oString));
 				break;
 			default:
 				result = -9999;
