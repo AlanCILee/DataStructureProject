@@ -133,5 +133,15 @@ public class Controller {
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// THIS SECTION FOR INSERTING INTO TABLES
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public static void insertTable(String tName, ArrayList<String> fields, ArrayList<String> values)
+	{
+		//Table activeTable = fileHandlerObj.getFile(tName);
+		
+		for (int i = 0; i < fields.size(); i++)
+		{
+			//Record newRecord = new Record(activeTable);
+		}
+	}
 }

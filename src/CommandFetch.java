@@ -35,7 +35,7 @@ public class CommandFetch
 		 * LIST OF CONTROL VALUES:
 		 * 0 = default, return syntax error
 		 * 1 = create table
-		 * 2 = create intersection table?
+		 * 2 = delete
 		 * 3 = insert
 		 * 4 = update
 		 * 5 = select
@@ -44,6 +44,16 @@ public class CommandFetch
 		if (commArr[0].equalsIgnoreCase("CREATE") && commArr[1].equalsIgnoreCase("TABLE"))
 		{
 			control = 1;
+		}
+		
+		if (commArr[0].equalsIgnoreCase("DELETE"))
+		{
+			control = 2;
+		}
+		
+		if (commArr[0].equalsIgnoreCase("INSERT"))
+		{
+			control = 3;
 		}
 		
 		switch(control)
@@ -56,13 +66,21 @@ public class CommandFetch
 				callCreateTable(commArr);
 				break;
 				
+			case 2:
+				callDelete(commArr);
+				break;
+				
+			case 3:
+				callInsert(commArr);
+				break;
+				
 			default:
 				//Syntax error should go here?
 				break;
 		}
 		
 	}
-	
+
 	//callCreateTable: takes the command string array as a parameter; gets the
 	//table name, and puts the data types (in string format) in one arraylist, and 
 	//the field (column) names in another. Finally, it will call the create table
@@ -96,12 +114,47 @@ public class CommandFetch
 			dataTypes.add(tempArr[1]);
 		}
 		
-		//AND THEN I JUST PASS THE TWO ARRAYLISTS TO THE CREATE TABLE METHOD
-		Controller.createTable(tableName, colNames, dataTypes);
-		
 		//DEBUG MESSAGE
 		System.out.println(colNames);
 		System.out.println(dataTypes);
+		
+		//AND THEN I JUST PASS THE TWO ARRAYLISTS TO THE CREATE TABLE METHOD
+		Controller.createTable(tableName, colNames, dataTypes);
+		
+		
+	}
+
+	public void callDelete(String[] command)
+	{
+		
+	}
+	
+	public void callInsert(String[] command)
+	{
+		String tableName = command[1];
+		
+		if (tableName.contains("("))
+		{
+			String[] s = tableName.split("\\(");
+			tableName = s[0];
+		}
+		
+		ArrayList<String> values = new ArrayList<String>();
+		ArrayList<String> fNames = new ArrayList<String>();
+		
+		String data = fullCommand.split("\\(")[1];
+		data = data.split("\\)")[0];
+		
+		String dataArr[] = data.split(",");
+		
+		for (int i = 0; i < dataArr.length; i++)
+		{
+			String tempArr[] = dataArr[i].split(" ");
+			fNames.add(tempArr[0]);
+			values.add(tempArr[1]);
+		}
+		
+		Controller.insertTable(tableName, fNames, values);
 	}
 }
 
