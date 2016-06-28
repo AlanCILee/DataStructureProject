@@ -7,16 +7,19 @@ import java.util.*;
 
 public class CommandFetch 
 {
+	public String fullCommand;
+	
 	//loader: takes the input from the GUI text area as input; removing the line
 	//breaks and placing the 'words' into a string array (command). This array is
 	//then passed to the interpret method.
 	public void loader(String text)
 	{
 		text = text.replace("\n", "");
+		fullCommand = text;
 		String[] command = text.split(" ");
 		
 		//DEBUG MESSAGE
-		System.out.println(text);
+		System.out.println(fullCommand);
 		
 		interpret(command);
 	}
@@ -32,7 +35,7 @@ public class CommandFetch
 		 * LIST OF CONTROL VALUES:
 		 * 0 = default, return syntax error
 		 * 1 = create table
-		 * 2 = create intersection table?
+		 * 2 = delete
 		 * 3 = insert
 		 * 4 = update
 		 * 5 = select
@@ -41,6 +44,16 @@ public class CommandFetch
 		if (commArr[0].equalsIgnoreCase("CREATE") && commArr[1].equalsIgnoreCase("TABLE"))
 		{
 			control = 1;
+		}
+		
+		if (commArr[0].equalsIgnoreCase("DELETE"))
+		{
+			control = 2;
+		}
+		
+		if (commArr[0].equalsIgnoreCase("INSERT"))
+		{
+			control = 3;
 		}
 		
 		switch(control)
@@ -53,13 +66,21 @@ public class CommandFetch
 				callCreateTable(commArr);
 				break;
 				
+			case 2:
+				callDelete(commArr);
+				break;
+				
+			case 3:
+				callInsert(commArr);
+				break;
+				
 			default:
 				//Syntax error should go here?
 				break;
 		}
 		
 	}
-	
+
 	//callCreateTable: takes the command string array as a parameter; gets the
 	//table name, and puts the data types (in string format) in one arraylist, and 
 	//the field (column) names in another. Finally, it will call the create table
@@ -68,6 +89,9 @@ public class CommandFetch
 	{
 		String tableName = command[2];
 		
+		String data = fullCommand.split("\\(")[1];
+		data = data.split("\\)")[0];
+		
 		if (tableName.contains("("))
 		{
 			String[] s = tableName.split("\\(");
@@ -75,9 +99,62 @@ public class CommandFetch
 		}
 		
 		//DEBUG MESSAGE
+		System.out.println(data);
 		System.out.println(tableName);
 		
-		ArrayList<String> dataTypes;
-		ArrayList<String> colNames;
+		ArrayList<String> colNames = new ArrayList<String>();
+		ArrayList<String> dataTypes = new ArrayList<String>();
+		
+		String dataArr[] = data.split(",");
+		
+		for (int i = 0; i < dataArr.length; i++)
+		{
+			String tempArr[] = dataArr[i].split(" ");
+			colNames.add(tempArr[0]);
+			dataTypes.add(tempArr[1]);
+		}
+		
+		//DEBUG MESSAGE
+		System.out.println(colNames);
+		System.out.println(dataTypes);
+		
+		//AND THEN I JUST PASS THE TWO ARRAYLISTS TO THE CREATE TABLE METHOD
+		Controller.createTable(tableName, colNames, dataTypes);
+		
+		
+	}
+
+	public void callDelete(String[] command)
+	{
+		
+	}
+	
+	public void callInsert(String[] command)
+	{
+		String tableName = command[1];
+		
+		if (tableName.contains("("))
+		{
+			String[] s = tableName.split("\\(");
+			tableName = s[0];
+		}
+		
+		ArrayList<String> values = new ArrayList<String>();
+		ArrayList<String> fNames = new ArrayList<String>();
+		
+		String data = fullCommand.split("\\(")[1];
+		data = data.split("\\)")[0];
+		
+		String dataArr[] = data.split(",");
+		
+		for (int i = 0; i < dataArr.length; i++)
+		{
+			String tempArr[] = dataArr[i].split(" ");
+			fNames.add(tempArr[0]);
+			values.add(tempArr[1]);
+		}
+		
+		Controller.insertTable(tableName, fNames, values);
 	}
 }
+

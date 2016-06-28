@@ -53,6 +53,97 @@ public class Controller {
 		//Deliver this input string to command fetch
 		System.out.println(_input); 	//test
 		
-//		fetchObj.loader(_input); //Matt: something like this?
+		fetchObj.loader(_input); //Matt: something like this?
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// THIS SECTION FOR CREATING TABLES
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public static void createTable(String tName, ArrayList<String> colNames, ArrayList<String> dataTypes)
+	{
+		ArrayList<Field> theFields = new ArrayList<Field>();
+		
+		for (int i = 0; i < colNames.size(); i++)
+		{
+			Field.TYPE theType = getDataType(dataTypes.get(i));
+			Field.KEY theKey = getKey(colNames.get(i));
+			theFields.add(new Field(theKey, theType, colNames.get(i)));
+		}
+		
+		Table newTable = new Table(theFields, tName);
+		//I need to add this new table some sort of DB object?
+		
+		//DEBUG MESSAGE
+		System.out.println(newTable.toString());
+	}
+	
+	//this interprets the data type
+	public static Field.TYPE getDataType(String a)
+	{
+		Field.TYPE temp = Field.TYPE.NULL;
+		
+		if (a.equalsIgnoreCase("STRING"))
+		{
+			temp = Field.TYPE.VARCHAR;
+		}
+		else
+		{
+			if (a.equalsIgnoreCase("INT"))
+			{
+				temp = Field.TYPE.INTEGER;
+			}
+			else
+			{
+				if (a.equalsIgnoreCase("DOUBLE"))
+				{
+					temp = Field.TYPE.DOUBLE;
+				}
+				else
+				{
+					if (a.equalsIgnoreCase("DATE"))
+					{
+						temp = Field.TYPE.DATE;
+					}
+				}
+			}
+		}
+		
+		return temp;
+	}
+	
+	//this interprets the key
+	public static Field.KEY getKey(String a)
+	{
+		Field.KEY temp;
+		
+		if (a.charAt(0) == 'P' && a.charAt(1) == 'K')
+		{
+			temp = Field.KEY.PRIMARY;
+		}
+		else
+		{
+			if (a.charAt(0) == 'F' && a.charAt(1) == 'K')
+			{
+				temp = Field.KEY.FOREIGN;
+			}
+			else
+			{
+				temp = Field.KEY.NORMAL;
+			}
+		}
+		return temp;
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// THIS SECTION FOR INSERTING INTO TABLES
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public static void insertTable(String tName, ArrayList<String> fields, ArrayList<String> values)
+	{
+		//Table activeTable = fileHandlerObj.getFile(tName);
+		
+		for (int i = 0; i < fields.size(); i++)
+		{
+			//Record newRecord = new Record(activeTable);
+		}
 	}
 }
