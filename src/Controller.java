@@ -4,7 +4,7 @@ public class Controller {
 	UserGui guiObj;
 	Sort	sortObj;
 	Search	searchObj;
-	FileHandler fileHandlerObj;
+	static FileHandler fileHandlerObj;
 	CommandFetch fetchObj = new CommandFetch();
 
 //	String userCommand;
@@ -137,11 +137,13 @@ public class Controller {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static void insertTable(String tName, ArrayList<String> fields, ArrayList<String> values)
 	{
-		//Table activeTable = fileHandlerObj.getFile(tName);
+		Table activeTable = fileHandlerObj.getFile(tName);
+		
+		Record newRecord = new Record(activeTable);
 		
 		for (int i = 0; i < fields.size(); i++)
 		{
-			//Record newRecord = new Record(activeTable);
+			newRecord.addValue(new Value(activeTable.getField(fields.get(i)), values.get(i)));
 		}
 	}
 }

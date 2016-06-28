@@ -99,8 +99,8 @@ public class CommandFetch
 		}
 		
 		//DEBUG MESSAGE
-		System.out.println(data);
-		System.out.println(tableName);
+		//System.out.println(data);
+		//System.out.println(tableName);
 		
 		ArrayList<String> colNames = new ArrayList<String>();
 		ArrayList<String> dataTypes = new ArrayList<String>();
@@ -115,8 +115,8 @@ public class CommandFetch
 		}
 		
 		//DEBUG MESSAGE
-		System.out.println(colNames);
-		System.out.println(dataTypes);
+		//System.out.println(colNames);
+		//System.out.println(dataTypes);
 		
 		//AND THEN I JUST PASS THE TWO ARRAYLISTS TO THE CREATE TABLE METHOD
 		Controller.createTable(tableName, colNames, dataTypes);
