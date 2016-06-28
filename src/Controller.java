@@ -6,7 +6,7 @@ public class Controller {
 	Search	searchObj;
 	static FileHandler fileHandlerObj;
 	CommandFetch fetchObj = new CommandFetch();
-
+	static Table testTable;
 //	String userCommand;
 	
 	public Controller(UserGui _gui){
@@ -18,9 +18,9 @@ public class Controller {
 
 		//Example to create table ==============================================
 		ArrayList<Field> newField = new ArrayList<Field>();
-		newField.add(new Field(Field.TYPE.INTEGER,"ID"));
+		newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.INTEGER,"ID"));
 		newField.add(new Field(Field.TYPE.VARCHAR,"Name"));		
-		Table testTable = new Table(newField,"testTable");
+		testTable = new Table(newField,"testTable");
 
 		//Example to add rows on table =========================================		
 		String names[] = {"Alan Lee","Matt","Ronnie","Joy","Park"};
@@ -191,5 +191,57 @@ public class Controller {
 		}
 		
 		//and then a table save/display update goes here
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//THIS METHOD FOR UPDATING FIELDS IN TABLES
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public static void updateField(String tName, int pKey, String field, String value)
+	{
+		//Table activeTable = fileHandlerObj.getFile(tName);
+		Table activeTable = testTable;
+		
+		//DEBUG MESSAGE
+		System.out.println("BEFORE: " + testTable.toString());
+		
+		//find the correct index using the PK
+		int row = 0;
+		
+		boolean found = false;
+		for (int i = 0; i < activeTable.alRecord.size(); i++)
+		{
+			for (int z = 0; z < activeTable.alField.size(); z++)
+			{
+				if (String.valueOf(activeTable.alRecord.get(i).getAlRecord().get(z).data).compareTo(String.valueOf(pKey)) == 0 && activeTable.alField.get(z).fKey == Field.KEY.PRIMARY)
+				{
+					row = i;
+					found = true;
+					
+					//DEBUG MESSAGE
+					System.out.println("THE ROW IS " + i);
+					
+					break;
+				}
+			}
+			
+			if (found)
+				break;
+		}
+		
+		for (int i = 0; i < activeTable.alField.size(); i++)
+		{
+			if (activeTable.alRecord.get(row).getAlRecord().get(i).field.compareTo(field) == 0)
+			{
+				//DEBUG MESSAGE
+				System.out.println("TEST");
+				
+				activeTable.alRecord.get(row).getAlRecord().get(i).data = value;
+			}
+		}
+		
+		//DEBUG MESSAGE
+		System.out.println("AFTER: " + activeTable.toString());
+		
+		//TABLE SAVE GOES HERE
 	}
 }

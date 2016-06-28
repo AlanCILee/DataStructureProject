@@ -56,6 +56,11 @@ public class CommandFetch
 			control = 3;
 		}
 		
+		if (commArr[0].equalsIgnoreCase("UPDATE"))
+		{
+			control = 4;
+		}
+		
 		switch(control)
 		{
 			case 0:
@@ -72,6 +77,10 @@ public class CommandFetch
 				
 			case 3:
 				callInsert(commArr);
+				break;
+			
+			case 4:
+				callUpdate(commArr);
 				break;
 				
 			default:
@@ -179,6 +188,16 @@ public class CommandFetch
 		}
 		
 		Controller.insertTable(tableName, fNames, values);
+	}
+	
+	public void callUpdate(String[] command)
+	{
+		String tableName = command[3];
+		int PK = Integer.parseInt(command[1]);
+		String fName = command[5];
+		String value = command[7];
+		
+		Controller.updateField(tableName, PK, fName, value);
 	}
 }
 
