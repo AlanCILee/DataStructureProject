@@ -25,16 +25,38 @@ public class Table {
 
 //=====================================================================
 //	Get Field Index to get Field Object in alField
-//=====================================================================	
-	public int getFieldInx(Field.TYPE _fType, String _fname){
+//=====================================================================		
+	public int getFieldIdx(Field _field){
 		int idx = -1;
 		for (int i=0;i<alField.size();i++){
-			if(alField.get(i).compareTo(new Field(_fType,_fname))==0){
+			if(alField.get(i).compareTo(_field)==0){
 				idx = i;
 				break;
 			}				
 		}
 		return idx;
+	}
+	
+	public int getFieldIdx(String _fname){
+		int idx = -1;
+		for (int i=0;i<alField.size();i++){
+			if(alField.get(i).compareTo(_fname)==0){
+				idx = i;
+				break;
+			}				
+		}
+		return idx;
+	}
+	
+//=====================================================================
+//	Get Field with Field Name
+//=====================================================================		
+	public Field getField(String _fname){
+		int index = getFieldIdx(_fname);
+//		if(index >=0)
+			return alField.get(index);
+//		else
+//			throw Exception
 	}
 	
 //=====================================================================	

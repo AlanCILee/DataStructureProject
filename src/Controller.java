@@ -19,22 +19,24 @@ public class Controller {
 		//Example to create table ==============================================
 		ArrayList<Field> newField = new ArrayList<Field>();
 		newField.add(new Field(Field.TYPE.INTEGER,"ID"));
-		newField.add(new Field(Field.TYPE.VARCHAR,"Name"));
-		
+		newField.add(new Field(Field.TYPE.VARCHAR,"Name"));		
 		Table testTable = new Table(newField,"testTable");
-		
+
+		//Example to add rows on table =========================================		
 		String names[] = {"Alan Lee","Matt","Ronnie","Joy","Park"};
 		for (int i=0;i<names.length;i++){
-			Record newRecord = new Record();
-			newRecord.getAlRecord().add(new Value(newField.get(0),i));
-			newRecord.getAlRecord().add(new Value(newField.get(1),names[i]));
+			
+			Record newRecord = new Record(testTable);			// create record : specify table to check added data type	
+			newRecord.addValue(new Value(testTable.getField("Name"),names[i]));
+			newRecord.addValue(new Value(testTable.getField("ID"),i));
+/*			newRecord.addValue(new Value(newField.get(1),names[i]));
+			newRecord.addValue(new Value(newField.get(0),i));*/
 			
 			if(!testTable.addRow(newRecord)){
 				System.out.println("Failed to add row");
 			}
 		}		
 		System.out.println(testTable.toString());
-		
 		searchObj.doSearch(testTable, "ID > 1 && ID <=3 ");		
 		//Example to create table ==============================================
 		

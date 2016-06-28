@@ -1,16 +1,41 @@
 import java.util.*;
 
 public class Record implements Comparable<Record>{
+	Table table;
 	private ArrayList<Value> alRecord;
 	
-	public Record(){
+	public Record(Table _table){
+		table = _table;
 		alRecord = new ArrayList<Value>();
+		
+		for (int i=0;i<table.alField.size();i++){
+			Field valField = table.alField.get(i);
+			switch(valField.fType){						//Initialize Row with Null Data
+				case INTEGER:
+					alRecord.add(new Value(valField,0));	
+					break;
+					
+				case DOUBLE:
+					alRecord.add(new Value(valField,0.0));	
+					break;
+					
+				default:	
+					alRecord.add(new Value(valField,"null"));	
+					break;
+			}			
+		}
 	}	
-	
-	public Record(ArrayList<Value> _alValue){
-		alRecord = _alValue;
-	}
 
+	public void addValue(Value _value){
+		Field valueField = _value.field;
+		int fieldIndex = table.getFieldIdx(valueField);
+		
+		if(fieldIndex >=0)
+			alRecord.set(fieldIndex,_value);
+		else
+			System.out.println("This value's type is exist on this table");
+	}
+	
 	public String toString(){
 		String result = "";
 		for (int i=0;i<alRecord.size();i++){

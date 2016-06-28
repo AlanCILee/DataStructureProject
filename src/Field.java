@@ -1,4 +1,4 @@
-public class Field implements Comparable<Field> {	
+public class Field implements Comparable<Object> {	
 	public enum TYPE{INTEGER,VARCHAR,DOUBLE,DATE,NULL };
 	public enum KEY {PRIMARY, FOREIGN, NORMAL};
 	
@@ -27,11 +27,20 @@ public class Field implements Comparable<Field> {
 	}
 	
 	@Override
-	public int compareTo(Field o) {
-		if(fType == o.fType && fName.equalsIgnoreCase(o.fName))
-			return 0;
-		else
-			return -1;
+	public int compareTo(Object o) {
+		int result = -1;
+		if(o instanceof Field){
+			if(fType == ((Field)o).fType && fName.equalsIgnoreCase(((Field)o).fName))
+				result = 0;
+			else
+				result = -1;
+		}else if(o instanceof String){
+			if(fName.equalsIgnoreCase((String)o))
+				result = 0;
+			else
+				result = -1;			
+		}
+		return result;
 	}
 	
 	public String toString(){		
