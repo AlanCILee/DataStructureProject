@@ -126,9 +126,33 @@ public class CommandFetch
 
 	public void callDelete(String[] command)
 	{
+		String tableName;
 		
+		if (command[1].equalsIgnoreCase("ALL") && command[2].equalsIgnoreCase("ROWS"))
+		{
+			tableName = command[3];
+			Controller.deleteAllRows(tableName);
+		}
+		
+		if (command[1].equalsIgnoreCase("TABLE"))
+		{
+			tableName = command[2];
+			Controller.deleteTable(tableName);
+		}
+		
+		if (command[2].equalsIgnoreCase("FROM"))
+		{
+			tableName = command[3];
+			int PK = Integer.parseInt(command[1]);
+			
+			Controller.deleteRow(tableName, PK);
+		}
 	}
 	
+	//This method operates in very much they same way as callCreateTable.
+	//It first takes the raw input string and grabs the table name from it, then moves one to
+	//fill two string arraylists with the field names and the values in string format. It then
+	//passes these 3 as parameters to the Controller's insertTable function.
 	public void callInsert(String[] command)
 	{
 		String tableName = command[1];

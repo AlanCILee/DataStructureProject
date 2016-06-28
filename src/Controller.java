@@ -57,7 +57,7 @@ public class Controller {
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// THIS SECTION FOR CREATING TABLES
+// THESE METHODS FOR CREATING TABLES
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static void createTable(String tName, ArrayList<String> colNames, ArrayList<String> dataTypes)
 	{
@@ -135,7 +135,7 @@ public class Controller {
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// THIS SECTION FOR INSERTING INTO TABLES
+// THIS METHOD FOR INSERTING INTO TABLES
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static void insertTable(String tName, ArrayList<String> fields, ArrayList<String> values)
 	{
@@ -151,5 +151,45 @@ public class Controller {
 		//This method will then have to save the additions to the table
 	}
 	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//THESE METHODS FOR DELETING THINGS
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public static void deleteAllRows(String tName)
+	{
+		Table activeTable = fileHandlerObj.getFile(tName);
+		
+		activeTable.alRecord.clear();
+		
+		//TABLE SAVE GOES HERE
+	}
 	
+	public static void deleteTable(String tName)
+	{
+		//need to see filehandler before writing this
+	}
+	
+	public static void deleteRow(String tName, int pKey)
+	{
+		Table activeTable = fileHandlerObj.getFile(tName);
+		
+		boolean found = false;
+		
+		for (int i = 0; i < activeTable.alRecord.size(); i++)
+		{
+			for (int z = 0; z < activeTable.alField.size(); z++)
+			{
+				if (activeTable.alRecord.get(i).getAlRecord().get(z).compareTo(String.valueOf(pKey)) == 0)
+				{
+					activeTable.alRecord.remove(i);
+					found = true;
+					break;
+				}
+			}
+			
+			if (found)
+				break;
+		}
+		
+		//and then a table save/display update goes here
+	}
 }
