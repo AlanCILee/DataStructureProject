@@ -145,5 +145,9 @@ public class Controller {
 		{
 			newRecord.addValue(new Value(activeTable.getField(fields.get(i)), values.get(i)));
 		}
+		
+		//This method will then have to save the additions to the table
 	}
+	
+	
 }
