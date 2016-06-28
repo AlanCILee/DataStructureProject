@@ -24,6 +24,16 @@ public class Table {
 	}
 
 //=====================================================================
+//	Clone table 
+//=====================================================================
+	public Table clone(){
+		Table retTable = new Table(this.tableName);
+		retTable.alRecord = (ArrayList<Record>) alRecord.clone();
+		retTable.alField = (ArrayList<Field>) alField.clone();
+		
+		return retTable;
+	}
+//=====================================================================
 //	Get Field Index to get Field Object in alField
 //=====================================================================		
 	public int getFieldIdx(Field _field){
