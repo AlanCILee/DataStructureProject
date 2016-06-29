@@ -178,7 +178,7 @@ public class Controller {
 		{
 			for (int z = 0; z < activeTable.alField.size(); z++)
 			{
-				if (activeTable.alRecord.get(i).getAlRecord().get(z).compareTo(String.valueOf(pKey)) == 0)
+				if (activeTable.alRecord.get(i).getAlRecord().get(z).compareTo(String.valueOf(pKey)) == 0 && activeTable.alField.get(z).fKey == Field.KEY.PRIMARY)
 				{
 					activeTable.alRecord.remove(i);
 					found = true;
