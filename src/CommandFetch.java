@@ -61,6 +61,11 @@ public class CommandFetch
 			control = 4;
 		}
 		
+		if (commArr[0].equalsIgnoreCase("SELECT"))
+		{
+			control = 5;
+		}
+		
 		switch(control)
 		{
 			case 0:
@@ -81,6 +86,11 @@ public class CommandFetch
 			
 			case 4:
 				callUpdate(commArr);
+				break;
+				
+			case 5:
+				List<String> commList = Arrays.asList(commArr);
+				callSelect(commList);
 				break;
 				
 			default:
@@ -198,6 +208,44 @@ public class CommandFetch
 		String value = command[7];
 		
 		Controller.updateField(tableName, PK, fName, value);
+	}
+	
+	
+	public void callSelect(List<String> command)
+	{
+		ArrayList<String> colNames = new ArrayList<String>();
+		String joinTableName = "noJoin";
+		
+		//DEBUG MESSAGE
+		System.out.println(command);
+		
+		int tNameIDX = command.indexOf("FROM") + 1;
+		String tableName = command.get(tNameIDX);
+		
+		for (int i = 1; i < tNameIDX - 1; i++)
+		{
+			String temp = command.get(i);
+			String temp2 = temp.split(",")[0];
+			temp2.trim();
+			colNames.add(temp2);
+		}
+		
+		if (command.contains("INNER"))
+		{
+			int idx = command.indexOf("INNER");
+			joinTableName = command.get(idx + 2);
+			
+			//select call here passing tableName, joinTableName, and the colNames
+		}
+		else
+		{
+			//select call here passing tableName, joinTableName, and the colNames
+		}
+		
+		//DEBUG MESSAGE
+		System.out.println(tableName);
+		System.out.println(joinTableName);
+		System.out.println(colNames);
 	}
 }
 
