@@ -1,16 +1,21 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Vector;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.*; 
 
 
-public class UserGui extends CFrame implements ActionListener, KeyListener{
+public class UserGui extends CFrame implements ActionListener, KeyListener, ListSelectionListener{
 	
 	JTextArea taCommand;
 	JTextArea taResult;
 	JScrollPane scroll1;
+	JList tableList;
+	//ListModel<ArrayList> tableList;
 	JButton bRun;
 	
 	Controller ctrl;
@@ -27,7 +32,7 @@ public class UserGui extends CFrame implements ActionListener, KeyListener{
 		JPanel topGui = new JPanel();
 		topGui.setLayout(null);
 		createGui(topGui,0,0,1280,80,this); //add topGui
-		topGui.setBackground(Color.DARK_GRAY);		//For test
+		topGui.setBackground(Color.DARK_GRAY);		
 		JLabel dbtitle = new JLabel("CSIS 3475 Database Structure - Alan, Caleb, Matt, Ronnie, Joy");	
 		dbtitle.setFont(titleFont);
 		dbtitle.setForeground(Color.white);
@@ -41,10 +46,18 @@ public class UserGui extends CFrame implements ActionListener, KeyListener{
 		JLabel tableTitle = new JLabel("Tables");	
 		tableTitle.setFont(titleFont);
 		createGui(tableTitle,120,-10,300,50,sideGui); //add title label
-		
-		//-----------------------------------
-		// call method and show tables here
-		//-----------------------------------
+			//-----------------------------------
+			// call method and show tables here
+			//-----------------------------------
+		ArrayList tableArr = Controller.fileHandlerObj.getFileList();
+	//	tableList = new JList<ArrayList>(tableArr);
+		Vector vtTables = new Vector(tableArr);
+	//	tableList = tableArr;
+		tableList = new JList(vtTables);
+		createGui((JComponent) tableList,10,30,280,500,sideGui); //jlist
+		tableList.addListSelectionListener(this);
+	//	tableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	//	tableList.revalidate();
 		
 		//---------Center Panel------------------------
 		JPanel centerGui = new JPanel();
@@ -111,6 +124,12 @@ public class UserGui extends CFrame implements ActionListener, KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
