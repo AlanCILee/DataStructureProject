@@ -1,13 +1,23 @@
 
 public class Sort {
 	/*
-	 * the purpose of the sort class is to accept 3 parameters: 
+	 * select method accepts , , and parameters
+	 * 
+	 */
+	public Table select(String s, boolean b1, boolean b2)
+	{
+		//create new table by cloning first table and if there's a second table, add all records onto the clone
+		
+		
+	}
+	
+	/*
+	 * orderBy method accepts 3 parameters: 
 	 * table to sort, 
 	 * field(fname) to sort by, 
 	 * ASC or DESC order - false is ASC, true is DESC
 	 * and return the table
 	 */
-	
 	public Table orderBy(Table _table, String _field, boolean _order)
 	{
 		Table table = _table;
@@ -46,7 +56,6 @@ public class Sort {
 		}
 		
 		return table;
-		
 	}
 
 }
