@@ -42,7 +42,7 @@ public class Field implements Comparable<Object> {
 	}
 	
 	public String toString(){		
-		return String.valueOf(fType) + " : "+fName;
+		return String.valueOf(fType) + " : "+fName +" : "+ foreignTable;
 	}
 }
 /*

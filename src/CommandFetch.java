@@ -14,7 +14,7 @@ public class CommandFetch
 	//then passed to the interpret method.
 	public void loader(String text)
 	{
-		text = text.replace("\n", "");
+		text = text.replace("\n", " ");
 		fullCommand = text;
 		String[] command = text.split(" ");
 		
@@ -216,6 +216,9 @@ public class CommandFetch
 		ArrayList<String> colNames = new ArrayList<String>();
 		String joinTableName = "noJoin";
 		
+		boolean whereControl = false;
+		boolean orderControl = false;
+		
 		//DEBUG MESSAGE
 		System.out.println(command);
 		
@@ -233,19 +236,92 @@ public class CommandFetch
 		if (command.contains("INNER"))
 		{
 			int idx = command.indexOf("INNER");
-			joinTableName = command.get(idx + 2);
-			
-			//select call here passing tableName, joinTableName, and the colNames
+			joinTableName = command.get(idx + 2);	
 		}
-		else
+		
+		if (command.contains("WHERE"))
 		{
-			//select call here passing tableName, joinTableName, and the colNames
+			whereControl = true;
 		}
+		
+		if (command.contains("ORDER"))
+		{
+			orderControl = true;
+		}
+		
+		//Controller SELECT call, pass:
+			//tableName
+			//joinTableName
+			//colNames
+			//whereControl
+			//orderControl
+			//fullString
 		
 		//DEBUG MESSAGE
 		System.out.println(tableName);
 		System.out.println(joinTableName);
 		System.out.println(colNames);
+		String testcon = fetchWhere(command);
+		System.out.println(testcon);
+		String testfield = fetchField(command);
+		System.out.println(testfield);
+		boolean testDir = fetchDir(command);
+		System.out.println(testDir);
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FOLLOWING SECTION FOR SELECT FILTERING
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public String fetchWhere(List<String> command)
+	{
+		String condition = "";
+		
+		int start = command.indexOf("WHERE") + 1;
+		int end;
+		
+		if (command.contains("ORDERBY"))
+		{
+			end = command.indexOf("ORDERBY");
+		}
+		else
+		{
+			end = command.size();
+		}
+		
+		for (int i = start; i < end; i++)
+		{
+			condition += command.get(i) + " ";
+		}
+		
+		return condition;
+	}
+	
+	public String fetchField(List<String> command)
+	{
+		int idx = command.indexOf("ORDERBY") + 1;
+		String fieldName = command.get(idx);
+		
+		return fieldName;
+	}
+	
+	public boolean fetchDir(List<String> command)
+	{
+		boolean sortDir;
+		
+		int idx = command.indexOf("ORDERBY") + 2;
+		String direction = command.get(idx);
+		
+		if (direction.equalsIgnoreCase("ASC"))
+		{
+			sortDir = false;
+		}
+		else
+		{
+
+			sortDir = true;
+		}
+		
+		return sortDir;
 	}
 }
 
