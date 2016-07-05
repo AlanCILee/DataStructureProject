@@ -5,7 +5,7 @@ public class Field implements Comparable<Object> {
 	KEY fKey;			
 	TYPE fType;
 	String fName;
-	ForeignKey fForeign;		// Additional information is required if it is foreign key
+	String foreignTable = null;		// if this field is foreign key, it will has reference table's file name 
 	
 	public Field(TYPE _type,String _fName){			
 		fKey = Field.KEY.NORMAL;
@@ -19,11 +19,9 @@ public class Field implements Comparable<Object> {
 		fName = _fName;
 	}
 	
-	public void setForeignKey(Table _rTable,Field _rField){
+	public void setForeignKey(String _foreignTable){
 		fKey = Field.KEY.FOREIGN;
-		fForeign = new ForeignKey();
-		fForeign.rTable = _rTable;
-		fForeign.rField = _rField;
+		foreignTable = _foreignTable;
 	}
 	
 	@Override
@@ -44,12 +42,11 @@ public class Field implements Comparable<Object> {
 	}
 	
 	public String toString(){		
-		return String.valueOf(fType) + " : "+fName;
-	}	
-
+		return String.valueOf(fType) + " : "+fName +" : "+ foreignTable;
+	}
 }
-
+/*
 class ForeignKey {
 	Table rTable;		//reference Table if this field is foreign key
 	Field rField;		//reference Field if this field is foreign key
-}
+}*/

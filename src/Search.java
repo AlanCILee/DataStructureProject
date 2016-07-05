@@ -8,7 +8,7 @@ public class Search {
 	ArrayList result;
 	Table searchTable;
 	
-	public void doSearch(Table _targetTable, String _searchString) throws SearchException{
+	public ArrayList doSearch(Table _targetTable, String _searchString) throws SearchException{
 		result = new ArrayList();			
 		
 		searchElement = splitSchString(_searchString);
@@ -44,10 +44,11 @@ public class Search {
 				}
 			}			
 			result.subList(0, 3).clear();
-			result.add(tempResult);	
+			result.add(0, tempResult);		
 		}
 		
 		System.out.println(result);
+		return result;
 	}
 
 	//====================================================================================
@@ -122,12 +123,14 @@ public class Search {
 					case "<" :
 					case "=" :
 					case ">=" :
-					case "<=" :																	
+					case "<=" :
+					case "!=" :	
 						if((operator.equals(">") && val.compareTo(alCommand.get(2)) > 0)
 								|| (operator.equals("<") && val.compareTo(alCommand.get(2)) < 0) 
 								|| (operator.equals(">=") && val.compareTo(alCommand.get(2)) >= 0)
 								|| (operator.equals("<=") && val.compareTo(alCommand.get(2)) <= 0)
-								|| (operator.equals("=") && val.compareTo(alCommand.get(2)) == 0))
+								|| (operator.equals("=") && val.compareTo(alCommand.get(2)) == 0)
+								|| (operator.equals("!=") && val.compareTo(alCommand.get(2)) != 0))
 						{
 							partResult.add(rec);
 						}		
