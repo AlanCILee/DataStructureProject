@@ -8,7 +8,7 @@ public class Sort {
 	 * and return the 
 	 */
 	
-	public void orderBy(Table _table, Field _field, boolean _order)
+	public void orderBy(Table _table, Field _field, boolean order)
 	{
 		Table table;
 		Field field;
@@ -16,28 +16,28 @@ public class Sort {
 		field = _field;
 		String m;
 		
-		if(_order = 0)
+		if(order)
 		{
-			for (int x=0; x < table.alfield.size(); x++)
+			for (int x=0; x < table.alField.size(); x++)
 			{
-				m = table.alfield.get(x);
+				m = table.alField.get(x);
 				
-				for(int i = x+ 1; (i <= table.alfield.size()) && (table.alfield.get(i) < (table.alfield.get(x)); i++)
+				for(int i = x+ 1; (i <= table.alField.size()) && (table.alField.get(i) < (table.alField.get(x)); i++)
 		          {
 					     record.setAlRecord(x,record.getAlRecord(i));
 					     record.setAlRecord(i,m);
 		          }
 			}
 		}
-		else if(_order=1)
+		else 
 		{
-			for (int x=0; x < table.alfield.size(); x++)
+			for (int x=0; x < table.alField.size(); x++)
 			{
-				m = table.alfield.get(x);
-				for(int i = x+ 1; (i <= table.alfield.size()) && (table.alfield.get(i) > (table.alfield.get(x)); i++)
+				m = table.alField.get(x);
+				for(int i = x+ 1; (i <= table.alField.size()) && (table.alField.get(i) > (table.alField.get(x)); i++)
 		          {
-						 table.alfield.set(x,table.alfield.get(i));
-		 				 table.alfield.set(i,m)
+						 table.alField.set(x,table.alField.get(i));
+		 				 table.alField.set(i,m)
 		          }
 			}
 		}
