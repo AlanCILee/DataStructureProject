@@ -14,7 +14,7 @@ public class CommandFetch
 	//then passed to the interpret method.
 	public void loader(String text)
 	{
-		text = text.replace("\n", " ");
+		text = text.replace("\n", "");
 		fullCommand = text;
 		String[] command = text.split(" ");
 		
@@ -258,6 +258,7 @@ public class CommandFetch
 			//fullString
 		
 		//DEBUG MESSAGE
+		System.out.println(command);
 		System.out.println(tableName);
 		System.out.println(joinTableName);
 		System.out.println(colNames);
