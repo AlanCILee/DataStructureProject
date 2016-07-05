@@ -8,12 +8,17 @@ public class Sort {
 	 * and return the table
 	 */
 	
+<<<<<<< HEAD
 	public Table orderBy(Table _table, String _field, boolean _order)
+=======
+	public void orderBy(Table _table, Field _field, boolean order)
+>>>>>>> 7d05497a51d545e5b8b73ba396ee91d698116e1f
 	{
 		Table table = _table;
 		String field = _field;		
 		Record m;
 		
+<<<<<<< HEAD
 		for(table.alRecord.alRecord.field.fName == field) // for values with XX field name
 		{
 		
@@ -25,6 +30,15 @@ public class Sort {
 				
 				for(int i = x + 1; (i <= table.alRecord.size()) && 
 						(table.alRecord.alRecord.get(i).data < table.alRecord.alRecord.get(x).data); i++)
+=======
+		if(order)
+		{
+			for (int x=0; x < table.alField.size(); x++)
+			{
+				m = table.alField.get(x);
+				
+				for(int i = x+ 1; (i <= table.alField.size()) && (table.alField.get(i) < (table.alField.get(x)); i++)
+>>>>>>> 7d05497a51d545e5b8b73ba396ee91d698116e1f
 		          {
 						 table.alRecord.set(x,table.alRecord.get(i));
 						 table.alRecord.set(i,m);
@@ -32,6 +46,7 @@ public class Sort {
 		          }
 			}
 		}
+<<<<<<< HEAD
 		else if(_order=1) // if descending order
 		{
 			for (int x=0; x < table.alRecord.size(); x++)
@@ -44,6 +59,17 @@ public class Sort {
 					 table.alRecord.set(x,table.alRecord.get(i));
 					 table.alRecord.set(i,m);
 					 m = table.alRecord.get(i);
+=======
+		else 
+		{
+			for (int x=0; x < table.alField.size(); x++)
+			{
+				m = table.alField.get(x);
+				for(int i = x+ 1; (i <= table.alField.size()) && (table.alField.get(i) > (table.alField.get(x)); i++)
+		          {
+						 table.alField.set(x,table.alField.get(i));
+		 				 table.alField.set(i,m)
+>>>>>>> 7d05497a51d545e5b8b73ba396ee91d698116e1f
 		          }
 			}
 		}
