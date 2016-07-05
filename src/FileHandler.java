@@ -171,17 +171,64 @@ public class FileHandler
 				{
 					for(int i=1; i<val.length; i++)
 					{
-						String[] arrFieldAttr = val[i].split("-");					
+						//arrFieldAttr : [Field Name]-[Type]-[PK,FK,Normal]
+						String[] arrFieldAttr = val[i].split("-");		
+						String fdName = arrFieldAttr[0];
+						String fdType = arrFieldAttr[1];
+						String fdKey  = arrFieldAttr[2];
 						
-						if(i==1) //??
+						/*if(i==1) //??
 							newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.INTEGER,arrFieldAttr[0]));
 							//newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.INTEGER,"ID"));
 						else
 							newField.add(new Field(Field.KEY.NORMAL, Field.TYPE.VARCHAR,arrFieldAttr[0]));
-							//newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.INTEGER,"Name"));
-												
-						arrField.add(arrFieldAttr[0]);	
-						arrType.add(arrFieldAttr[1]);
+							//newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.INTEGER,"Name"));*/
+						
+						if(fdKey.equalsIgnoreCase("PRIMARY"))
+						{
+							if(fdType.equalsIgnoreCase("INTEGER"))
+								newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.INTEGER,fdName));
+							else if(fdType.equalsIgnoreCase("VARCHAR"))
+								newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.VARCHAR,fdName));
+							else if(fdType.equalsIgnoreCase("DOUBLE"))
+								newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.DOUBLE,fdName));
+							else if(fdType.equalsIgnoreCase("DATE"))
+								newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.DATE,fdName));
+							else if(fdType.equalsIgnoreCase("NULL"))
+								newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.NULL,fdName));
+							
+						}
+						else if(fdKey.equalsIgnoreCase("FOREIGN"))
+						{
+							if(fdType.equalsIgnoreCase("INTEGER"))
+								newField.add(new Field(Field.KEY.FOREIGN, Field.TYPE.INTEGER,fdName));
+							else if(fdType.equalsIgnoreCase("VARCHAR"))
+								newField.add(new Field(Field.KEY.FOREIGN, Field.TYPE.VARCHAR,fdName));
+							else if(fdType.equalsIgnoreCase("DOUBLE"))
+								newField.add(new Field(Field.KEY.FOREIGN, Field.TYPE.DOUBLE,fdName));
+							else if(fdType.equalsIgnoreCase("DATE"))
+								newField.add(new Field(Field.KEY.FOREIGN, Field.TYPE.DATE,fdName));
+							else if(fdType.equalsIgnoreCase("NULL"))
+								newField.add(new Field(Field.KEY.FOREIGN, Field.TYPE.NULL,fdName));
+						}
+						else
+						{
+							if(fdType.equalsIgnoreCase("INTEGER"))
+								newField.add(new Field(Field.KEY.NORMAL, Field.TYPE.INTEGER,fdName));
+							else if(fdType.equalsIgnoreCase("VARCHAR"))
+								newField.add(new Field(Field.KEY.NORMAL, Field.TYPE.VARCHAR,fdName));
+							else if(fdType.equalsIgnoreCase("DOUBLE"))
+								newField.add(new Field(Field.KEY.NORMAL, Field.TYPE.DOUBLE,fdName));
+							else if(fdType.equalsIgnoreCase("DATE"))
+								newField.add(new Field(Field.KEY.NORMAL, Field.TYPE.DATE,fdName));
+							else if(fdType.equalsIgnoreCase("NULL"))
+								newField.add(new Field(Field.KEY.NORMAL, Field.TYPE.NULL,fdName));
+						}
+																		
+							
+						// save field name and type
+						arrField.add(fdName);	
+						arrType.add(fdType);
 					}
 									
 					// create table with field
