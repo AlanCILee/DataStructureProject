@@ -14,12 +14,12 @@ public class CommandFetch
 	//then passed to the interpret method.
 	public void loader(String text)
 	{
-		text = text.replace("\n", "");
+		text = text.replace("\n", " ");
 		fullCommand = text;
 		String[] command = text.split(" ");
 		
 		//DEBUG MESSAGE
-		System.out.println(fullCommand);
+		//System.out.println(fullCommand);
 		
 		interpret(command);
 	}
@@ -110,6 +110,7 @@ public class CommandFetch
 		
 		String data = fullCommand.split("\\(")[1];
 		data = data.split("\\)")[0];
+		data = data.trim();
 		
 		if (tableName.contains("("))
 		{
@@ -118,16 +119,21 @@ public class CommandFetch
 		}
 		
 		//DEBUG MESSAGE
-		//System.out.println(data);
-		//System.out.println(tableName);
+		System.out.println("CREATE TABLE DATA:" + data);
+		System.out.println("TABLENAME:" + tableName);
 		
 		ArrayList<String> colNames = new ArrayList<String>();
 		ArrayList<String> dataTypes = new ArrayList<String>();
 		
 		String dataArr[] = data.split(",");
 		
+		//DEBUG MESSAGE
+		System.out.println(dataArr[0]);
+		System.out.println(dataArr[1]);
+		
 		for (int i = 0; i < dataArr.length; i++)
 		{
+			dataArr[i] = dataArr[i].trim();
 			String tempArr[] = dataArr[i].split(" ");
 			colNames.add(tempArr[0]);
 			dataTypes.add(tempArr[1]);
@@ -258,16 +264,16 @@ public class CommandFetch
 			//fullString
 		
 		//DEBUG MESSAGE
-		System.out.println(command);
-		System.out.println(tableName);
-		System.out.println(joinTableName);
-		System.out.println(colNames);
+		System.out.println("FULL COMMAND: " + command);
+		System.out.println("TABLE NAME: " + tableName);
+		System.out.println("JOIN TABLE NAME: " + joinTableName);
+		System.out.println("FIELDS: " + colNames);
 		String testcon = fetchWhere(command);
-		System.out.println(testcon);
+		System.out.println("WHERE CONDITION: " + testcon);
 		String testfield = fetchField(command);
-		System.out.println(testfield);
+		System.out.println("ORDERBY FIELD: " + testfield);
 		boolean testDir = fetchDir(command);
-		System.out.println(testDir);
+		System.out.println("ORDERBY BOOL: " + testDir);
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -312,13 +318,18 @@ public class CommandFetch
 		int idx = command.indexOf("ORDERBY") + 2;
 		String direction = command.get(idx);
 		
+		if (direction.contains(";"))
+		{
+			String s[] = direction.split(";");
+			direction = s[0];
+		}
+		
 		if (direction.equalsIgnoreCase("ASC"))
 		{
 			sortDir = false;
 		}
 		else
 		{
-
 			sortDir = true;
 		}
 		
