@@ -54,7 +54,7 @@ public class Record implements Comparable<Record>{
 	public String toString(){
 		String result = "";
 		for (int i=0;i<alRecord.size();i++){
-			result += alRecord.get(i).toString() + "\t";
+			result += "/" + alRecord.get(i).toString();
 		}		
 		return result;
 	}
