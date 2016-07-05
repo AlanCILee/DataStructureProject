@@ -109,7 +109,7 @@ public class FileHandler
 					// check foreign key
 					if(tbl.alField.get(i).fKey.toString() == "FOREIGN")
 					{
-						//strField += tbl.alField.get(i).fForeign.rTable; ? 
+						strField += "-" + tbl.alField.get(i).foreignTable; 
 					}						
 				}				 
 				writer.write(strField, 0, strField.length());				
@@ -176,13 +176,10 @@ public class FileHandler
 						String fdName = arrFieldAttr[0];
 						String fdType = arrFieldAttr[1];
 						String fdKey  = arrFieldAttr[2];
+						String fdFkTable  = null;
+						if(arrFieldAttr.length == 4)
+							fdFkTable  = arrFieldAttr[3];
 						
-						/*if(i==1) //??
-							newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.INTEGER,arrFieldAttr[0]));
-							//newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.INTEGER,"ID"));
-						else
-							newField.add(new Field(Field.KEY.NORMAL, Field.TYPE.VARCHAR,arrFieldAttr[0]));
-							//newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.INTEGER,"Name"));*/
 						
 						if(fdKey.equalsIgnoreCase("PRIMARY"))
 						{
@@ -196,20 +193,38 @@ public class FileHandler
 								newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.DATE,fdName));
 							else if(fdType.equalsIgnoreCase("NULL"))
 								newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.NULL,fdName));
-							
 						}
 						else if(fdKey.equalsIgnoreCase("FOREIGN"))
 						{
 							if(fdType.equalsIgnoreCase("INTEGER"))
-								newField.add(new Field(Field.KEY.FOREIGN, Field.TYPE.INTEGER,fdName));
+							{	Field fd = new Field(Field.KEY.FOREIGN, Field.TYPE.INTEGER,fdName);
+								fd.setForeignKey(fdFkTable);
+								newField.add(fd);
+							}
 							else if(fdType.equalsIgnoreCase("VARCHAR"))
-								newField.add(new Field(Field.KEY.FOREIGN, Field.TYPE.VARCHAR,fdName));
+							{	
+								Field fd = new Field(Field.KEY.FOREIGN, Field.TYPE.VARCHAR,fdName);
+								fd.setForeignKey(fdFkTable);
+								newField.add(fd);
+							}								
 							else if(fdType.equalsIgnoreCase("DOUBLE"))
-								newField.add(new Field(Field.KEY.FOREIGN, Field.TYPE.DOUBLE,fdName));
+							{
+								Field fd = new Field(Field.KEY.FOREIGN, Field.TYPE.DOUBLE,fdName);
+								fd.setForeignKey(fdFkTable);
+								newField.add(fd);								
+							}
 							else if(fdType.equalsIgnoreCase("DATE"))
-								newField.add(new Field(Field.KEY.FOREIGN, Field.TYPE.DATE,fdName));
+							{
+								Field fd = new Field(Field.KEY.FOREIGN, Field.TYPE.DATE,fdName);
+								fd.setForeignKey(fdFkTable);
+								newField.add(fd);								
+							}
 							else if(fdType.equalsIgnoreCase("NULL"))
-								newField.add(new Field(Field.KEY.FOREIGN, Field.TYPE.NULL,fdName));
+							{
+								Field fd = new Field(Field.KEY.FOREIGN, Field.TYPE.NULL,fdName);
+								fd.setForeignKey(fdFkTable);
+								newField.add(fd);								
+							}
 						}
 						else
 						{
