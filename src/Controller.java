@@ -72,6 +72,7 @@ public class Controller {
 		
 		Table newTable = new Table(theFields, tName);
 		//I need to add this new table some sort of DB object?
+		fileHandlerObj.setFile(tName + ".txt", newTable);
 		
 		//DEBUG MESSAGE
 		System.out.println(newTable.toString());
@@ -135,11 +136,11 @@ public class Controller {
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// THIS METHOD FOR INSERTING INTO TABLES
+// THIS METHOD FOR INSERTING INTO TABLES (adding records?)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static void insertTable(String tName, ArrayList<String> fields, ArrayList<String> values)
 	{
-		Table activeTable = fileHandlerObj.getFile(tName);
+		Table activeTable = fileHandlerObj.getFile(tName + ".txt");
 		
 		Record newRecord = new Record(activeTable);
 		
@@ -148,7 +149,13 @@ public class Controller {
 			newRecord.addValue(new Value(activeTable.getField(fields.get(i)), values.get(i)));
 		}
 		
+		activeTable.addRow(newRecord);
+		
+		//DEBUG MESSAGE
+		System.out.println(activeTable.toString());
+		
 		//This method will then have to save the additions to the table
+		fileHandlerObj.setFile(tName + ".txt", activeTable);
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,21 +163,23 @@ public class Controller {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static void deleteAllRows(String tName)
 	{
-		Table activeTable = fileHandlerObj.getFile(tName);
+		Table activeTable = fileHandlerObj.getFile(tName + ".txt");
 		
 		activeTable.alRecord.clear();
 		
 		//TABLE SAVE GOES HERE
+		fileHandlerObj.setFile(tName + ".txt", activeTable);
 	}
 	
 	public static void deleteTable(String tName)
 	{
-		//need to see filehandler before writing this
+		//PLEASE DOUBLE CHECK WITH PARK TO SEE IF THIS WILL WORK
+		fileHandlerObj.deleteFile(tName + ".txt");
 	}
 	
 	public static void deleteRow(String tName, int pKey)
 	{
-		Table activeTable = fileHandlerObj.getFile(tName);
+		Table activeTable = fileHandlerObj.getFile(tName + ".txt");
 		
 		boolean found = false;
 		
@@ -191,6 +200,7 @@ public class Controller {
 		}
 		
 		//and then a table save/display update goes here
+		fileHandlerObj.setFile(tName + ".txt", activeTable);
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,8 +208,8 @@ public class Controller {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static void updateField(String tName, int pKey, String field, String value)
 	{
-		//Table activeTable = fileHandlerObj.getFile(tName);
-		Table activeTable = testTable;
+		Table activeTable = fileHandlerObj.getFile(tName + ".txt");
+		//Table activeTable = testTable;
 		
 		//DEBUG MESSAGE
 		System.out.println("BEFORE: " + testTable.toString());
@@ -243,5 +253,6 @@ public class Controller {
 		System.out.println("AFTER: " + activeTable.toString());
 		
 		//TABLE SAVE GOES HERE
+		fileHandlerObj.setFile(tName + ".txt", activeTable);
 	}
 }
