@@ -31,7 +31,7 @@ public class Record implements Comparable<Record>{
 
 		switch(valueField.fType){						//Converting Data to Matched DataType
 			case INTEGER:
-				_value.data = (Integer)(_value.data);	
+				_value.data =_value.data;	
 				break;
 				
 			case DOUBLE:
