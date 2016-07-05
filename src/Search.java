@@ -122,12 +122,14 @@ public class Search {
 					case "<" :
 					case "=" :
 					case ">=" :
-					case "<=" :																	
+					case "<=" :
+					case "!=" :	
 						if((operator.equals(">") && val.compareTo(alCommand.get(2)) > 0)
 								|| (operator.equals("<") && val.compareTo(alCommand.get(2)) < 0) 
 								|| (operator.equals(">=") && val.compareTo(alCommand.get(2)) >= 0)
 								|| (operator.equals("<=") && val.compareTo(alCommand.get(2)) <= 0)
-								|| (operator.equals("=") && val.compareTo(alCommand.get(2)) == 0))
+								|| (operator.equals("=") && val.compareTo(alCommand.get(2)) == 0)
+								|| (operator.equals("!=") && val.compareTo(alCommand.get(2)) != 0))
 						{
 							partResult.add(rec);
 						}		
