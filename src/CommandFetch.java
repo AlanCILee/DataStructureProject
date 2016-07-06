@@ -193,11 +193,13 @@ public class CommandFetch
 		
 		String data = fullCommand.split("\\(")[1];
 		data = data.split("\\)")[0];
+		data = data.trim();
 		
 		String dataArr[] = data.split(",");
 		
 		for (int i = 0; i < dataArr.length; i++)
 		{
+			dataArr[i] = dataArr[i].trim();
 			String tempArr[] = dataArr[i].split(" ");
 			fNames.add(tempArr[0]);
 			values.add(tempArr[1]);
