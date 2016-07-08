@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 /*
  * The purpose of this class is to take in the raw user input text (the command)
  * and interpret it; then calling the corresponding method with the command.
@@ -8,6 +10,8 @@ import java.util.*;
 public class CommandFetch 
 {
 	public String fullCommand;
+	
+	List<String> reservedWords = Arrays.asList("SELECT", "FROM", "INNER", "JOIN", "CREATE", "TABLE", "NOJOIN", "UPDATE", "IN", "SET", "TO", "DELETE", "ALL", "INSERT", "ORDERBY");
 	
 	//loader: takes the input from the GUI text area as input; removing the line
 	//breaks and placing the 'words' into a string array (command). This array is
@@ -21,7 +25,9 @@ public class CommandFetch
 		//DEBUG MESSAGE
 		//System.out.println(fullCommand);
 		
+
 		interpret(command);
+
 	}
 	
 	//interpret: takes the string array and determines which command is being
@@ -69,7 +75,7 @@ public class CommandFetch
 		switch(control)
 		{
 			case 0:
-				//error message goes here?
+				JOptionPane.showMessageDialog(null, "INVALID COMMAND", "ERROR", JOptionPane.ERROR_MESSAGE);
 				break;
 				
 			case 1:
@@ -94,7 +100,7 @@ public class CommandFetch
 				break;
 				
 			default:
-				//Syntax error should go here?
+				JOptionPane.showMessageDialog(null, "INVALID COMMAND", "ERROR", JOptionPane.ERROR_MESSAGE);
 				break;
 		}
 		
@@ -336,6 +342,17 @@ public class CommandFetch
 		}
 		
 		return sortDir;
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FOLLOWING SECTION FOR ERROR HANDLING
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	class syntaxError extends Exception
+	{
+		syntaxError()
+		{
+			
+		}
 	}
 }
 
