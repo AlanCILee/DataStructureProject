@@ -11,7 +11,7 @@ public class CommandFetch
 {
 	public String fullCommand;
 	
-	List<String> reservedWords = Arrays.asList("SELECT", "FROM", "INNER", "JOIN", "CREATE", "TABLE", "NOJOIN", "UPDATE", "IN", "SET", "TO", "DELETE", "ALL", "INSERT", "ORDERBY");
+	List<String> reservedWords = Arrays.asList("SELECT", "FROM", "INNER", "JOIN", "CREATE", "TABLE", "NOJOIN", "UPDATE", "IN", "SET", "TO", "DELETE", "ALL", "INSERT", "ORDERBY", "STRING", "INT", "DOUBLE", "DATE");
 	
 	//loader: takes the input from the GUI text area as input; removing the line
 	//breaks and placing the 'words' into a string array (command). This array is
@@ -75,11 +75,18 @@ public class CommandFetch
 		switch(control)
 		{
 			case 0:
-				JOptionPane.showMessageDialog(null, "INVALID COMMAND", "ERROR", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "SYNTAX ERROR: INVALID COMMAND", "ERROR", JOptionPane.ERROR_MESSAGE);
 				break;
 				
 			case 1:
-				callCreateTable(commArr);
+				try
+				{
+					callCreateTable(commArr);
+				}
+				catch(ReservedWordException z)
+				{
+					JOptionPane.showMessageDialog(null, "SYNTAX ERROR: RESERVED KEY WORD", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
 				break;
 				
 			case 2:
@@ -100,7 +107,7 @@ public class CommandFetch
 				break;
 				
 			default:
-				JOptionPane.showMessageDialog(null, "INVALID COMMAND", "ERROR", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "SYNTAX ERROR: INVALID COMMAND", "ERROR", JOptionPane.ERROR_MESSAGE);
 				break;
 		}
 		
@@ -110,7 +117,7 @@ public class CommandFetch
 	//table name, and puts the data types (in string format) in one arraylist, and 
 	//the field (column) names in another. Finally, it will call the create table
 	//command, passing the table name and the two arraylists as parameters.
-	public void callCreateTable(String[] command)
+	public void callCreateTable(String[] command) throws ReservedWordException
 	{
 		String tableName = command[2];
 		
@@ -122,6 +129,11 @@ public class CommandFetch
 		{
 			String[] s = tableName.split("\\(");
 			tableName = s[0];
+		}
+		
+		if (reservedWords.contains(tableName.toUpperCase()))
+		{
+			throw new ReservedWordException();
 		}
 		
 		//DEBUG MESSAGE
@@ -141,8 +153,16 @@ public class CommandFetch
 		{
 			dataArr[i] = dataArr[i].trim();
 			String tempArr[] = dataArr[i].split(" ");
-			colNames.add(tempArr[0]);
-			dataTypes.add(tempArr[1]);
+			
+			if (reservedWords.contains(tempArr[0].toUpperCase()) || reservedWords.contains(tempArr[1].toUpperCase()))
+			{
+				throw new ReservedWordException();
+			}
+			else
+			{
+				colNames.add(tempArr[0]);
+				dataTypes.add(tempArr[1]);
+			}
 		}
 		
 		//DEBUG MESSAGE
@@ -347,9 +367,9 @@ public class CommandFetch
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //FOLLOWING SECTION FOR ERROR HANDLING
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	class syntaxError extends Exception
+	class ReservedWordException extends Exception
 	{
-		syntaxError()
+		ReservedWordException()
 		{
 			
 		}
