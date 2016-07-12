@@ -4,12 +4,11 @@ public class Sort {
 	 * select method accepts , , and parameters
 	 * 
 	 */
-	public Table select(String s, boolean b1, boolean b2)
+/*	public Table select(String s, boolean b1, boolean b2)
 	{
 		//create new table by cloning first table and if there's a second table, add all records onto the clone
 		
-		
-	}
+	}*/
 	
 	/*
 	 * orderBy method accepts 3 parameters: 
