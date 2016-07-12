@@ -36,6 +36,10 @@ public class Controller {
 				System.out.println("Failed to add row");
 			}
 		}		
+		
+//TEST		sortObj.orderBy(testTable, "ID", true);
+		
+		
 		System.out.println(testTable.toString());
 		try{
 			searchObj.doSearch(testTable, "ID >= 1 && name like a");
