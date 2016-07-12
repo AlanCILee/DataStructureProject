@@ -255,4 +255,25 @@ public class Controller {
 		//TABLE SAVE GOES HERE
 		fileHandlerObj.setFile(tName + ".txt", activeTable);
 	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//CONTROLLER-SIDE ERROR HANDLING GOES IN THIS SECTION
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//This exception for data not matching the datatype
+	class DataFormatException extends Exception
+	{
+		public DataFormatException(String message)
+		{
+			super(message);
+		}
+	}
+	
+	//this exception if a table or field does not exist
+	class CriticalExistanceFailure extends Exception
+	{
+		public CriticalExistanceFailure(String message)
+		{
+			super(message);
+		}
+	}
 }

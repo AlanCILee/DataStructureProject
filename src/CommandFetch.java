@@ -12,6 +12,7 @@ public class CommandFetch
 	public String fullCommand;
 	
 	List<String> reservedWords = Arrays.asList("SELECT", "FROM", "INNER", "JOIN", "CREATE", "TABLE", "NOJOIN", "UPDATE", "IN", "SET", "TO", "DELETE", "ALL", "INSERT", "ORDERBY", "STRING", "INT", "DOUBLE", "DATE");
+	List<String> supportedDataTypes = Arrays.asList("String", "int", "double", "Date");
 	
 	//loader: takes the input from the GUI text area as input; removing the line
 	//breaks and placing the 'words' into a string array (command). This array is
@@ -72,52 +73,51 @@ public class CommandFetch
 			control = 5;
 		}
 		
-		switch(control)
+		try
 		{
-			case 0:
-				JOptionPane.showMessageDialog(null, "SYNTAX ERROR: INVALID COMMAND", "ERROR", JOptionPane.ERROR_MESSAGE);
-				break;
-				
-			case 1:
-				try
-				{
+			switch(control)
+			{
+				case 0:
+					JOptionPane.showMessageDialog(null, "SYNTAX ERROR: INVALID COMMAND", "ERROR", JOptionPane.ERROR_MESSAGE);
+					break;
+					
+				case 1:
 					callCreateTable(commArr);
-				}
-				catch(ReservedWordException z)
-				{
-					JOptionPane.showMessageDialog(null, "SYNTAX ERROR: RESERVED KEY WORD", "ERROR", JOptionPane.ERROR_MESSAGE);
-				}
-				break;
+					break;
+					
+				case 2:
+					callDelete(commArr);
+					break;
+					
+				case 3:
+					callInsert(commArr);
+					break;
 				
-			case 2:
-				callDelete(commArr);
-				break;
-				
-			case 3:
-				callInsert(commArr);
-				break;
-			
-			case 4:
-				callUpdate(commArr);
-				break;
-				
-			case 5:
-				List<String> commList = Arrays.asList(commArr);
-				callSelect(commList);
-				break;
-				
-			default:
-				JOptionPane.showMessageDialog(null, "SYNTAX ERROR: INVALID COMMAND", "ERROR", JOptionPane.ERROR_MESSAGE);
-				break;
+				case 4:
+					callUpdate(commArr);
+					break;
+					
+				case 5:
+					List<String> commList = Arrays.asList(commArr);
+					callSelect(commList);
+					break;
+					
+				default:
+					JOptionPane.showMessageDialog(null, "SYNTAX ERROR: INVALID COMMAND", "ERROR", JOptionPane.ERROR_MESSAGE);
+					break;
+			}
 		}
-		
+		catch(ReservedWordException | DataTypeException | GeneralSyntaxException ex)
+		{
+			JOptionPane.showMessageDialog(null, ex.getMessage() + " ERROR", "whoops", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	//callCreateTable: takes the command string array as a parameter; gets the
 	//table name, and puts the data types (in string format) in one arraylist, and 
 	//the field (column) names in another. Finally, it will call the create table
 	//command, passing the table name and the two arraylists as parameters.
-	public void callCreateTable(String[] command) throws ReservedWordException
+	public void callCreateTable(String[] command) throws ReservedWordException, DataTypeException, GeneralSyntaxException
 	{
 		String tableName = command[2];
 		
@@ -133,7 +133,7 @@ public class CommandFetch
 		
 		if (reservedWords.contains(tableName.toUpperCase()))
 		{
-			throw new ReservedWordException();
+			throw new ReservedWordException("RESERVED KEY WORD");
 		}
 		
 		//DEBUG MESSAGE
@@ -154,21 +154,28 @@ public class CommandFetch
 			dataArr[i] = dataArr[i].trim();
 			String tempArr[] = dataArr[i].split(" ");
 			
-			if (reservedWords.contains(tempArr[0].toUpperCase()) || reservedWords.contains(tempArr[1].toUpperCase()))
+			if (reservedWords.contains(tempArr[0].toUpperCase()))
 			{
-				throw new ReservedWordException();
+				throw new ReservedWordException("RESERVED KEY WORD");
 			}
-			else
+			
+			if (!supportedDataTypes.contains(tempArr[1]))
 			{
-				colNames.add(tempArr[0]);
-				dataTypes.add(tempArr[1]);
+				throw new DataTypeException("INVALID DATA TYPE");
 			}
+
+			colNames.add(tempArr[0]);
+			dataTypes.add(tempArr[1]);
 		}
 		
 		//DEBUG MESSAGE
 		//System.out.println(colNames);
 		//System.out.println(dataTypes);
 		
+		if (colNames.get(0).charAt(0) != 'P' || colNames.get(0).charAt(0) != 'K' || dataTypes.get(0).compareTo("int") != 0)
+		{
+			throw new GeneralSyntaxException("GENERAL SYNTAX");
+		}
 		//AND THEN I JUST PASS THE TWO ARRAYLISTS TO THE CREATE TABLE METHOD
 		Controller.createTable(tableName, colNames, dataTypes);
 		
@@ -179,18 +186,21 @@ public class CommandFetch
 	{
 		String tableName;
 		
+		//All Rows
 		if (command[1].equalsIgnoreCase("ALL") && command[2].equalsIgnoreCase("ROWS"))
 		{
 			tableName = command[3];
 			Controller.deleteAllRows(tableName);
 		}
 		
+		//Table
 		if (command[1].equalsIgnoreCase("TABLE"))
 		{
 			tableName = command[2];
 			Controller.deleteTable(tableName);
 		}
 		
+		//Single Row
 		if (command[2].equalsIgnoreCase("FROM"))
 		{
 			tableName = command[3];
@@ -253,55 +263,67 @@ public class CommandFetch
 		boolean whereControl = false;
 		boolean orderControl = false;
 		
-		//DEBUG MESSAGE
-		System.out.println(command);
-		
-		int tNameIDX = command.indexOf("FROM") + 1;
-		String tableName = command.get(tNameIDX);
-		
-		for (int i = 1; i < tNameIDX - 1; i++)
+		//first check to see if it's a select all
+		if (command.get(1).equals("*"))
 		{
-			String temp = command.get(i);
-			String temp2 = temp.split(",")[0];
-			temp2.trim();
-			colNames.add(temp2);
+			//call the select all function here
+			
+			//DEBUG MESSAGE
+			System.out.print("SELECT ALL DETECTED");
+		}
+		else
+		{
+			//DEBUG MESSAGE
+			System.out.println(command);
+			
+			int tNameIDX = command.indexOf("FROM") + 1;
+			String tableName = command.get(tNameIDX);
+			
+			for (int i = 1; i < tNameIDX - 1; i++)
+			{
+				String temp = command.get(i);
+				String temp2 = temp.split(",")[0];
+				temp2.trim();
+				colNames.add(temp2);
+			}
+			
+			if (command.contains("INNER"))
+			{
+				int idx = command.indexOf("INNER");
+				joinTableName = command.get(idx + 2);	
+			}
+			
+			if (command.contains("WHERE"))
+			{
+				whereControl = true;
+			}
+			
+			if (command.contains("ORDER"))
+			{
+				orderControl = true;
+			}
+			
+			//Controller SELECT call, pass:
+				//tableName
+				//joinTableName
+				//colNames
+				//whereControl
+				//orderControl
+				//fullString
+			
+			//DEBUG MESSAGE
+			System.out.println("FULL COMMAND: " + command);
+			System.out.println("TABLE NAME: " + tableName);
+			System.out.println("JOIN TABLE NAME: " + joinTableName);
+			System.out.println("FIELDS: " + colNames);
+			String testcon = fetchWhere(command);
+			System.out.println("WHERE CONDITION: " + testcon);
+			String testfield = fetchField(command);
+			System.out.println("ORDERBY FIELD: " + testfield);
+			boolean testDir = fetchDir(command);
+			System.out.println("ORDERBY BOOL: " + testDir);
 		}
 		
-		if (command.contains("INNER"))
-		{
-			int idx = command.indexOf("INNER");
-			joinTableName = command.get(idx + 2);	
-		}
-		
-		if (command.contains("WHERE"))
-		{
-			whereControl = true;
-		}
-		
-		if (command.contains("ORDER"))
-		{
-			orderControl = true;
-		}
-		
-		//Controller SELECT call, pass:
-			//tableName
-			//joinTableName
-			//colNames
-			//whereControl
-			//orderControl
-			//fullString
-		
-		//DEBUG MESSAGE
-		System.out.println("FULL COMMAND: " + command);
-		System.out.println("TABLE NAME: " + tableName);
-		System.out.println("JOIN TABLE NAME: " + joinTableName);
-		System.out.println("FIELDS: " + colNames);
-		String testcon = fetchWhere(command);
-		System.out.println("WHERE CONDITION: " + testcon);
-		String testfield = fetchField(command);
-		System.out.println("ORDERBY FIELD: " + testfield);
-		boolean testDir = fetchDir(command);
-		System.out.println("ORDERBY BOOL: " + testDir);
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -367,12 +389,32 @@ public class CommandFetch
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //FOLLOWING SECTION FOR ERROR HANDLING
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//This exception for if the user inputs a table or field name that is a reserved word
 	class ReservedWordException extends Exception
 	{
-		ReservedWordException()
+		public ReservedWordException(String message)
 		{
-			
+			super(message);
 		}
 	}
+	
+	//This exception for if the user inputs a non-supported datatype
+	class DataTypeException extends Exception
+	{
+		public DataTypeException(String message)
+		{
+			super(message);
+		}
+	}
+	
+	//This exception for general errors
+	class GeneralSyntaxException extends Exception
+	{
+		public GeneralSyntaxException(String message)
+		{
+			super(message);
+		}
+	}
+	
 }
 
