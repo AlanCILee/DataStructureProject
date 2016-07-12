@@ -52,7 +52,7 @@ public class Controller {
 		guiObj.updateTableList();
 		
 		//Call back function to update Show Result : Parameters need to be defined		
-		guiObj.updateContents();
+		guiObj.updateContents(testTable);
 	}
 	
 	public void getCommand(String _input){
