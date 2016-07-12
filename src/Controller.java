@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 public class Controller {
 	UserGui guiObj;
 	Sort	sortObj;
@@ -67,7 +69,18 @@ public class Controller {
 		{
 			Field.TYPE theType = getDataType(dataTypes.get(i));
 			Field.KEY theKey = getKey(colNames.get(i));
-			theFields.add(new Field(theKey, theType, colNames.get(i)));
+			
+			if (theKey == Field.KEY.FOREIGN)
+			{
+				String refTable = JOptionPane.showInputDialog(null, "Please enter the reference table for the field " + colNames.get(i), "Foreign Key", JOptionPane.INFORMATION_MESSAGE);
+				Field aField = new Field(theKey, theType, colNames.get(i));
+				aField.setForeignKey(refTable);
+				theFields.add(aField);
+			}
+			else
+			{
+				theFields.add(new Field(theKey, theType, colNames.get(i)));
+			}
 		}
 		
 		Table newTable = new Table(theFields, tName);
