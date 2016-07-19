@@ -85,7 +85,12 @@ public class Controller {
 					
 					String refTable = JOptionPane.showInputDialog(null, "Please enter the reference table for the field " + colNames.get(i), "Foreign Key", JOptionPane.INFORMATION_MESSAGE);
 					Field aField = new Field(theKey, theType, colNames.get(i));
-	
+					
+					if (fileHandlerObj.getFile(refTable) == null)
+					{
+						throw new CriticalExistanceFailure("ERROR: Referenced Table [" + tName + "] doesn't exist");
+					}
+					
 					aField.setForeignKey(refTable);
 					theFields.add(aField);
 				}
@@ -102,7 +107,7 @@ public class Controller {
 			//DEBUG MESSAGE
 			System.out.println(newTable.toString());
 		}
-		catch(DataFormatException z)
+		catch(DataFormatException | CriticalExistanceFailure z)
 		{
 			JOptionPane.showMessageDialog(null, z.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
 		}	
@@ -170,22 +175,34 @@ public class Controller {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static void insertTable(String tName, ArrayList<String> fields, ArrayList<String> values)
 	{
-		Table activeTable = fileHandlerObj.getFile(tName + ".txt");
-		
-		Record newRecord = new Record(activeTable);
-		
-		for (int i = 0; i < fields.size(); i++)
+		try
 		{
-			newRecord.addValue(new Value(activeTable.getField(fields.get(i)), values.get(i)));
+			Table activeTable = fileHandlerObj.getFile(tName + ".txt");
+			
+			if (activeTable == null)
+			{
+				throw new CriticalExistanceFailure("ERROR: Referenced Table [" + tName + "] doesn't exist");
+			}
+			
+			Record newRecord = new Record(activeTable);
+			
+			for (int i = 0; i < fields.size(); i++)
+			{
+				newRecord.addValue(new Value(activeTable.getField(fields.get(i)), values.get(i)));
+			}
+			
+			activeTable.addRow(newRecord);
+			
+			//DEBUG MESSAGE
+			System.out.println(activeTable.toString());
+			
+			//This method will then have to save the additions to the table
+			fileHandlerObj.setFile(tName + ".txt", activeTable);
 		}
-		
-		activeTable.addRow(newRecord);
-		
-		//DEBUG MESSAGE
-		System.out.println(activeTable.toString());
-		
-		//This method will then have to save the additions to the table
-		fileHandlerObj.setFile(tName + ".txt", activeTable);
+		catch(CriticalExistanceFailure z)
+		{
+			JOptionPane.showMessageDialog(null, z.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -193,18 +210,45 @@ public class Controller {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static void deleteAllRows(String tName)
 	{
-		Table activeTable = fileHandlerObj.getFile(tName + ".txt");
+		try
+		{
+			Table activeTable = fileHandlerObj.getFile(tName + ".txt");
+			
+			if (activeTable == null)
+			{
+				throw new CriticalExistanceFailure("ERROR: Referenced Table [" + tName + "] doesn't exist");
+			}
+			
+			activeTable.alRecord.clear();
+			
+			//TABLE SAVE GOES HERE
+			fileHandlerObj.setFile(tName + ".txt", activeTable);
+		}
+		catch(CriticalExistanceFailure z)
+		{
+			JOptionPane.showMessageDialog(null, z.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
+		}
 		
-		activeTable.alRecord.clear();
-		
-		//TABLE SAVE GOES HERE
-		fileHandlerObj.setFile(tName + ".txt", activeTable);
 	}
 	
 	public static void deleteTable(String tName)
 	{
-		//PLEASE DOUBLE CHECK WITH PARK TO SEE IF THIS WILL WORK
-		fileHandlerObj.deleteFile(tName + ".txt");
+		try
+		{
+			if (fileHandlerObj.getFile(tName) == null)
+			{
+				throw new CriticalExistanceFailure("ERROR: Referenced Table [" + tName + "] doesn't exist");
+			}
+			
+			//PLEASE DOUBLE CHECK WITH PARK TO SEE IF THIS WILL WORK
+			fileHandlerObj.deleteFile(tName + ".txt");
+		}
+		catch(CriticalExistanceFailure z)
+		{
+			JOptionPane.showMessageDialog(null, z.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		
 	}
 	
 	public static void deleteRow(String tName, int pKey)
@@ -229,8 +273,20 @@ public class Controller {
 				break;
 		}
 		
-		//and then a table save/display update goes here
-		fileHandlerObj.setFile(tName + ".txt", activeTable);
+		try
+		{
+			if (!found)
+			{
+				throw new CriticalExistanceFailure("ERROR: Entry No." + pKey + " in [" + tName + "] doesn't exist");
+			}
+			
+			//and then a table save/display update goes here
+			fileHandlerObj.setFile(tName + ".txt", activeTable);
+		}
+		catch(CriticalExistanceFailure z)
+		{
+			JOptionPane.showMessageDialog(null, z.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -238,52 +294,74 @@ public class Controller {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static void updateField(String tName, int pKey, String field, String value)
 	{
-		Table activeTable = fileHandlerObj.getFile(tName + ".txt");
-		//Table activeTable = testTable;
-		
-		//DEBUG MESSAGE
-		System.out.println("BEFORE: " + testTable.toString());
-		
-		//find the correct index using the PK
-		int row = 0;
-		
-		boolean found = false;
-		for (int i = 0; i < activeTable.alRecord.size(); i++)
+		try
 		{
-			for (int z = 0; z < activeTable.alField.size(); z++)
+			Table activeTable = fileHandlerObj.getFile(tName + ".txt");
+			//Table activeTable = testTable;
+			
+			if (activeTable == null)
 			{
-				if (String.valueOf(activeTable.alRecord.get(i).getAlRecord().get(z).data).compareTo(String.valueOf(pKey)) == 0 && activeTable.alField.get(z).fKey == Field.KEY.PRIMARY)
+				throw new CriticalExistanceFailure("ERROR: Referenced Table [" + tName + "] doesn't exist");
+			}
+			
+			//DEBUG MESSAGE
+			System.out.println("BEFORE: " + testTable.toString());
+			
+			//find the correct index using the PK
+			int row = 0;
+			
+			boolean found = false;
+			for (int i = 0; i < activeTable.alRecord.size(); i++)
+			{
+				for (int z = 0; z < activeTable.alField.size(); z++)
 				{
-					row = i;
-					found = true;
-					
-					//DEBUG MESSAGE
-					System.out.println("THE ROW IS " + i);
-					
+					if (String.valueOf(activeTable.alRecord.get(i).getAlRecord().get(z).data).compareTo(String.valueOf(pKey)) == 0 && activeTable.alField.get(z).fKey == Field.KEY.PRIMARY)
+					{
+						row = i;
+						found = true;
+						
+						//DEBUG MESSAGE
+						System.out.println("THE ROW IS " + i);
+						
+						break;
+					}
+				}
+				
+				if (found)
 					break;
+			}
+			
+			if (!found)
+			{
+				throw new CriticalExistanceFailure("ERROR: Entry No." + pKey + " in [" + tName + "] does not exist");
+			}
+			
+			for (int i = 0; i < activeTable.alField.size(); i++)
+			{
+				if (activeTable.alRecord.get(row).getAlRecord().get(i).field.compareTo(field) == 0)
+				{
+					//DEBUG MESSAGE
+					System.out.println("TEST");
+					
+					activeTable.alRecord.get(row).getAlRecord().get(i).data = value;
+				}
+				else
+				{
+					throw new CriticalExistanceFailure("ERROR: Field [" + field + "] does not exist");
 				}
 			}
 			
-			if (found)
-				break;
+			//DEBUG MESSAGE
+			System.out.println("AFTER: " + activeTable.toString());
+			
+			//TABLE SAVE GOES HERE
+			fileHandlerObj.setFile(tName + ".txt", activeTable);
 		}
-		
-		for (int i = 0; i < activeTable.alField.size(); i++)
+		catch(CriticalExistanceFailure z)
 		{
-			if (activeTable.alRecord.get(row).getAlRecord().get(i).field.compareTo(field) == 0)
-			{
-				//DEBUG MESSAGE
-				System.out.println("TEST");
-				
-				activeTable.alRecord.get(row).getAlRecord().get(i).data = value;
-			}
+			JOptionPane.showMessageDialog(null, z.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
+
 		}
-		
-		//DEBUG MESSAGE
-		System.out.println("AFTER: " + activeTable.toString());
-		
-		//TABLE SAVE GOES HERE
-		fileHandlerObj.setFile(tName + ".txt", activeTable);
 	}
 	
 
@@ -305,15 +383,6 @@ public class Controller {
 	class CriticalExistanceFailure extends Exception
 	{
 		public CriticalExistanceFailure(String message)
-		{
-			super(message);
-		}
-	}
-	
-	//This exception for if the user inputs a non-supported datatype
-	class DataTypeException extends Exception
-	{
-		public DataTypeException(String message)
 		{
 			super(message);
 		}
