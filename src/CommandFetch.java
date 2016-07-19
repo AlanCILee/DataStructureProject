@@ -330,6 +330,17 @@ public class CommandFetch
 			System.out.println("ORDERBY FIELD: " + testfield);
 			boolean testDir = fetchDir(command);
 			System.out.println("ORDERBY BOOL: " + testDir);
+			
+			CommandSet selectC = new CommandSet();
+			selectC.fullCommand = command;
+			selectC.tableName = tableName;
+			selectC.joinTableName = joinTableName;
+			selectC.colNames = colNames;
+			selectC.whereC = fetchWhere(command);
+			selectC.orderC = fetchField(command);
+			selectC.orderDir = fetchDir(command);
+			
+			
 		}
 		
 	}
@@ -425,4 +436,15 @@ public class CommandFetch
 	}
 	
 }
+
+class CommandSet{
+	List<String> fullCommand;
+	String tableName ="";
+	String joinTableName ="";
+	ArrayList<String> colNames;
+	String whereC ="";
+	String orderC ="";
+	boolean orderDir = false;
+}
+
 
