@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 public class CommandFetch 
 {
+	Controller ctrl;
 	public String fullCommand;
 	
 	List<String> reservedWords = Arrays.asList("SELECT", "FROM", "INNER", "JOIN", "CREATE", "TABLE", "NOJOIN", "UPDATE", "IN", "SET", "TO", "DELETE", "ALL", "INSERT", "ORDERBY", "STRING", "INT", "DOUBLE", "DATE");
@@ -17,6 +18,11 @@ public class CommandFetch
 	//loader: takes the input from the GUI text area as input; removing the line
 	//breaks and placing the 'words' into a string array (command). This array is
 	//then passed to the interpret method.
+	
+	public CommandFetch(Controller _ctrl){
+		ctrl = _ctrl;
+	}
+	
 	public void loader(String text)
 	{
 		text = text.replace("\n", " ");

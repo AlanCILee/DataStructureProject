@@ -7,7 +7,7 @@ public class Controller {
 	Sort	sortObj;
 	Search	searchObj;
 	static FileHandler fileHandlerObj;
-	CommandFetch fetchObj = new CommandFetch();
+	CommandFetch fetchObj = new CommandFetch(this);
 	static Table testTable;
 //	String userCommand;
 	
