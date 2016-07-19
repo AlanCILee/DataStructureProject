@@ -121,7 +121,7 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		result += "\n";
 		
 		for (int i = 0; i < _table.alRecord.size(); i++) {
-			result += _table.alRecord.get(i).getAlRecord().toString() + "\t";
+			result += _table.alRecord.get(i).getAlValue().toString() + "\t";
 		}
 		
 		System.out.println(result);
