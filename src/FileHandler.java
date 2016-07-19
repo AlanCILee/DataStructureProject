@@ -256,12 +256,27 @@ public class FileHandler
 					
 					for(int i=1; i<val.length; i++)
 					{	
-						if(arrType.get(i-1).toString().equalsIgnoreCase("INTEGER"))
-							newRecord.addValue(new Value(tbl.getField(arrField.get(i-1).toString()),Integer.parseInt(val[i])));
-						else if(arrType.get(i-1).toString().equalsIgnoreCase("DOUBLE"))
-							newRecord.addValue(new Value(tbl.getField(arrField.get(i-1).toString()),Double.parseDouble(val[i])));
-						else 
-							newRecord.addValue(new Value(tbl.getField(arrField.get(i-1).toString()),val[i]));																									
+						if(arrType.get(i-1).toString().equalsIgnoreCase("INTEGER")){
+							try{
+								newRecord.addValue(new Value(tbl.getField(arrField.get(i-1).toString()),Integer.parseInt(val[i])));
+							}catch(TableException e){
+								System.out.println(e.getMessage());				
+							}
+						}
+						else if(arrType.get(i-1).toString().equalsIgnoreCase("DOUBLE")){
+							try{
+								newRecord.addValue(new Value(tbl.getField(arrField.get(i-1).toString()),Double.parseDouble(val[i])));
+							}catch(TableException e){
+								System.out.println(e.getMessage());				
+							}
+						}
+						else{ 
+							try{
+								newRecord.addValue(new Value(tbl.getField(arrField.get(i-1).toString()),val[i]));
+							}catch(TableException e){
+								System.out.println(e.getMessage());				
+							}
+						}
 					}
 					if(!tbl.addRow(newRecord)){
 						System.out.println("Failed to add row");

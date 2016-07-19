@@ -29,9 +29,16 @@ public class Controller {
 		for (int i=0;i<names.length;i++){
 			
 			Record newRecord = new Record(testTable);			// create record : specify table to check added data type	
-			newRecord.addValue(new Value(testTable.getField("Name"),names[i]));
-			newRecord.addValue(new Value(testTable.getField("ID"),i));
-			
+			try{
+				newRecord.addValue(new Value(testTable.getField("Name"),names[i]));
+			}catch(TableException e){
+				System.out.println(e.getMessage());				
+			}
+			try{
+				newRecord.addValue(new Value(testTable.getField("ID"),i));
+			}catch(TableException e){
+				System.out.println(e.getMessage());				
+			}			
 			if(!testTable.addRow(newRecord)){
 				System.out.println("Failed to add row");
 			}
@@ -176,7 +183,11 @@ public class Controller {
 		
 		for (int i = 0; i < fields.size(); i++)
 		{
-			newRecord.addValue(new Value(activeTable.getField(fields.get(i)), values.get(i)));
+			try{
+				newRecord.addValue(new Value(activeTable.getField(fields.get(i)), values.get(i)));
+			}catch(TableException e){
+				System.out.println(e.getMessage());				
+			}
 		}
 		
 		activeTable.addRow(newRecord);
@@ -217,7 +228,7 @@ public class Controller {
 		{
 			for (int z = 0; z < activeTable.alField.size(); z++)
 			{
-				if (activeTable.alRecord.get(i).getAlRecord().get(z).compareTo(String.valueOf(pKey)) == 0 && activeTable.alField.get(z).fKey == Field.KEY.PRIMARY)
+				if (activeTable.alRecord.get(i).getAlValue().get(z).compareTo(String.valueOf(pKey)) == 0 && activeTable.alField.get(z).fKey == Field.KEY.PRIMARY)
 				{
 					activeTable.alRecord.remove(i);
 					found = true;
@@ -252,7 +263,7 @@ public class Controller {
 		{
 			for (int z = 0; z < activeTable.alField.size(); z++)
 			{
-				if (String.valueOf(activeTable.alRecord.get(i).getAlRecord().get(z).data).compareTo(String.valueOf(pKey)) == 0 && activeTable.alField.get(z).fKey == Field.KEY.PRIMARY)
+				if (String.valueOf(activeTable.alRecord.get(i).getAlValue().get(z).data).compareTo(String.valueOf(pKey)) == 0 && activeTable.alField.get(z).fKey == Field.KEY.PRIMARY)
 				{
 					row = i;
 					found = true;
@@ -270,12 +281,12 @@ public class Controller {
 		
 		for (int i = 0; i < activeTable.alField.size(); i++)
 		{
-			if (activeTable.alRecord.get(row).getAlRecord().get(i).field.compareTo(field) == 0)
+			if (activeTable.alRecord.get(row).getAlValue().get(i).field.compareTo(field) == 0)
 			{
 				//DEBUG MESSAGE
 				System.out.println("TEST");
 				
-				activeTable.alRecord.get(row).getAlRecord().get(i).data = value;
+				activeTable.alRecord.get(row).getAlValue().get(i).data = value;
 			}
 		}
 		
@@ -286,8 +297,86 @@ public class Controller {
 		fileHandlerObj.setFile(tName + ".txt", activeTable);
 	}
 	
+	public void doSelect(CommandSet command){
+		System.out.println("SE:"+command.tableName);
+		Table tTable = fileHandlerObj.getFile(command.tableName+".txt");
+		String whereC = command.whereC;
 
+		Table resultTbl = tTable.clone();
+		System.out.println("tTable:"+tTable);
+		System.out.println("rTable:"+resultTbl);
+		
+		System.out.println("WHERE:"+whereC);
+		if(!whereC.equalsIgnoreCase("")){
+			System.out.println("Start Search==================");
+			try{
+				resultTbl = searchObj.doSearch(tTable, whereC);
+				System.out.println("1st"+resultTbl.toString());
+				resultTbl = selectField(command.colNames,resultTbl);
+				System.out.println("2nd"+resultTbl.toString());
+			}catch(SearchException ex){
+				System.out.println(ex.getMessage());
+			}
+		}		
+	    
+		resultTbl = selectField(command.colNames,resultTbl);
+		System.out.println("Final Table ===========================" );
+		System.out.println(resultTbl);
+		
+/*		CommandSet selectC = new CommandSet();
+		selectC.fullCommand = command;
+		selectC.tableName = tableName;
+		selectC.joinTableName = joinTableName;
+		selectC.colNames = colNames;
+		selectC.whereC = fetchWhere(command);
+		selectC.orderC = fetchField(command);
+		selectC.orderDir = fetchDir(command);*/
+	}
+	
+	public Table selectField(ArrayList<String> _colNames, Table _targetTable){
+  	    Table resultTbl = _targetTable.clone();
+		resultTbl.alRecord = new ArrayList<Record>();
+		
+		ArrayList<Field> alNewField = new ArrayList<Field>();
+		ArrayList<Integer> alIndex = new ArrayList<Integer>();
+		
+		if(_colNames.get(0).equals("*")){
+			return _targetTable;
+		}
+		
+		for (int i=0;i<_colNames.size();i++){
+			String colName = _colNames.get(i);
+			int idx = _targetTable.getFieldIdx(colName);
+			
+			if(idx >= 0){
+				try{
+					alNewField.add(_targetTable.getField(idx));
+					alIndex.add(idx);		//accumulate valied index numbers					
+					
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}
+			}			
+//			System.out.println("Index AL:"+alIndex);
+		}
+		resultTbl.alField = alNewField;
+		
+		ArrayList<Record> alRecordR = new ArrayList<Record>();
+		for (int i=0;i<_targetTable.alRecord.size();i++){	
+			Record sampleR = _targetTable.alRecord.get(i);		//get n-th row record object
+			Record returnR = new Record(resultTbl);				//create New Record to be generated as a result record
+
+			for (int j=0;j<alIndex.size();j++){
+				int index = alIndex.get(j);
+				returnR.addValue(sampleR.getValue(index));
+			}
+			resultTbl.addRow(returnR);			
+		}		
+		return resultTbl;
+	}	
 }
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //CONTROLLER-SIDE ERROR HANDLING GOES IN THIS SECTION

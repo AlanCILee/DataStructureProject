@@ -342,10 +342,18 @@ public class CommandFetch
 			selectC.tableName = tableName;
 			selectC.joinTableName = joinTableName;
 			selectC.colNames = colNames;
-			selectC.whereC = fetchWhere(command);
-			selectC.orderC = fetchField(command);
+			if(whereControl)
+				selectC.whereC = fetchWhere(command);
+			else
+				selectC.whereC = "";
+			if(orderControl)	
+				selectC.orderC = fetchField(command);
+			else
+				selectC.orderC = "";
+				
+			
 			selectC.orderDir = fetchDir(command);
-
+			ctrl.doSelect(selectC);
 	}
 		
 	

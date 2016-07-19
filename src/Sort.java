@@ -30,7 +30,7 @@ public class Sort {
 				m = table.alRecord.get(x);
 				
 				for(int i = x + 1; (i <= table.alRecord.size()) && 
-(table.alRecord.get(i).getAlRecord().get(table.getFieldIdx(field)).data.compareTo(table.alRecord.get(x).getAlRecord().get(table.getFieldIdx(field)).data) == -1); i++)
+(table.alRecord.get(i).getAlValue().get(table.getFieldIdx(field)).data.compareTo(table.alRecord.get(x).getAlValue().get(table.getFieldIdx(field)).data) == -1); i++)
 		          {
 						 table.alRecord.set(x,table.alRecord.get(i));
 						 table.alRecord.set(i,m);
@@ -45,7 +45,7 @@ public class Sort {
 				m = table.alRecord.get(x);
 				
 				for(int i = x+ 1; (i <= table.alRecord.size()) && 
-(table.alRecord.get(i).getAlRecord().get(table.getFieldIdx(field)).data.compareTo(table.alRecord.get(x).getAlRecord().get(table.getFieldIdx(field)).data) == 1); i++)
+(table.alRecord.get(i).getAlValue().get(table.getFieldIdx(field)).data.compareTo(table.alRecord.get(x).getAlValue().get(table.getFieldIdx(field)).data) == 1); i++)
 		          {
 					 table.alRecord.set(x,table.alRecord.get(i));
 					 table.alRecord.set(i,m);

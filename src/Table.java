@@ -61,12 +61,19 @@ public class Table {
 //=====================================================================
 //	Get Field with Field Name
 //=====================================================================		
-	public Field getField(String _fname){
+	public Field getField(String _fname) throws TableException{
 		int index = getFieldIdx(_fname);
-//		if(index >=0)
+		if(index >=0)
 			return alField.get(index);
-//		else
-//			throw Exception
+		else
+			throw new TableException("There is no Field : "+_fname);
+	}
+	
+	public Field getField(int index) throws TableException{
+		if(index >=0 && index <alField.size())
+			return alField.get(index);
+		else
+			throw new TableException("There is no Field index: "+index);
 	}
 	
 //=====================================================================	
@@ -75,7 +82,7 @@ public class Table {
 //			false : Fail to add (Non valid Field)	
 //=====================================================================		
 	public boolean addRow(Record _record){	
-		ArrayList<Value> alValueTemp = _record.getAlRecord();		
+		ArrayList<Value> alValueTemp = _record.getAlValue();		
 		
 		if(alValueTemp.size() > alField.size()){
 			System.out.println("Input record size is bigger than the Table's field size");
@@ -127,5 +134,11 @@ public class Table {
 			}		
 		}
 		return result;
+	}
+}
+
+class TableException extends Exception{
+	public TableException(String msg){
+		super(msg);
 	}
 }

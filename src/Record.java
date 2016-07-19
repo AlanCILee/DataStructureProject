@@ -2,25 +2,25 @@ import java.util.*;
 
 public class Record implements Comparable<Record>{
 	Table table;
-	private ArrayList<Value> alRecord;
+	private ArrayList<Value> alValue;
 	
 	public Record(Table _table){
 		table = _table;
-		alRecord = new ArrayList<Value>();
+		alValue = new ArrayList<Value>();
 		
 		for (int i=0;i<table.alField.size();i++){
 			Field valField = table.alField.get(i);
 			switch(valField.fType){						//Initialize Row with Null Data
 				case INTEGER:
-					alRecord.add(new Value(valField,0));	
+					alValue.add(new Value(valField,0));	
 					break;
 					
 				case DOUBLE:
-					alRecord.add(new Value(valField,0.0));	
+					alValue.add(new Value(valField,0.0));	
 					break;
 					
 				default:	
-					alRecord.add(new Value(valField,"null"));	
+					alValue.add(new Value(valField,"null"));	
 					break;
 			}			
 		}
@@ -46,36 +46,40 @@ public class Record implements Comparable<Record>{
 		int fieldIndex = table.getFieldIdx(valueField);	//Find location to be stored in ArrayList depends on table's filed information
 		
 		if(fieldIndex >=0)
-			alRecord.set(fieldIndex,_value);
+			alValue.set(fieldIndex,_value);
 		else
 			System.out.println("This value's type is exist on this table");
 	}
 	
 	public String toString(){
 		String result = "";
-		for (int i=0;i<alRecord.size();i++){
-			result += "/" + alRecord.get(i).toString();
+		for (int i=0;i<alValue.size();i++){
+			result += "/" + alValue.get(i).toString();
 		}		
 		return result;
 	}
 
-	public ArrayList<Value> getAlRecord() {
-		return alRecord;
+	public ArrayList<Value> getAlValue() {
+		return alValue;
 	}
 
-	public void setAlRecord(ArrayList<Value> alRecord) {
-		this.alRecord = alRecord;
+	public void setAlRecord(ArrayList<Value> _alValue) {
+		this.alValue = _alValue;
 	}
 
+	public Value getValue(int index){
+		return alValue.get(index);
+	}
+	
 	@Override
 	public int compareTo(Record arg0) {
 		// TODO Auto-generated method stub
-		for (int i=0;i<this.alRecord.size();i++){
+		for (int i=0;i<this.alValue.size();i++){
 			boolean found = false;
-			Value vThis = this.alRecord.get(i);
+			Value vThis = this.alValue.get(i);
 			
-			for (int j=0;j<arg0.alRecord.size();j++){
-				if(vThis.compareTo(arg0.alRecord.get(j)) == 0){
+			for (int j=0;j<arg0.alValue.size();j++){
+				if(vThis.compareTo(arg0.alValue.get(j)) == 0){
 					found = true;
 					break;
 				}

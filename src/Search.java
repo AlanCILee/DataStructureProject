@@ -6,18 +6,19 @@ public class Search {
 	ArrayList<String> searchElement; 
 	ArrayList<String> partSearchElement; 
 	ArrayList result;
-	Table searchTable;
+//	Table searchTable;
 	
-	public ArrayList doSearch(Table _targetTable, String _searchString) throws SearchException{
+	public Table doSearch(Table _targetTable, String _searchString) throws SearchException{
 		result = new ArrayList();			
 		
 		searchElement = splitSchString(_searchString);
-		searchTable = _targetTable.clone();
+		Table resultTable = _targetTable.clone();
+		resultTable.alRecord = new ArrayList<Record>();
 		
 		while(searchElement.size() != 0){								//Do part search : part means [A operator B]
 			ArrayList<Record> partResult;		
 			partSearchElement = getPartSearchElement(searchElement);
-			partResult = partSearch(partSearchElement,searchTable);
+			partResult = partSearch(partSearchElement,_targetTable);
 			result.add(partResult);		
 		}		
 		
@@ -48,7 +49,9 @@ public class Search {
 		}
 		
 		System.out.println(result);
-		return result;
+		resultTable.alRecord = (ArrayList<Record>) result.get(0);
+
+		return resultTable;
 	}
 
 	//====================================================================================
@@ -104,8 +107,9 @@ public class Search {
 	//====================================================================================	
 	public ArrayList<Record> partSearch(ArrayList<String> alCommand, Table _targetTable) throws SearchException{
 		ArrayList<Record> partResult = new ArrayList<Record>();		//Result Record
-		ArrayList<Field> searchField = searchTable.alField;
-		ArrayList<Record> searchRecord = searchTable.alRecord;
+		
+		ArrayList<Field> searchField = _targetTable.alField;
+		ArrayList<Record> searchRecord = _targetTable.alRecord;
 
 		String targetField = alCommand.get(0);	
 		String operator = alCommand.get(1);
@@ -116,7 +120,7 @@ public class Search {
 			
 			for(int i=0;i<searchRecord.size();i++){		//search each rows
 				Record rec = searchRecord.get(i);
-				Value val = rec.getAlRecord().get(targetFieldIdx);
+				Value val = rec.getAlValue().get(targetFieldIdx);
 			
 				switch (operator){				
 					case ">" :
@@ -161,8 +165,8 @@ public class Search {
 	// Return Field Type by getting Field name
 	// If there is no field name, it returns 'Null' Field Type
 	//====================================================================================
-	public Field.TYPE getFieldType(String _fName){
-		ArrayList<Field> searchField = searchTable.alField;
+	public Field.TYPE getFieldType(String _fName, Table _targetTable){
+		ArrayList<Field> searchField = _targetTable.alField;
 		Field.TYPE found = Field.TYPE.NULL;
 		
 		for (int i=0; i < searchField.size(); i++){
