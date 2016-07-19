@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 public class CommandFetch 
 {
+	Controller ctrl;
 	public String fullCommand;
 	
 	List<String> reservedWords = Arrays.asList("SELECT", "FROM", "INNER", "JOIN", "CREATE", "TABLE", "NOJOIN", "UPDATE", "IN", "SET", "TO", "DELETE", "ALL", "INSERT", "ORDERBY", "STRING", "INT", "DOUBLE", "DATE");
@@ -17,6 +18,11 @@ public class CommandFetch
 	//loader: takes the input from the GUI text area as input; removing the line
 	//breaks and placing the 'words' into a string array (command). This array is
 	//then passed to the interpret method.
+	
+	public CommandFetch(Controller _ctrl){
+		ctrl = _ctrl;
+	}
+	
 	public void loader(String text)
 	{
 		text = text.replace("\n", " ");
@@ -271,22 +277,21 @@ public class CommandFetch
 		boolean whereControl = false;
 		boolean orderControl = false;
 		
-		//first check to see if it's a select all
-		if (command.get(1).equals("*"))
+		//DEBUG MESSAGE
+		System.out.println(command);
+			
+		int tNameIDX = command.indexOf("FROM") + 1;
+		String tableName = command.get(tNameIDX);
+		
+		if (command.get(1).equalsIgnoreCase("*"))
 		{
-			//call the select all function here
+			colNames.add(command.get(1));
 			
 			//DEBUG MESSAGE
-			System.out.print("SELECT ALL DETECTED");
+			System.out.println("SELECT ALL DETECTED");
 		}
 		else
 		{
-			//DEBUG MESSAGE
-			System.out.println(command);
-			
-			int tNameIDX = command.indexOf("FROM") + 1;
-			String tableName = command.get(tNameIDX);
-			
 			for (int i = 1; i < tNameIDX - 1; i++)
 			{
 				String temp = command.get(i);
@@ -294,31 +299,32 @@ public class CommandFetch
 				temp2.trim();
 				colNames.add(temp2);
 			}
+		}
+		
+		if (command.contains("INNER"))
+		{
+			int idx = command.indexOf("INNER");
+			joinTableName = command.get(idx + 2);	
+		}
 			
-			if (command.contains("INNER"))
-			{
-				int idx = command.indexOf("INNER");
-				joinTableName = command.get(idx + 2);	
-			}
+		if (command.contains("WHERE"))
+		{
+			whereControl = true;
+		}
 			
-			if (command.contains("WHERE"))
-			{
-				whereControl = true;
-			}
+		if (command.contains("ORDER"))
+		{
+			orderControl = true;
+		}
 			
-			if (command.contains("ORDER"))
-			{
-				orderControl = true;
-			}
-			
-			//Controller SELECT call, pass:
-				//tableName
-				//joinTableName
-				//colNames
-				//whereControl
-				//orderControl
-				//fullString
-			
+		//Controller SELECT call, pass:
+			//tableName
+			//joinTableName
+			//colNames
+			//whereControl
+			//orderControl
+			//fullString
+
 			//DEBUG MESSAGE
 			System.out.println("FULL COMMAND: " + command);
 			System.out.println("TABLE NAME: " + tableName);
@@ -330,9 +336,18 @@ public class CommandFetch
 			System.out.println("ORDERBY FIELD: " + testfield);
 			boolean testDir = fetchDir(command);
 			System.out.println("ORDERBY BOOL: " + testDir);
-		}
-		
+			
+			CommandSet selectC = new CommandSet();
+			selectC.fullCommand = command;
+			selectC.tableName = tableName;
+			selectC.joinTableName = joinTableName;
+			selectC.colNames = colNames;
+			selectC.whereC = fetchWhere(command);
+			selectC.orderC = fetchField(command);
+			selectC.orderDir = fetchDir(command);
+
 	}
+		
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //FOLLOWING SECTION FOR SELECT FILTERING
@@ -425,4 +440,15 @@ public class CommandFetch
 	}
 	
 }
+
+class CommandSet{
+	List<String> fullCommand;
+	String tableName ="";
+	String joinTableName ="";
+	ArrayList<String> colNames;
+	String whereC ="";
+	String orderC ="";
+	boolean orderDir = false;
+}
+
 

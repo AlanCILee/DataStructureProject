@@ -7,7 +7,7 @@ public class Controller {
 	Sort	sortObj;
 	Search	searchObj;
 	static FileHandler fileHandlerObj;
-	CommandFetch fetchObj = new CommandFetch();
+	CommandFetch fetchObj = new CommandFetch(this);
 	static Table testTable;
 //	String userCommand;
 	
@@ -69,30 +69,43 @@ public class Controller {
 	{
 		ArrayList<Field> theFields = new ArrayList<Field>();
 		
-		for (int i = 0; i < colNames.size(); i++)
+		try
 		{
-			Field.TYPE theType = getDataType(dataTypes.get(i));
-			Field.KEY theKey = getKey(colNames.get(i));
+			for (int i = 0; i < colNames.size(); i++)
+			{
+				Field.TYPE theType = getDataType(dataTypes.get(i));
+				Field.KEY theKey = getKey(colNames.get(i));
+	
+				if (theKey == Field.KEY.FOREIGN)
+				{
+					if (theType != Field.TYPE.INTEGER)
+					{
+						throw new DataFormatException("ERROR: Foreign Keys must be an integer");
+					}
+					
+					String refTable = JOptionPane.showInputDialog(null, "Please enter the reference table for the field " + colNames.get(i), "Foreign Key", JOptionPane.INFORMATION_MESSAGE);
+					Field aField = new Field(theKey, theType, colNames.get(i));
+	
+					aField.setForeignKey(refTable);
+					theFields.add(aField);
+				}
+				else
+				{
+					theFields.add(new Field(theKey, theType, colNames.get(i)));
+				}
+			}
 			
-			if (theKey == Field.KEY.FOREIGN)
-			{
-				String refTable = JOptionPane.showInputDialog(null, "Please enter the reference table for the field " + colNames.get(i), "Foreign Key", JOptionPane.INFORMATION_MESSAGE);
-				Field aField = new Field(theKey, theType, colNames.get(i));
-				aField.setForeignKey(refTable);
-				theFields.add(aField);
-			}
-			else
-			{
-				theFields.add(new Field(theKey, theType, colNames.get(i)));
-			}
+			Table newTable = new Table(theFields, tName);
+			//I need to add this new table some sort of DB object?
+			fileHandlerObj.setFile(tName + ".txt", newTable);
+			
+			//DEBUG MESSAGE
+			System.out.println(newTable.toString());
 		}
-		
-		Table newTable = new Table(theFields, tName);
-		//I need to add this new table some sort of DB object?
-		fileHandlerObj.setFile(tName + ".txt", newTable);
-		
-		//DEBUG MESSAGE
-		System.out.println(newTable.toString());
+		catch(DataFormatException z)
+		{
+			JOptionPane.showMessageDialog(null, z.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
+		}	
 	}
 	
 	//this interprets the data type
@@ -273,6 +286,9 @@ public class Controller {
 		fileHandlerObj.setFile(tName + ".txt", activeTable);
 	}
 	
+
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //CONTROLLER-SIDE ERROR HANDLING GOES IN THIS SECTION
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -293,4 +309,12 @@ public class Controller {
 			super(message);
 		}
 	}
-}
+	
+	//This exception for if the user inputs a non-supported datatype
+	class DataTypeException extends Exception
+	{
+		public DataTypeException(String message)
+		{
+			super(message);
+		}
+	}
