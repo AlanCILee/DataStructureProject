@@ -15,11 +15,9 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 	JTextArea taResult;
 	JScrollPane scroll1;
 	JList tableList;
-	ArrayList tableArr = new ArrayList(); 
-	Vector vtTables;
+	//ListModel<ArrayList> tableList;
 	JButton bRun;
 	
-	Table currentTable;
 	Controller ctrl;
 	
 	UserGui(int x, int y, int w, int h) {
@@ -29,8 +27,7 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 		//Border border = new Border();
 		
 		ctrl = new Controller(this);
-		tableArr = ctrl.fileHandlerObj.getFileList();
-		vtTables = new Vector(tableArr);
+
 		//----------Top Panel----------------------------
 		JPanel topGui = new JPanel();
 		topGui.setLayout(null);
@@ -52,7 +49,8 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 			//-----------------------------------
 			// call method and show tables here
 			//-----------------------------------
-		tableArr = ctrl.fileHandlerObj.getFileList();
+		ArrayList tableArr = Controller.fileHandlerObj.getFileList();
+		Vector vtTables = new Vector(tableArr);
 		tableList = new JList(vtTables);
 		createGui((JComponent) tableList,10,30,280,500,sideGui); //jlist
 		tableList.addListSelectionListener(this);
@@ -83,8 +81,7 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 		bRun = new JButton("Run");
 		createGui(bRun,570,100,100,50,centerGui);
 		bRun.setOpaque(true);
-		bRun.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-		bRun.setBackground(Color.white);
+		bRun.setBackground(Color.DARK_GRAY);
 		bRun.addActionListener(this);
 	}
 
@@ -99,17 +96,16 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 			System.out.println("click"); //test
 		//	taResult.setText(String.valueOf(taCommand.getText())); //test
 			ctrl.getCommand(taCommand.getText()); //interpret command
-			taResult.setText(currentTable.toString());
+			
 		}		
 	}
 
-	public void updateTableList(Table _table){
+	public void updateTableList(){
 		System.out.println("updateTableList");
-		tableArr.add(_table);
 	}
 	
-	public void updateContents(Table _table) {
-		
+	public void updateContents(){
+		System.out.println("updateContents");
 	}
 
 	@Override
@@ -132,10 +128,8 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		currentTable = ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue())); 
-		System.out.println(currentTable.tableName);
+		// TODO Auto-generated method stub
+		
 	}
-
-	
 	
 }
