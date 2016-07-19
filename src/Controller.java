@@ -269,28 +269,33 @@ public class Controller {
 	
 	public static void deleteRow(String tName, int pKey)
 	{
-		Table activeTable = fileHandlerObj.getFile(tName + ".txt");
-		
-		boolean found = false;
-		
-		for (int i = 0; i < activeTable.alRecord.size(); i++)
-		{
-			for (int z = 0; z < activeTable.alField.size(); z++)
-			{
-				if (activeTable.alRecord.get(i).getAlRecord().get(z).compareTo(String.valueOf(pKey)) == 0 && activeTable.alField.get(z).fKey == Field.KEY.PRIMARY)
-				{
-					activeTable.alRecord.remove(i);
-					found = true;
-					break;
-				}
-			}
-			
-			if (found)
-				break;
-		}
-		
 		try
 		{
+			Table activeTable = fileHandlerObj.getFile(tName + ".txt");
+			
+			if (activeTable == null)
+			{
+				throw new CriticalExistanceFailure("ERROR: Referenced Table [" + tName + "] doesn't exist");
+			}
+
+			boolean found = false;
+			
+			for (int i = 0; i < activeTable.alRecord.size(); i++)
+			{
+				for (int z = 0; z < activeTable.alField.size(); z++)
+				{
+					if (activeTable.alRecord.get(i).getAlRecord().get(z).compareTo(String.valueOf(pKey)) == 0 && activeTable.alField.get(z).fKey == Field.KEY.PRIMARY)
+					{
+						activeTable.alRecord.remove(i);
+						found = true;
+						break;
+					}
+				}
+				
+				if (found)
+					break;
+			}
+
 			if (!found)
 			{
 				throw new CriticalExistanceFailure("ERROR: Entry No." + pKey + " in [" + tName + "] doesn't exist");
