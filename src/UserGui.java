@@ -9,15 +9,17 @@ import javax.swing.border.Border;
 import javax.swing.event.*; 
 
 
-public class UserGui extends CFrame implements ActionListener, KeyListener, ListSelectionListener{
+public class UserGui extends CFrame implements ActionListener, ListSelectionListener{
 	
 	JTextArea taCommand;
 	JTextArea taResult;
 	JScrollPane scroll1;
 	JList tableList;
-	//ListModel<ArrayList> tableList;
+	ArrayList tableArr = new ArrayList(); 
+	Vector vtTables;
 	JButton bRun;
 	
+	Table currentTable;
 	Controller ctrl;
 	
 	UserGui(int x, int y, int w, int h) {
@@ -27,7 +29,8 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 		//Border border = new Border();
 		
 		ctrl = new Controller(this);
-
+		tableArr = ctrl.fileHandlerObj.getFileList();
+		vtTables = new Vector(tableArr);
 		//----------Top Panel----------------------------
 		JPanel topGui = new JPanel();
 		topGui.setLayout(null);
@@ -36,7 +39,7 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 		JLabel dbtitle = new JLabel("CSIS 3475 Database Structure - Alan, Caleb, Matt, Ronnie, Joy");	
 		dbtitle.setFont(titleFont);
 		dbtitle.setForeground(Color.white);
-		createGui(dbtitle,10,10,500,50,topGui); //add title label
+		createGui(dbtitle,10,15,500,50,topGui); //add title label
 		
 		//---------Side Panel----------------------------
 		JPanel sideGui = new JPanel();
@@ -49,15 +52,12 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 			//-----------------------------------
 			// call method and show tables here
 			//-----------------------------------
-		ArrayList tableArr = Controller.fileHandlerObj.getFileList();
-	//	tableList = new JList<ArrayList>(tableArr);
-		Vector vtTables = new Vector(tableArr);
-	//	tableList = tableArr;
+		tableArr = ctrl.fileHandlerObj.getFileList();
+		System.out.println(tableArr);
 		tableList = new JList(vtTables);
 		createGui((JComponent) tableList,10,30,280,500,sideGui); //jlist
 		tableList.addListSelectionListener(this);
-	//	tableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	//	tableList.revalidate();
+		tableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		//---------Center Panel------------------------
 		JPanel centerGui = new JPanel();
@@ -71,12 +71,12 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 		taCommand = new JTextArea();
 		createGui(taCommand,50,50,500,150,centerGui);
 		taCommand.setBorder(BorderFactory.createLineBorder(Color.black));
-		taCommand.addKeyListener(this);
 
 		JLabel resTitle = new JLabel("Result");	
 		resTitle.setFont(titleFont);
 		createGui(resTitle,50,260,300,50,centerGui); //add title label
 		taResult = new JTextArea();
+		taResult.setEditable(false);
 		
 		scroll1 = new JScrollPane(taResult);
 		createGui(scroll1,50,300,800,300,centerGui);
@@ -84,7 +84,8 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 		bRun = new JButton("Run");
 		createGui(bRun,570,100,100,50,centerGui);
 		bRun.setOpaque(true);
-		bRun.setBackground(Color.DARK_GRAY);
+		bRun.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+		bRun.setBackground(Color.white);
 		bRun.addActionListener(this);
 	}
 
@@ -95,43 +96,30 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource() == bRun){
-			ctrl.getCommand(taCommand.getText());
+			currentTable = ctrl.getCommand(taCommand.getText());
 			System.out.println("click"); //test
-			taResult.setText(String.valueOf(taCommand.getText())); //test
-			
+		//	taResult.setText(String.valueOf(taCommand.getText())); //test
+			taResult.setText(currentTable.toString());
 		}		
 	}
 
-	public void updateTableList(){
+	public void updateTableList(Table _table){
 		System.out.println("updateTableList");
+		tableArr.add(_table.tableName);
+		System.out.println(tableArr);
 	}
 	
-	public void updateContents(){
-		System.out.println("updateContents");
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+	public void updateContents(Table _table) {
 		
 	}
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		// TODO Auto-generated method stub
-		
+		currentTable = ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue())); 
+		System.out.println(currentTable.tableName);
+		taResult.setText(currentTable.toString());
 	}
+
+	
 	
 }

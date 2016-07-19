@@ -84,7 +84,7 @@ public class CommandFetch
 			switch(control)
 			{
 				case 0:
-					JOptionPane.showMessageDialog(null, "SYNTAX ERROR: INVALID COMMAND", "whoops", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "ERROR: INVALID COMMAND", "whoops", JOptionPane.ERROR_MESSAGE);
 					break;
 					
 				case 1:
@@ -109,21 +109,13 @@ public class CommandFetch
 					break;
 					
 				default:
-					JOptionPane.showMessageDialog(null, "SYNTAX ERROR: INVALID COMMAND", "whoops", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "ERROR: INVALID COMMAND", "whoops", JOptionPane.ERROR_MESSAGE);
 					break;
 			}
 		}
 		catch(ReservedWordException | DataTypeException | GeneralSyntaxException | ArrayIndexOutOfBoundsException ex)
 		{
-			if (ex instanceof ReservedWordException || ex instanceof DataTypeException)
-			{
-				JOptionPane.showMessageDialog(null, ex.getMessage() + " ERROR", "whoops", JOptionPane.ERROR_MESSAGE);
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null, "SYNTAX ERROR: INVALID COMMAND", "whoops", JOptionPane.ERROR_MESSAGE);
-
-			}
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -147,7 +139,7 @@ public class CommandFetch
 		
 		if (reservedWords.contains(tableName.toUpperCase()))
 		{
-			throw new ReservedWordException("RESERVED KEY WORD");
+			throw new ReservedWordException("ERROR: [" + tableName + "] is a reserved key word!");
 		}
 		
 		//DEBUG MESSAGE
@@ -170,12 +162,12 @@ public class CommandFetch
 			
 			if (reservedWords.contains(tempArr[0].toUpperCase()))
 			{
-				throw new ReservedWordException("RESERVED KEY WORD");
+				throw new ReservedWordException("ERROR: [" + tempArr[0] + "] is a reserved key word!");
 			}
 			
 			if (!supportedDataTypes.contains(tempArr[1]))
 			{
-				throw new DataTypeException("INVALID DATA TYPE");
+				throw new DataTypeException("ERROR: [" + tempArr[1] + "] is an invalid data type!");
 			}
 
 			colNames.add(tempArr[0]);
@@ -188,7 +180,7 @@ public class CommandFetch
 		
 		if (colNames.get(0).charAt(0) != 'P' || colNames.get(0).charAt(1) != 'K' || dataTypes.get(0).compareTo("int") != 0)
 		{
-			throw new GeneralSyntaxException("GENERAL SYNTAX");
+			throw new GeneralSyntaxException("ERROR: Primary Key is not properly declared!");
 		}
 		//AND THEN I JUST PASS THE TWO ARRAYLISTS TO THE CREATE TABLE METHOD
 		Controller.createTable(tableName, colNames, dataTypes);
@@ -196,7 +188,7 @@ public class CommandFetch
 		
 	}
 
-	public void callDelete(String[] command)
+	public void callDelete(String[] command) throws GeneralSyntaxException
 	{
 		String tableName;
 		
@@ -206,22 +198,34 @@ public class CommandFetch
 			tableName = command[3];
 			Controller.deleteAllRows(tableName);
 		}
-		
-		//Table
-		if (command[1].equalsIgnoreCase("TABLE"))
+		else
 		{
-			tableName = command[2];
-			Controller.deleteTable(tableName);
+			//Table
+			if (command[1].equalsIgnoreCase("TABLE"))
+			{
+				tableName = command[2];
+				Controller.deleteTable(tableName);
+			}
+			else
+			{
+				//Single Row
+				if (command[2].equalsIgnoreCase("FROM"))
+				{
+					tableName = command[3];
+					int PK = Integer.parseInt(command[1]);
+					
+					Controller.deleteRow(tableName, PK);
+				}
+				else
+				{
+					throw new GeneralSyntaxException("ERROR: Re-check DELETE command syntax");
+				}
+			}
 		}
 		
-		//Single Row
-		if (command[2].equalsIgnoreCase("FROM"))
-		{
-			tableName = command[3];
-			int PK = Integer.parseInt(command[1]);
-			
-			Controller.deleteRow(tableName, PK);
-		}
+		
+		
+		
 	}
 	
 	//This method operates in very much they same way as callCreateTable.
