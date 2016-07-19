@@ -49,10 +49,10 @@ public class Controller {
 		//Example to create table ==============================================
 		
 		//Call back function to update Table List : Parameters need to be defined
-		guiObj.updateTableList();
+		guiObj.updateTableList(testTable);
 		
 		//Call back function to update Show Result : Parameters need to be defined		
-		//guiObj.updateContents(testTable);
+		//guiObj.updateContents();
 	}
 	
 	public void getCommand(String _input){
