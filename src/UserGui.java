@@ -99,7 +99,7 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 			currentTable = ctrl.getCommand(taCommand.getText());
 			System.out.println("click"); //test
 		//	taResult.setText(String.valueOf(taCommand.getText())); //test
-			taResult.setText(currentTable.toString());
+			taResult.setText(updateContents(currentTable));
 		}		
 	}
 
@@ -109,15 +109,31 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		System.out.println(tableArr);
 	}
 	
-	public void updateContents(Table _table) {
+	public String updateContents(Table _table) {
+		String result;
 		
+		result = _table.tableName + "\n";
+		
+		for (int i = 0; i < _table.alField.size(); i++) {
+			result += _table.alField.get(i).fName+ "\t";
+		}
+		
+		result += "\n";
+		
+		for (int i = 0; i < _table.alRecord.size(); i++) {
+			result += _table.alRecord.get(i).getAlRecord().toString() + "\t";
+		}
+		
+		System.out.println(result);
+		return result;
 	}
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		currentTable = ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue())); 
 		System.out.println(currentTable.tableName);
-		taResult.setText(currentTable.toString());
+	//	taResult.setText(currentTable.toString());
+		taResult.setText(updateContents(currentTable));
 	}
 
 	
