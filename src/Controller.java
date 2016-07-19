@@ -429,7 +429,7 @@ public class Controller {
 		resultTbl = selectField(command.colNames,resultTbl);
 		System.out.println("Final Table ===========================" );
 		System.out.println(resultTbl);
-		
+		aTable = command.tableName;
 /*		CommandSet selectC = new CommandSet();
 		selectC.fullCommand = command;
 		selectC.tableName = tableName;

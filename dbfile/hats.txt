@@ -1,0 +1,2 @@
+[F]/PK_hat_ID-INTEGER-PRIMARY/hatType-VARCHAR-NORMAL/FK_owner-INTEGER-FOREIGN-students
+[R]/1/Cap/3
