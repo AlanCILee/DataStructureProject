@@ -9,6 +9,7 @@ public class Controller {
 	static FileHandler fileHandlerObj;
 	CommandFetch fetchObj = new CommandFetch(this);
 	static Table testTable;
+	public static String aTable = "";
 //	String userCommand;
 	
 	public Controller(UserGui _gui){
@@ -55,11 +56,13 @@ public class Controller {
 		guiObj.updateContents(testTable);
 	}
 	
-	public void getCommand(String _input){
+	public Table getCommand(String _input){
 		//Deliver this input string to command fetch
 		System.out.println(_input); 	//test
 		
 		fetchObj.loader(_input); //Matt: something like this?
+		
+		return fileHandlerObj.getFile(aTable + ".txt");
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,9 +89,9 @@ public class Controller {
 					String refTable = JOptionPane.showInputDialog(null, "Please enter the reference table for the field " + colNames.get(i), "Foreign Key", JOptionPane.INFORMATION_MESSAGE);
 					Field aField = new Field(theKey, theType, colNames.get(i));
 					
-					if (fileHandlerObj.getFile(refTable) == null)
+					if (fileHandlerObj.getFile(refTable + ".txt") == null)
 					{
-						throw new CriticalExistanceFailure("ERROR: Referenced Table [" + tName + "] doesn't exist");
+						throw new CriticalExistanceFailure("ERROR: Referenced Table [" + refTable + "] doesn't exist");
 					}
 					
 					aField.setForeignKey(refTable);
@@ -98,6 +101,8 @@ public class Controller {
 				{
 					theFields.add(new Field(theKey, theType, colNames.get(i)));
 				}
+				
+				aTable = tName;
 			}
 			
 			Table newTable = new Table(theFields, tName);
@@ -187,7 +192,12 @@ public class Controller {
 			Record newRecord = new Record(activeTable);
 			
 			for (int i = 0; i < fields.size(); i++)
-			{
+			{			
+				if (activeTable.alField.get(i).fName.equalsIgnoreCase(fields.get(i)) == false)
+				{
+					throw new CriticalExistanceFailure("ERROR: The field [" + fields.get(i) + "] does not exist in table [" + tName + "]!");
+				}
+				
 				newRecord.addValue(new Value(activeTable.getField(fields.get(i)), values.get(i)));
 			}
 			
@@ -198,6 +208,8 @@ public class Controller {
 			
 			//This method will then have to save the additions to the table
 			fileHandlerObj.setFile(tName + ".txt", activeTable);
+			
+			aTable = tName;
 		}
 		catch(CriticalExistanceFailure z)
 		{
@@ -223,6 +235,8 @@ public class Controller {
 			
 			//TABLE SAVE GOES HERE
 			fileHandlerObj.setFile(tName + ".txt", activeTable);
+			
+			aTable = tName;
 		}
 		catch(CriticalExistanceFailure z)
 		{
@@ -235,13 +249,15 @@ public class Controller {
 	{
 		try
 		{
-			if (fileHandlerObj.getFile(tName) == null)
+			if (fileHandlerObj.getFile(tName + ".txt") == null)
 			{
 				throw new CriticalExistanceFailure("ERROR: Referenced Table [" + tName + "] doesn't exist");
 			}
 			
 			//PLEASE DOUBLE CHECK WITH PARK TO SEE IF THIS WILL WORK
-			fileHandlerObj.deleteFile(tName + ".txt");
+			fileHandlerObj.deleteFile(tName);
+			
+			aTable = tName;
 		}
 		catch(CriticalExistanceFailure z)
 		{
@@ -282,6 +298,8 @@ public class Controller {
 			
 			//and then a table save/display update goes here
 			fileHandlerObj.setFile(tName + ".txt", activeTable);
+			
+			aTable = tName;
 		}
 		catch(CriticalExistanceFailure z)
 		{
@@ -311,6 +329,8 @@ public class Controller {
 			int row = 0;
 			
 			boolean found = false;
+			boolean found2 = false;
+			
 			for (int i = 0; i < activeTable.alRecord.size(); i++)
 			{
 				for (int z = 0; z < activeTable.alField.size(); z++)
@@ -343,12 +363,16 @@ public class Controller {
 					//DEBUG MESSAGE
 					System.out.println("TEST");
 					
+					found2 = true;
+					
 					activeTable.alRecord.get(row).getAlRecord().get(i).data = value;
+					aTable = tName;
 				}
-				else
-				{
-					throw new CriticalExistanceFailure("ERROR: Field [" + field + "] does not exist");
-				}
+			}
+			
+			if (!found2)
+			{
+				throw new CriticalExistanceFailure("ERROR: Field [" + field + "] does not exist");
 			}
 			
 			//DEBUG MESSAGE

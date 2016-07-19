@@ -115,14 +115,7 @@ public class CommandFetch
 		}
 		catch(ReservedWordException | DataTypeException | GeneralSyntaxException | ArrayIndexOutOfBoundsException ex)
 		{
-			if (ex instanceof ReservedWordException || ex instanceof DataTypeException)
-			{
-				JOptionPane.showMessageDialog(null, ex.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null, "ERROR: INVALID COMMAND", "whoops", JOptionPane.ERROR_MESSAGE);
-			}
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -187,7 +180,7 @@ public class CommandFetch
 		
 		if (colNames.get(0).charAt(0) != 'P' || colNames.get(0).charAt(1) != 'K' || dataTypes.get(0).compareTo("int") != 0)
 		{
-			throw new GeneralSyntaxException("ERROR: GENERAL SYNTAX");
+			throw new GeneralSyntaxException("ERROR: Primary Key is not properly declared!");
 		}
 		//AND THEN I JUST PASS THE TWO ARRAYLISTS TO THE CREATE TABLE METHOD
 		Controller.createTable(tableName, colNames, dataTypes);
@@ -195,7 +188,7 @@ public class CommandFetch
 		
 	}
 
-	public void callDelete(String[] command)
+	public void callDelete(String[] command) throws GeneralSyntaxException
 	{
 		String tableName;
 		
@@ -205,22 +198,34 @@ public class CommandFetch
 			tableName = command[3];
 			Controller.deleteAllRows(tableName);
 		}
-		
-		//Table
-		if (command[1].equalsIgnoreCase("TABLE"))
+		else
 		{
-			tableName = command[2];
-			Controller.deleteTable(tableName);
+			//Table
+			if (command[1].equalsIgnoreCase("TABLE"))
+			{
+				tableName = command[2];
+				Controller.deleteTable(tableName);
+			}
+			else
+			{
+				//Single Row
+				if (command[2].equalsIgnoreCase("FROM"))
+				{
+					tableName = command[3];
+					int PK = Integer.parseInt(command[1]);
+					
+					Controller.deleteRow(tableName, PK);
+				}
+				else
+				{
+					throw new GeneralSyntaxException("ERROR: Re-check DELETE command syntax");
+				}
+			}
 		}
 		
-		//Single Row
-		if (command[2].equalsIgnoreCase("FROM"))
-		{
-			tableName = command[3];
-			int PK = Integer.parseInt(command[1]);
-			
-			Controller.deleteRow(tableName, PK);
-		}
+		
+		
+		
 	}
 	
 	//This method operates in very much they same way as callCreateTable.

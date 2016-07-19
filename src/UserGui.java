@@ -96,10 +96,10 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource() == bRun){
-			ctrl.getCommand(taCommand.getText());
+			currentTable = ctrl.getCommand(taCommand.getText());
 			System.out.println("click"); //test
 		//	taResult.setText(String.valueOf(taCommand.getText())); //test
-			ctrl.getCommand(taCommand.getText()); //interpret command
+			taResult.setText(currentTable.toString());
 		}		
 	}
 

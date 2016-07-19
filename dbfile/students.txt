@@ -1,3 +1,8 @@
 [F]/PKID-INTEGER-PRIMARY/names-VARCHAR-NORMAL
-[R]/1/bob
-[R]/3/Joe
+[R]/1/Matt
+[R]/2/Ronnie
+[R]/3/Alan
+[R]/4/Joy
+[R]/5/Park
+[R]/6/null
+[R]/6/Shaun
