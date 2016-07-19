@@ -9,7 +9,7 @@ import javax.swing.border.Border;
 import javax.swing.event.*; 
 
 
-public class UserGui extends CFrame implements ActionListener, KeyListener, ListSelectionListener{
+public class UserGui extends CFrame implements ActionListener, ListSelectionListener{
 	
 	JTextArea taCommand;
 	JTextArea taResult;
@@ -71,12 +71,12 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 		taCommand = new JTextArea();
 		createGui(taCommand,50,50,500,150,centerGui);
 		taCommand.setBorder(BorderFactory.createLineBorder(Color.black));
-		taCommand.addKeyListener(this);
 
 		JLabel resTitle = new JLabel("Result");	
 		resTitle.setFont(titleFont);
 		createGui(resTitle,50,260,300,50,centerGui); //add title label
 		taResult = new JTextArea();
+		taResult.setEditable(false);
 		
 		scroll1 = new JScrollPane(taResult);
 		createGui(scroll1,50,300,800,300,centerGui);
@@ -110,24 +110,6 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 	}
 	
 	public void updateContents(Table _table) {
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
