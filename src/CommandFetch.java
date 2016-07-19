@@ -271,22 +271,21 @@ public class CommandFetch
 		boolean whereControl = false;
 		boolean orderControl = false;
 		
-		//first check to see if it's a select all
-		if (command.get(1).equals("*"))
+		//DEBUG MESSAGE
+		System.out.println(command);
+			
+		int tNameIDX = command.indexOf("FROM") + 1;
+		String tableName = command.get(tNameIDX);
+		
+		if (command.get(1).equalsIgnoreCase("*"))
 		{
-			//call the select all function here
+			colNames.add(command.get(1));
 			
 			//DEBUG MESSAGE
-			System.out.print("SELECT ALL DETECTED");
+			System.out.println("SELECT ALL DETECTED");
 		}
 		else
 		{
-			//DEBUG MESSAGE
-			System.out.println(command);
-			
-			int tNameIDX = command.indexOf("FROM") + 1;
-			String tableName = command.get(tNameIDX);
-			
 			for (int i = 1; i < tNameIDX - 1; i++)
 			{
 				String temp = command.get(i);
@@ -294,31 +293,32 @@ public class CommandFetch
 				temp2.trim();
 				colNames.add(temp2);
 			}
+		}
+		
+		if (command.contains("INNER"))
+		{
+			int idx = command.indexOf("INNER");
+			joinTableName = command.get(idx + 2);	
+		}
 			
-			if (command.contains("INNER"))
-			{
-				int idx = command.indexOf("INNER");
-				joinTableName = command.get(idx + 2);	
-			}
+		if (command.contains("WHERE"))
+		{
+			whereControl = true;
+		}
 			
-			if (command.contains("WHERE"))
-			{
-				whereControl = true;
-			}
+		if (command.contains("ORDER"))
+		{
+			orderControl = true;
+		}
 			
-			if (command.contains("ORDER"))
-			{
-				orderControl = true;
-			}
-			
-			//Controller SELECT call, pass:
-				//tableName
-				//joinTableName
-				//colNames
-				//whereControl
-				//orderControl
-				//fullString
-			
+		//Controller SELECT call, pass:
+			//tableName
+			//joinTableName
+			//colNames
+			//whereControl
+			//orderControl
+			//fullString
+
 			//DEBUG MESSAGE
 			System.out.println("FULL COMMAND: " + command);
 			System.out.println("TABLE NAME: " + tableName);
@@ -339,11 +339,9 @@ public class CommandFetch
 			selectC.whereC = fetchWhere(command);
 			selectC.orderC = fetchField(command);
 			selectC.orderDir = fetchDir(command);
-			
-			
-		}
-		
+
 	}
+		
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //FOLLOWING SECTION FOR SELECT FILTERING
