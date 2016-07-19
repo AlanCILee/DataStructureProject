@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 public class CommandFetch 
 {
+	Controller ctrl;
 	public String fullCommand;
 	
 	List<String> reservedWords = Arrays.asList("SELECT", "FROM", "INNER", "JOIN", "CREATE", "TABLE", "NOJOIN", "UPDATE", "IN", "SET", "TO", "DELETE", "ALL", "INSERT", "ORDERBY", "STRING", "INT", "DOUBLE", "DATE");
@@ -17,6 +18,11 @@ public class CommandFetch
 	//loader: takes the input from the GUI text area as input; removing the line
 	//breaks and placing the 'words' into a string array (command). This array is
 	//then passed to the interpret method.
+	
+	public CommandFetch(Controller _ctrl){
+		ctrl = _ctrl;
+	}
+	
 	public void loader(String text)
 	{
 		text = text.replace("\n", " ");
@@ -317,18 +323,28 @@ public class CommandFetch
 			//whereControl
 			//orderControl
 			//fullString
+
+			//DEBUG MESSAGE
+			System.out.println("FULL COMMAND: " + command);
+			System.out.println("TABLE NAME: " + tableName);
+			System.out.println("JOIN TABLE NAME: " + joinTableName);
+			System.out.println("FIELDS: " + colNames);
+			String testcon = fetchWhere(command);
+			System.out.println("WHERE CONDITION: " + testcon);
+			String testfield = fetchField(command);
+			System.out.println("ORDERBY FIELD: " + testfield);
+			boolean testDir = fetchDir(command);
+			System.out.println("ORDERBY BOOL: " + testDir);
 			
-		//DEBUG MESSAGE
-		System.out.println("FULL COMMAND: " + command);
-		System.out.println("TABLE NAME: " + tableName);
-		System.out.println("JOIN TABLE NAME: " + joinTableName);
-		System.out.println("FIELDS: " + colNames);
-		String testcon = fetchWhere(command);
-		System.out.println("WHERE CONDITION: " + testcon);
-		String testfield = fetchField(command);
-		System.out.println("ORDERBY FIELD: " + testfield);
-		boolean testDir = fetchDir(command);
-		System.out.println("ORDERBY BOOL: " + testDir);
+			CommandSet selectC = new CommandSet();
+			selectC.fullCommand = command;
+			selectC.tableName = tableName;
+			selectC.joinTableName = joinTableName;
+			selectC.colNames = colNames;
+			selectC.whereC = fetchWhere(command);
+			selectC.orderC = fetchField(command);
+			selectC.orderDir = fetchDir(command);
+
 	}
 		
 	
@@ -423,4 +439,15 @@ public class CommandFetch
 	}
 	
 }
+
+class CommandSet{
+	List<String> fullCommand;
+	String tableName ="";
+	String joinTableName ="";
+	ArrayList<String> colNames;
+	String whereC ="";
+	String orderC ="";
+	boolean orderDir = false;
+}
+
 
