@@ -53,6 +53,7 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 			// call method and show tables here
 			//-----------------------------------
 		tableArr = ctrl.fileHandlerObj.getFileList();
+		System.out.println(tableArr);
 		tableList = new JList(vtTables);
 		createGui((JComponent) tableList,10,30,280,500,sideGui); //jlist
 		tableList.addListSelectionListener(this);
@@ -99,13 +100,13 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 			System.out.println("click"); //test
 		//	taResult.setText(String.valueOf(taCommand.getText())); //test
 			ctrl.getCommand(taCommand.getText()); //interpret command
-			taResult.setText(currentTable.toString());
 		}		
 	}
 
 	public void updateTableList(Table _table){
 		System.out.println("updateTableList");
-		tableArr.add(_table);
+		tableArr.add(_table.tableName);
+		System.out.println(tableArr);
 	}
 	
 	public void updateContents(Table _table) {
@@ -134,6 +135,7 @@ public class UserGui extends CFrame implements ActionListener, KeyListener, List
 	public void valueChanged(ListSelectionEvent e) {
 		currentTable = ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue())); 
 		System.out.println(currentTable.tableName);
+		taResult.setText(currentTable.toString());
 	}
 
 	
