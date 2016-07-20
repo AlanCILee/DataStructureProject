@@ -19,42 +19,46 @@ public class Sort {
 	 */
 	public Table orderBy(Table _table, String _field, boolean _order)
 	{
-		Table table = _table;
-		String field = _field;		
-		Record m;
+		Table table = _table.clone();
+		String field = _field;
+		Table temp = new Table("temporaryTable");	
+		int fieldIndex = 0;
 		
-		if(_order == false) // if ascending order
+		// find out the field index
+		for (int i=0; i < table.alField.size(); i++)
 		{
-			for (int x=0; x < table.alRecord.size(); x++)
+			if(table.alField.get(i).fName.equalsIgnoreCase(field))
 			{
-				m = table.alRecord.get(x);
-				
-				for(int i = x + 1; (i <= table.alRecord.size()) && 
-(table.alRecord.get(i).getAlValue().get(table.getFieldIdx(field)).data.compareTo(table.alRecord.get(x).getAlValue().get(table.getFieldIdx(field)).data) == -1); i++)
-		          {
-						 table.alRecord.set(x,table.alRecord.get(i));
-						 table.alRecord.set(i,m);
-						 m = table.alRecord.get(i);
-		          }
+				fieldIndex = i;
+				break;
 			}
-		}
-		else if(_order == true) // if descending order
-		{
-			for (int x=0; x < table.alRecord.size(); x++)
-			{
-				m = table.alRecord.get(x);
-				
-				for(int i = x+ 1; (i <= table.alRecord.size()) && 
-(table.alRecord.get(i).getAlValue().get(table.getFieldIdx(field)).data.compareTo(table.alRecord.get(x).getAlValue().get(table.getFieldIdx(field)).data) == 1); i++)
-		          {
-					 table.alRecord.set(x,table.alRecord.get(i));
-					 table.alRecord.set(i,m);
-					 m = table.alRecord.get(i);
-		          }
-			}
+			
 		}
 		
-		return table;
+		for (int x=0; x < table.alRecord.size(); x++)
+		{
+			// set the first record as the max/min
+			Record m = table.alRecord.get(x);
+			for(int j=x+1; j<=table.alRecord.size(); j++)
+			{
+				// if ascending order
+				if(_order == false && 
+table.alRecord.get(j).getAlValue().get(fieldIndex).data.compareTo(m.getAlValue().get(fieldIndex).data) < 0)
+				{
+					m = table.alRecord.get(j);
+				}
+				// else if descending order
+				if(_order == true && 
+table.alRecord.get(j).getAlValue().get(fieldIndex).data.compareTo(m.getAlValue().get(fieldIndex).data) > 0)
+				{
+					m = table.alRecord.get(j);
+				}
+			}
+			temp.addRow(m);
+			table.alRecord.remove(m);
+		}
+		
+		return temp;
 	}
 
 }
