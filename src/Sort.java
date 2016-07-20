@@ -21,7 +21,7 @@ public class Sort {
 	{
 		Table table = _table.clone();
 		String field = _field;
-		Table temp = new Table("temporaryTable");	
+		//Table temp = new Table("temporaryTable");	
 		int fieldIndex = 0;
 		
 		// find out the field index
@@ -38,30 +38,34 @@ public class Sort {
 		for (int x=0; x < table.alRecord.size(); x++)
 		{
 			// set the first record as the max/min
-			Record m = table.alRecord.get(x);
+			Record c = table.alRecord.get(x); //current record at x, use c to compare to all the other records
+			int temp = 0; //record being compared to
+			Record m = table.alRecord.get(x); //the min/max record found by comparing c with temp(s)
 			for(int j=x+1; j<table.alRecord.size(); j++)
 			{
 				// if ascending order
 				if(_order == false && 
-table.alRecord.get(j).getAlValue().get(fieldIndex).data.compareTo(m.getAlValue().get(fieldIndex).data) < 0)
+				table.alRecord.get(j).getAlValue().get(fieldIndex).data.compareTo(c.getAlValue().get(fieldIndex).data) < 0)
 				{
 					m = table.alRecord.get(j);
+					temp = j;
 				}
 				// else if descending order
-				if(_order == true && 
-table.alRecord.get(j).getAlValue().get(fieldIndex).data.compareTo(m.getAlValue().get(fieldIndex).data) > 0)
+				else if(_order == true && 
+				table.alRecord.get(j).getAlValue().get(fieldIndex).data.compareTo(c.getAlValue().get(fieldIndex).data) > 0)
 				{
 					m = table.alRecord.get(j);
+					temp = j;
 				}
 			}
+			table.alRecord.set(x, m);
+			table.alRecord.set(temp, c);
+
 			//DEBUG MESSAGE
 			System.out.println(m);
-			
-			temp.addRow(m);
-			table.alRecord.remove(m);
 		}
 		
-		return temp;
+		return table;
 	}
 
 }
