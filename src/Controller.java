@@ -430,6 +430,9 @@ public class Controller {
 		System.out.println("Final Table ===========================" );
 		System.out.println(resultTbl);
 		aTable = command.tableName;
+		
+		
+		guiObj.updateContents(resultTbl);
 /*		CommandSet selectC = new CommandSet();
 		selectC.fullCommand = command;
 		selectC.tableName = tableName;
