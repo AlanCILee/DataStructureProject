@@ -54,6 +54,9 @@ table.alRecord.get(j).getAlValue().get(fieldIndex).data.compareTo(m.getAlValue()
 					m = table.alRecord.get(j);
 				}
 			}
+			//DEBUG MESSAGE
+			System.out.println(m);
+			
 			temp.addRow(m);
 			table.alRecord.remove(m);
 		}
