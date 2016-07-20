@@ -200,6 +200,16 @@ public class Controller {
 			
 			for (int i = 0; i < fields.size(); i++)
 			{			
+				for (int f = 0; f < activeTable.alRecord.size(); f++)
+				{
+					int h = 0;
+					
+					if ((int)(activeTable.alRecord.get(f).getAlValue().get(h).data) == Integer.parseInt(values.get(0)))
+					{
+						throw new DataFormatException("ERROR: An entry with the primary key [" + values.get(0) + "] already exists in the table [" + tName + "]!");
+					}
+				}
+				
 				if (activeTable.alField.get(i).fName.equalsIgnoreCase(fields.get(i)) == false)
 				{
 					throw new CriticalExistanceFailure("ERROR: The field [" + fields.get(i) + "] does not exist in table [" + tName + "]!");
@@ -221,7 +231,7 @@ public class Controller {
 			
 			aTable = tName;
 		}
-		catch(CriticalExistanceFailure z)
+		catch(CriticalExistanceFailure | DataFormatException z)
 		{
 			JOptionPane.showMessageDialog(null, z.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
 		}
