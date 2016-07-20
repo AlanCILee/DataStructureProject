@@ -54,27 +54,27 @@ public class CommandFetch
 		 * 5 = select
 		 */
 		
-		if (commArr[0].equalsIgnoreCase("CREATE") && commArr[1].equalsIgnoreCase("TABLE"))
+		if (commArr[0].equals("CREATE") && commArr[1].equals("TABLE"))
 		{
 			control = 1;
 		}
 		
-		if (commArr[0].equalsIgnoreCase("DELETE"))
+		if (commArr[0].equals("DELETE"))
 		{
 			control = 2;
 		}
 		
-		if (commArr[0].equalsIgnoreCase("INSERT"))
+		if (commArr[0].equals("INSERT"))
 		{
 			control = 3;
 		}
 		
-		if (commArr[0].equalsIgnoreCase("UPDATE"))
+		if (commArr[0].equals("UPDATE"))
 		{
 			control = 4;
 		}
 		
-		if (commArr[0].equalsIgnoreCase("SELECT"))
+		if (commArr[0].equals("SELECT"))
 		{
 			control = 5;
 		}
@@ -285,6 +285,10 @@ public class CommandFetch
 		System.out.println(command);
 			
 		int tNameIDX = command.indexOf("FROM") + 1;
+		
+		//DEBUG MESSAGE
+		System.out.println("INDEX IS " + tNameIDX);
+		
 		String tableName = command.get(tNameIDX);
 		
 		if (command.get(1).equalsIgnoreCase("*"))
