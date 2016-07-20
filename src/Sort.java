@@ -39,7 +39,7 @@ public class Sort {
 		{
 			// set the first record as the max/min
 			Record m = table.alRecord.get(x);
-			for(int j=x+1; j<=table.alRecord.size(); j++)
+			for(int j=x+1; j<table.alRecord.size(); j++)
 			{
 				// if ascending order
 				if(_order == false && 

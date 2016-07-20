@@ -45,7 +45,7 @@ public class Controller {
 			}
 		}		
 		
-//TEST		sortObj.orderBy(testTable, "ID", true);
+		sortObj.orderBy(testTable, "ID", true);
 		
 		
 		System.out.println(testTable.toString());
