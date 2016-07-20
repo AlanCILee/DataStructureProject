@@ -18,6 +18,7 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 	ArrayList tableArr = new ArrayList(); 
 	Vector vtTables;
 	JButton bRun;
+	JButton bClear;
 	
 	Table currentTable;
 	Controller ctrl;
@@ -81,12 +82,19 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		scroll1 = new JScrollPane(taResult);
 		createGui(scroll1,50,300,800,300,centerGui);
 		
-		bRun = new JButton("Run");
+			// ------------- run button ----------------------
+		bRun = new JButton("Run"); 
 		createGui(bRun,570,100,100,50,centerGui);
-		bRun.setOpaque(true);
 		bRun.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 		bRun.setBackground(Color.white);
 		bRun.addActionListener(this);
+		
+			// ---------- clear button ----------------------
+		bClear = new JButton("Clear");
+		createGui(bClear,700,100,100,50,centerGui);
+		bClear.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+		bClear.setBackground(Color.white);
+		bClear.addActionListener(this);
 	}
 
 	public static void main(String args[]){
@@ -94,11 +102,17 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		if(arg0.getSource() == bRun){
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == bRun){
 			currentTable = ctrl.getCommand(taCommand.getText());
-			taResult.setText(updateContents(currentTable));
-		}		
+			if (currentTable == null) {
+				taResult.setText("The table selected is null");
+			} else {
+				taResult.setText(updateContents(currentTable));
+			}
+		} else if (e.getSource() == bClear) {
+			taCommand.setText("");
+		}
 	}
 
 	public void updateTableList(Table _table){
@@ -116,7 +130,7 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 			result += _table.alField.get(i).fName+ "\t";
 		}
 		
-		result += "\n----------------------------------------\n";
+		result += "\n------------------------------------------------------------------------------------------------\n";
 		
 		for (int i = 0; i < _table.alRecord.size(); i++) {
 			for (int x = 0; x < _table.alRecord.get(i).getAlValue().size(); x++) {
@@ -132,7 +146,6 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		currentTable = ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue())); 
-		System.out.println(currentTable.tableName);
 		taResult.setText(updateContents(currentTable));
 	}
 
