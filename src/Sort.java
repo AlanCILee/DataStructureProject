@@ -20,52 +20,48 @@ public class Sort {
 	public Table orderBy(Table _table, String _field, boolean _order)
 	{
 		Table table = _table.clone();
-		String field = _field;
-		//Table temp = new Table("temporaryTable");	
 		int fieldIndex = 0;
+		int size = table.alRecord.size();
 		
-		// find out the field index
+		// find the field index
 		for (int i=0; i < table.alField.size(); i++)
 		{
-			if(table.alField.get(i).fName.equalsIgnoreCase(field))
+			if(table.alField.get(i).fName.equalsIgnoreCase(_field))
 			{
 				fieldIndex = i;
 				break;
 			}
-			
 		}
 		
-		for (int x=0; x < table.alRecord.size(); x++)
+		for(int x=0; x < size-1; x++)
 		{
-			// set the first record as the max/min
-			Record c = table.alRecord.get(x); //current record at x, use c to compare to all the other records
-			int temp = 0; //record being compared to
-			Record m = table.alRecord.get(x); //the min/max record found by comparing c with temp(s)
-			for(int j=x+1; j<table.alRecord.size(); j++)
+			// CURRENT record at int x, c is compared to all records after it
+			Record c = table.alRecord.get(x);
+			// the POSITION of the record being compared to c
+			// the MIN/MAX record found by comparing c with records after it
+			Record m = table.alRecord.get(x); 
+			int pos = x; 
+			for(int j=x+1; j<size; j++)
 			{
 				// if ascending order
 				if(_order == false && 
-				table.alRecord.get(j).getAlValue().get(fieldIndex).data.compareTo(c.getAlValue().get(fieldIndex).data) < 0)
+	table.alRecord.get(j).getAlValue().get(fieldIndex).data.compareTo(m.getAlValue().get(fieldIndex).data) < 0)
 				{
+					pos = j;
 					m = table.alRecord.get(j);
-					temp = j;
 				}
 				// else if descending order
 				else if(_order == true && 
-				table.alRecord.get(j).getAlValue().get(fieldIndex).data.compareTo(c.getAlValue().get(fieldIndex).data) > 0)
+	table.alRecord.get(j).getAlValue().get(fieldIndex).data.compareTo(m.getAlValue().get(fieldIndex).data) > 0)
 				{
+					pos = j;
 					m = table.alRecord.get(j);
-					temp = j;
 				}
 			}
 			table.alRecord.set(x, m);
-			table.alRecord.set(temp, c);
-
-			//DEBUG MESSAGE
-			System.out.println(m);
+			table.alRecord.set(pos, c);
 		}
-		
 		return table;
 	}
-
+	
 }
