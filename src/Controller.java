@@ -535,7 +535,8 @@ public class Controller {
 		resultTbl = selectField(command.colNames,resultTbl);
 		System.out.println("Final Table ===========================" );
 		System.out.println(resultTbl);
-		aTable = resultTbl.tableName+"1";
+		
+		aTable = resultTbl.tableName;
 		
 		
 		guiObj.updateContents(resultTbl);
