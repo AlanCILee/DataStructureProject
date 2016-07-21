@@ -48,7 +48,7 @@ public class Controller {
 		System.out.println(sortObj.orderBy(testTable, "ID", true).toString());
 		
 		
-		System.out.println(testTable.toString());
+/*		System.out.println(testTable.toString());
 		try{
 			searchObj.doSearch(testTable, "ID >= 1 && name like a");
 		}catch(SearchException ex){
@@ -60,7 +60,7 @@ public class Controller {
 		guiObj.updateTableList(testTable);
 		
 		//Call back function to update Show Result : Parameters need to be defined		
-		guiObj.updateContents(testTable);
+		guiObj.updateContents(testTable);*/
 	}
 	
 	public Table getCommand(String _input){
@@ -433,7 +433,6 @@ public class Controller {
 				resultTbl = searchObj.doSearch(tTable, whereC);
 				System.out.println("1st"+resultTbl.toString());
 				//resultTbl = selectField(command.colNames,resultTbl);
-				System.out.println("2nd"+resultTbl.toString());
 			}catch(SearchException ex){
 				System.out.println(ex.getMessage());
 			}
@@ -443,12 +442,14 @@ public class Controller {
 		if(!orderC.equalsIgnoreCase("")){
 			try{
 				resultTbl = sortObj.orderBy(resultTbl, orderC, orderDir);
+				System.out.println("After orderBy ================");
+				System.out.println(resultTbl.toString());
 			}catch(Exception ex){
 				System.out.println(ex.getMessage());
 			}
 		}
 			
-		//resultTbl = selectField(command.colNames,resultTbl);
+		resultTbl = selectField(command.colNames,resultTbl);
 		System.out.println("Final Table ===========================" );
 		System.out.println(resultTbl);
 		aTable = resultTbl.tableName;
