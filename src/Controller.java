@@ -420,11 +420,62 @@ public class Controller {
 		String whereC = command.whereC;
 		String orderC = command.orderC;
 		boolean orderDir = command.orderDir;
-
+		int primaryIdx;
+		
 		Table resultTbl = tTable.clone();
 		System.out.println("tTable:"+tTable);
-		System.out.println("rTable:"+resultTbl);
-		resultTbl = selectField(command.colNames,resultTbl);
+//		System.out.println("rTable:"+resultTbl);
+//		resultTbl = selectField(command.colNames,resultTbl);
+		
+		if(!command.joinTableName.equalsIgnoreCase("")){
+			int foreignIdx = tTable.getForeignFieldIdx();	//Foreign key index from main table
+
+			try{
+				Field foreignField = tTable.getField(foreignIdx);
+				
+				if (!command.joinTableName.equalsIgnoreCase(foreignField.foreignTable)){
+					System.out.println(command.joinTableName);
+					System.out.println(foreignField.foreignTable);
+					
+					System.out.println("Reference Table is not matched");
+					return;
+				}
+				System.out.println("Reference Table is checked");
+			}catch (TableException e){
+				System.out.println(e.getMessage());
+			}
+			
+			Table jTable = fileHandlerObj.getFile(command.joinTableName+".txt");
+			primaryIdx = jTable.getPrimaryFieldIdx();
+			
+			//Add Field
+			for (int i=0; i<jTable.alField.size();i++){
+				if(i!=primaryIdx){
+					resultTbl.alField.add(jTable.alField.get(i));
+				}
+			}
+			
+			//Add Value
+			for (int i=0; i<resultTbl.alRecord.size();i++){
+				Value foreignV = resultTbl.alRecord.get(i).getValue(foreignIdx);	//Get each foreign key value (Primary key of other table)
+				
+				try{
+					Record foreignRec = jTable.getRecord(foreignV);					//Get Record which has a certain primary key value)				
+					
+					for (int j=0; j<jTable.alField.size();j++){
+						if(j!=primaryIdx){						
+							resultTbl.alRecord.get(i).getAlValue().add(foreignRec.getValue(j));
+						}
+					}
+				}catch(TableException e){
+					System.out.println(e.getMessage());				
+				}
+			}
+			
+			System.out.println("After Inner Join=========================");
+			System.out.println(resultTbl);
+		}
+		
 		
 		System.out.println("WHERE:"+whereC);
 		if(!whereC.equalsIgnoreCase("")){
@@ -516,7 +567,7 @@ public class Controller {
 			if(idx >= 0){
 				try{
 					alNewField.add(_targetTable.getField(idx));
-					alIndex.add(idx);		//accumulate valied index numbers					
+					alIndex.add(idx);		//accumulate valid index numbers					
 					
 				}catch(Exception e){
 					System.out.println(e.getMessage());

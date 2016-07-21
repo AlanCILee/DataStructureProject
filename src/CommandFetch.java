@@ -276,7 +276,7 @@ public class CommandFetch
 	public void callSelect(List<String> command)
 	{
 		ArrayList<String> colNames = new ArrayList<String>();
-		String joinTableName = "noJoin";
+		String joinTableName = "";
 		
 		boolean whereControl = false;
 		boolean orderControl = false;

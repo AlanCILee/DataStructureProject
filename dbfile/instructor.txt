@@ -1,0 +1,5 @@
+[F]/PKID-INTEGER-PRIMARY/Inames-VARCHAR-NORMAL
+[R]/1/Stephan
+[R]/2/Mehwish
+[R]/3/Gilbert
+

@@ -1,8 +1,8 @@
-[F]/PKID-INTEGER-PRIMARY/names-VARCHAR-NORMAL
-[R]/1/Matt
-[R]/2/Ronnie
-[R]/3/Alan
-[R]/4/Joy
-[R]/5/Park
-[R]/6/Shaun
-[R]/7/joe
+[F]/PKID-INTEGER-PRIMARY/names-VARCHAR-NORMAL/FKID-INTEGER-FOREIGN-instructor
+[R]/1/Matt/2
+[R]/2/Ronnie/1
+[R]/3/Alan/3
+[R]/4/Joy/2
+[R]/5/Park/1
+[R]/6/Shaun/3
+[R]/7/joe/2

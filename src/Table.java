@@ -46,7 +46,7 @@ public class Table {
 		}
 		return idx;
 	}
-	
+
 	public int getFieldIdx(String _fname){
 		int idx = -1;
 		for (int i=0;i<alField.size();i++){
@@ -57,7 +57,28 @@ public class Table {
 		}
 		return idx;
 	}
+
+	public int getPrimaryFieldIdx(){
+		int idx = -1;
+		for (int i=0;i<alField.size();i++){
+			if(alField.get(i).fKey == Field.KEY.PRIMARY){
+				idx = i;
+				break;
+			}				
+		}
+		return idx;
+	}
 	
+	public int getForeignFieldIdx(){		//LIMITATION : Return only one foreign key 
+		int idx = -1;
+		for (int i=0;i<alField.size();i++){
+			if(alField.get(i).fKey == Field.KEY.FOREIGN){
+				idx = i;
+				break;
+			}				
+		}
+		return idx;
+	}
 //=====================================================================
 //	Get Field with Field Name
 //=====================================================================		
@@ -74,6 +95,18 @@ public class Table {
 			return alField.get(index);
 		else
 			throw new TableException("There is no Field index: "+index);
+	}
+	
+//=====================================================================
+//	Get Record according to Primary key value (input : Searched PrimaryKey Value)
+//=====================================================================		
+	public Record getRecord(Value _value) throws TableException{
+		for(int i=0;i<this.alRecord.size();i++){
+			if(this.alRecord.get(i).getValue(getPrimaryFieldIdx()).compareTo(_value) ==0){
+				return this.alRecord.get(i);
+			}			
+		}		
+		throw new TableException("No matched Primary key Record");
 	}
 	
 //=====================================================================	
