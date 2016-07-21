@@ -424,6 +424,7 @@ public class Controller {
 		Table resultTbl = tTable.clone();
 		System.out.println("tTable:"+tTable);
 		System.out.println("rTable:"+resultTbl);
+		resultTbl = selectField(command.colNames,resultTbl);
 		
 		System.out.println("WHERE:"+whereC);
 		if(!whereC.equalsIgnoreCase("")){
@@ -431,7 +432,7 @@ public class Controller {
 			try{
 				resultTbl = searchObj.doSearch(tTable, whereC);
 				System.out.println("1st"+resultTbl.toString());
-				resultTbl = selectField(command.colNames,resultTbl);
+				//resultTbl = selectField(command.colNames,resultTbl);
 				System.out.println("2nd"+resultTbl.toString());
 			}catch(SearchException ex){
 				System.out.println(ex.getMessage());
@@ -439,24 +440,18 @@ public class Controller {
 		}		
 		
 		System.out.println("ORDERBY:"+orderC);
-			System.out.println("Start Sorting=============");
+		if(!orderC.equalsIgnoreCase("")){
 			try{
 				resultTbl = sortObj.orderBy(resultTbl, orderC, orderDir);
-				
-				//DEBUG
-				System.out.println("condition " + orderC);
-				System.out.println("dir " + orderDir);
-				
-				System.out.println("1st"+resultTbl.toString());
 			}catch(Exception ex){
 				System.out.println(ex.getMessage());
 			}
-		
-	    
-		resultTbl = selectField(command.colNames,resultTbl);
+		}
+			
+		//resultTbl = selectField(command.colNames,resultTbl);
 		System.out.println("Final Table ===========================" );
 		System.out.println(resultTbl);
-		aTable = command.tableName;
+		aTable = resultTbl.tableName;
 		
 		
 		guiObj.updateContents(resultTbl);
