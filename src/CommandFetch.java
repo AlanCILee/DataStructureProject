@@ -320,7 +320,7 @@ public class CommandFetch
 			whereControl = true;
 		}
 			
-		if (command.contains("ORDER"))
+		if (command.contains("ORDERBY"))
 		{
 			orderControl = true;
 		}

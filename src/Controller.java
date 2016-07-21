@@ -418,6 +418,8 @@ public class Controller {
 		System.out.println("SE:"+command.tableName);
 		Table tTable = fileHandlerObj.getFile(command.tableName+".txt");
 		String whereC = command.whereC;
+		String orderC = command.orderC;
+		boolean orderDir = command.orderDir;
 
 		Table resultTbl = tTable.clone();
 		System.out.println("tTable:"+tTable);
@@ -435,6 +437,21 @@ public class Controller {
 				System.out.println(ex.getMessage());
 			}
 		}		
+		
+		System.out.println("ORDERBY:"+orderC);
+			System.out.println("Start Sorting=============");
+			try{
+				resultTbl = sortObj.orderBy(resultTbl, orderC, orderDir);
+				
+				//DEBUG
+				System.out.println("condition " + orderC);
+				System.out.println("dir " + orderDir);
+				
+				System.out.println("1st"+resultTbl.toString());
+			}catch(Exception ex){
+				System.out.println(ex.getMessage());
+			}
+		
 	    
 		resultTbl = selectField(command.colNames,resultTbl);
 		System.out.println("Final Table ===========================" );
