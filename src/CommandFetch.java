@@ -183,9 +183,7 @@ public class CommandFetch
 			throw new GeneralSyntaxException("ERROR: Primary Key is not properly declared!");
 		}
 		//AND THEN I JUST PASS THE TWO ARRAYLISTS TO THE CREATE TABLE METHOD
-		Controller.createTable(tableName, colNames, dataTypes);
-		
-		
+		ctrl.createTable(tableName, colNames, dataTypes);
 	}
 
 	public void callDelete(String[] command) throws GeneralSyntaxException
@@ -205,6 +203,7 @@ public class CommandFetch
 			{
 				tableName = command[2];
 				Controller.deleteTable(tableName);
+				ctrl.guiObj.taResult.setText("Table deleted");
 			}
 			else
 			{

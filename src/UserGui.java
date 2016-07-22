@@ -105,11 +105,11 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == bRun){
 			currentTable = ctrl.getCommand(taCommand.getText());
-			if (currentTable == null) {
-				taResult.setText("The table selected is null");
-			} else {
+//			if (currentTable == null) {
+//				taResult.setText("The table selected is null");
+//			} else {
 				updateContents(currentTable);
-			}
+//			}
 		} else if (e.getSource() == bClear) {
 			taCommand.setText("");
 		}
@@ -118,10 +118,8 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 	public void updateTableList(Table _table){
 		System.out.println("updateTableList");
 		tableArr.add(_table.tableName);
-		System.out.println(tableArr);
 	}
 	
-//Alan	public String updateContents(Table _table) {
 	public void updateContents(Table _table) {
 		String result;
 		
@@ -142,10 +140,8 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		
 		System.out.println(result);
 		taResult.setText(result);
-//Alan		return result;
 	}
 
-	@Override
 	public void valueChanged(ListSelectionEvent e) {
 /*		currentTable = ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue()));
 		updateContents(currentTable); Alan*/
