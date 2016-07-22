@@ -491,7 +491,7 @@ public class Controller {
 		if(!whereC.equalsIgnoreCase("")){
 			System.out.println("Start Search==================");
 			try{
-				resultTbl = searchObj.doSearch(tTable, whereC);
+				resultTbl = searchObj.doSearch(resultTbl, whereC);
 				System.out.println("1st"+resultTbl.toString());
 				//resultTbl = selectField(command.colNames,resultTbl);
 			}catch(SearchException ex){
@@ -537,7 +537,7 @@ public class Controller {
 					// Sorted table is populated after this line
 					insertTable(resultTbl.tableName+"1", fNameAL, fValueAL);
 				}
-				}catch(Exception ex){
+			}catch(Exception ex){
 				System.out.println(ex.getMessage());
 			}
 		}
