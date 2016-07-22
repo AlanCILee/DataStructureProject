@@ -272,6 +272,8 @@ public class Controller {
 	
 	public static void deleteTable(String tName)
 	{
+		System.out.println("CON: " + tName);
+		
 		try
 		{
 			if (fileHandlerObj.getFile(tName + ".txt") == null)

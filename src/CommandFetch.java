@@ -216,7 +216,12 @@ public class CommandFetch
 			//Table
 			if (command[1].equalsIgnoreCase("TABLE"))
 			{
+				
 				tableName = command[2];
+				
+				//DEBUG
+				System.out.println("CF: " + tableName);
+				
 				Controller.deleteTable(tableName);
 				ctrl.guiObj.updateContents("Table deleted");
 				ctrl.guiObj.tableArr.remove(ctrl.guiObj.tableList.getSelectedIndex());
