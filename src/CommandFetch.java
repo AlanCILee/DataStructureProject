@@ -281,8 +281,11 @@ public class CommandFetch
 		boolean whereControl = false;
 		boolean orderControl = false;
 		
+		
+		
 		//DEBUG MESSAGE
 		System.out.println(command);
+				
 			
 		int tNameIDX = command.indexOf("FROM") + 1;
 		
@@ -324,7 +327,9 @@ public class CommandFetch
 		{
 			orderControl = true;
 		}
-			
+		
+		
+					
 		//Controller SELECT call, pass:
 			//tableName
 			//joinTableName
