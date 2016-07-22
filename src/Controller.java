@@ -195,6 +195,11 @@ public class Controller {
 				throw new CriticalExistanceFailure("ERROR: Referenced Table [" + tName + "] doesn't exist");
 			}
 			
+			if (fields.get(0).compareTo(activeTable.alField.get(0).fName) != 0)
+			{
+				throw new CriticalExistanceFailure("ERROR: A primary key is requred to insert!");
+			}
+			
 			Record newRecord = new Record(activeTable);
 			
 			for (int i = 0; i < fields.size(); i++)
@@ -515,16 +520,7 @@ public class Controller {
 		selectTable = resultTbl.clone();
 		aTable = resultTbl.tableName;
 		
-		
 		guiObj.updateContents(resultTbl);
-/*		CommandSet selectC = new CommandSet();
-		selectC.fullCommand = command;
-		selectC.tableName = tableName;
-		selectC.joinTableName = joinTableName;
-		selectC.colNames = colNames;
-		selectC.whereC = fetchWhere(command);
-		selectC.orderC = fetchField(command);
-		selectC.orderDir = fetchDir(command);*/
 	}
 	
 	public Table selectField(ArrayList<String> _colNames, Table _targetTable){

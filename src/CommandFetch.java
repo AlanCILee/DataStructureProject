@@ -113,9 +113,16 @@ public class CommandFetch
 					break;
 			}
 		}
-		catch(ReservedWordException | DataTypeException | GeneralSyntaxException | ArrayIndexOutOfBoundsException ex)
+		catch(ReservedWordException | DataTypeException | GeneralSyntaxException | ArrayIndexOutOfBoundsException | NumberFormatException ex)
 		{
-			JOptionPane.showMessageDialog(null, ex.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
+			if (ex instanceof NumberFormatException)
+			{
+				JOptionPane.showMessageDialog(null, "ERROR: The input data does not match the expected data type!", "whoops", JOptionPane.ERROR_MESSAGE);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, ex.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -183,9 +190,7 @@ public class CommandFetch
 			throw new GeneralSyntaxException("ERROR: Primary Key is not properly declared!");
 		}
 		//AND THEN I JUST PASS THE TWO ARRAYLISTS TO THE CREATE TABLE METHOD
-		Controller.createTable(tableName, colNames, dataTypes);
-		
-		
+		ctrl.createTable(tableName, colNames, dataTypes);
 	}
 
 	public void callDelete(String[] command) throws GeneralSyntaxException
@@ -205,6 +210,7 @@ public class CommandFetch
 			{
 				tableName = command[2];
 				Controller.deleteTable(tableName);
+				ctrl.guiObj.taResult.setText("Table deleted");
 			}
 			else
 			{
@@ -212,6 +218,9 @@ public class CommandFetch
 				if (command[2].equalsIgnoreCase("FROM"))
 				{
 					tableName = command[3];
+					
+					
+					
 					int PK = Integer.parseInt(command[1]);
 					
 					Controller.deleteRow(tableName, PK);
