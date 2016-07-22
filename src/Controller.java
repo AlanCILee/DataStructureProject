@@ -26,11 +26,24 @@ public class Controller {
 	
 	public Table getCommand(String _input){
 		//Deliver this input string to command fetch
-		System.out.println("TEST------"+_input); 	//test
-		System.out.println("TEST------"+_input.toUpperCase()); 	//test
+		System.out.println("Before TEST------"+_input); 	//test
 		
+		String strUpperCmd = _input;
+		strUpperCmd = strUpperCmd.replace("select", "SELECT");
+		strUpperCmd = strUpperCmd.replace("from", "FROM");
+		strUpperCmd = strUpperCmd.replace("where", "WHERE");
+		strUpperCmd = strUpperCmd.replace("create", "CREATE");
+		strUpperCmd = strUpperCmd.replace("table", "TABLE");
+		strUpperCmd = strUpperCmd.replace("delete", "DELETE");
+		strUpperCmd = strUpperCmd.replace("insert", "INSERT");
+		strUpperCmd = strUpperCmd.replace("update", "UPDATE");
+		strUpperCmd = strUpperCmd.replace("orderby", "ORDERBY");
+		strUpperCmd = strUpperCmd.replace("order by", "ORDERBY");
+		strUpperCmd = strUpperCmd.replace("ORDER BY", "ORDERBY");		
 		
-		fetchObj.loader(_input.toUpperCase()); //Matt: something like this?
+		System.out.println("After TEST------"+ strUpperCmd); 	//test
+				
+		fetchObj.loader(strUpperCmd); //Matt: something like this?
 		
 		if (!flag)
 		{
@@ -397,15 +410,20 @@ public class Controller {
 	public void doSelect(CommandSet command){
 		System.out.println("SE:"+command.tableName);
 		Table tTable = fileHandlerObj.getFile(command.tableName+".txt");
+		Table resultTbl;
+		
 		String whereC = command.whereC;
 		String orderC = command.orderC;
 		boolean orderDir = command.orderDir;
 		int primaryIdx;
 		
-		Table resultTbl = tTable.clone();
+		try{
+			resultTbl = tTable.clone();
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Table is not Exist", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		System.out.println("tTable:"+tTable);
-//		System.out.println("rTable:"+resultTbl);
-//		resultTbl = selectField(command.colNames,resultTbl);
 		
 		if(!command.joinTableName.equalsIgnoreCase("")){
 			int foreignIdx = tTable.getForeignFieldIdx();	//Foreign key index from main table
@@ -490,16 +508,7 @@ public class Controller {
 		selectTable = resultTbl.clone();
 		aTable = resultTbl.tableName;
 		
-		
 		guiObj.updateContents(resultTbl);
-/*		CommandSet selectC = new CommandSet();
-		selectC.fullCommand = command;
-		selectC.tableName = tableName;
-		selectC.joinTableName = joinTableName;
-		selectC.colNames = colNames;
-		selectC.whereC = fetchWhere(command);
-		selectC.orderC = fetchField(command);
-		selectC.orderDir = fetchDir(command);*/
 	}
 	
 	public Table selectField(ArrayList<String> _colNames, Table _targetTable){
