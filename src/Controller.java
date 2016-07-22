@@ -40,6 +40,18 @@ public class Controller {
 		strUpperCmd = strUpperCmd.replace("orderby", "ORDERBY");
 		strUpperCmd = strUpperCmd.replace("order by", "ORDERBY");
 		strUpperCmd = strUpperCmd.replace("ORDER BY", "ORDERBY");		
+		strUpperCmd = strUpperCmd.replace("asc", "ASC");
+		strUpperCmd = strUpperCmd.replace("desc", "DESC");
+		
+		//check order by and put the default order
+		if(strUpperCmd.indexOf("ORDERBY") != -1)
+		{
+			if(strUpperCmd.indexOf("ASC") == -1 &&
+			   strUpperCmd.indexOf("DESC") == -1)								
+			{
+				strUpperCmd = strUpperCmd + " ASC";
+			}			
+		}
 		
 		System.out.println("After TEST------"+ strUpperCmd); 	//test
 				
