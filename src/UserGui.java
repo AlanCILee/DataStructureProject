@@ -117,7 +117,9 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 
 	public void updateTableList(Table _table){
 		System.out.println("updateTableList");
-		tableArr.add(_table.tableName);
+		vtTables.addElement(_table.tableName);
+
+		tableList.setListData(vtTables);
 		System.out.println(tableArr);
 	}
 	

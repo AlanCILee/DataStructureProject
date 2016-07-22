@@ -62,7 +62,7 @@ public class Controller {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // THESE METHODS FOR CREATING TABLES
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public static void createTable(String tName, ArrayList<String> colNames, ArrayList<String> dataTypes)
+	public void createTable(String tName, ArrayList<String> colNames, ArrayList<String> dataTypes)
 	{
 		ArrayList<Field> theFields = new ArrayList<Field>();
 		
@@ -102,7 +102,7 @@ public class Controller {
 			Table newTable = new Table(theFields, tName);
 			//I need to add this new table some sort of DB object?
 			fileHandlerObj.setFile(tName + ".txt", newTable);
-			
+			guiObj.updateTableList(newTable);
 			//DEBUG MESSAGE
 			System.out.println(newTable.toString());
 		}
