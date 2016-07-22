@@ -20,7 +20,7 @@ public class Controller {
 		sortObj = new Sort();
 		searchObj = new Search();
 		fileHandlerObj = new FileHandler();		
-
+/*
 		//Example to create table ==============================================
 		ArrayList<Field> newField = new ArrayList<Field>();
 		newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.INTEGER,"ID"));
@@ -49,7 +49,7 @@ public class Controller {
 		
 		System.out.println(sortObj.orderBy(testTable, "ID", true).toString());
 		
-		
+*/		
 /*		System.out.println(testTable.toString());
 		try{
 			searchObj.doSearch(testTable, "ID >= 1 && name like a");
