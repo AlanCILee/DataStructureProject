@@ -26,9 +26,11 @@ public class Controller {
 	
 	public Table getCommand(String _input){
 		//Deliver this input string to command fetch
-		System.out.println(_input); 	//test
+		System.out.println("TEST------"+_input); 	//test
+		System.out.println("TEST------"+_input.toUpperCase()); 	//test
 		
-		fetchObj.loader(_input); //Matt: something like this?
+		
+		fetchObj.loader(_input.toUpperCase()); //Matt: something like this?
 		
 		if (!flag)
 		{
