@@ -147,8 +147,9 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		currentTable = ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue()));
-		updateContents(currentTable);
+/*		currentTable = ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue()));
+		updateContents(currentTable); Alan*/
+		updateContents(ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue())));
 //Alan		taResult.setText(updateContents(currentTable));
 	}
 
