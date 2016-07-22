@@ -172,6 +172,6 @@ public class Table {
 
 class TableException extends Exception{
 	public TableException(String msg){
-		super(msg);
+		super("TableException : "+msg);
 	}
 }
