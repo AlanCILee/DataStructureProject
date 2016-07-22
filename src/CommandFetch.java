@@ -167,6 +167,14 @@ public class CommandFetch
 			dataArr[i] = dataArr[i].trim();
 			String tempArr[] = dataArr[i].split(" ");
 			
+			if (i > 0)
+			{
+				if (colNames.contains(tempArr[0]))
+				{
+					throw new GeneralSyntaxException("ERROR: Duplicate column name detected!");
+				}
+			}
+			
 			if (reservedWords.contains(tempArr[0].toUpperCase()))
 			{
 				throw new ReservedWordException("ERROR: [" + tempArr[0] + "] is a reserved key word!");
