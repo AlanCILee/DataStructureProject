@@ -285,7 +285,7 @@ public class Controller {
 			}
 			
 			//PLEASE DOUBLE CHECK WITH PARK TO SEE IF THIS WILL WORK
-			fileHandlerObj.deleteFile(tName);
+			fileHandlerObj.deleteFile(tName +".txt");
 			
 			aTable = tName;
 		}
@@ -506,37 +506,7 @@ public class Controller {
 				resultTbl = sortObj.orderBy(resultTbl, orderC, orderDir);
 				System.out.println("After orderBy ================");
 				System.out.println(resultTbl.toString());
-				// Preparing to create a new sorted table
-				//	 table creation requires 3 parameters, 
-				//		 table name (string)
-				//		 column names (AL of string)
-				//		 and column data types (AL of string)
-				/*ArrayList<String> fNameAL = new ArrayList<String>();
-				ArrayList<String> fTypeAL = new ArrayList<String>();
-				for(int x = 0; x<resultTbl.alField.size();x++){
-					fNameAL.add(resultTbl.alField.get(x).fName.toString());
-				}
-				for(int i = 0; i < resultTbl.alField.size();i++){
-					String temp = resultTbl.alField.get(i).fType.toString();
-					if (temp.equalsIgnoreCase("VARCHAR")){
-						temp = "STRING";
-					}
-					else if (temp.equalsIgnoreCase("INTEGER")){
-						temp = "INT";
-					}
-					fTypeAL.add(temp);
-					}
-				// Sorted table is created after this line
-				createTable(resultTbl.tableName+"1", fNameAL, fTypeAL);
-				// Preparing to insert records into sorted table
-				for(int u = 0;u<resultTbl.alRecord.size();u++){
-					ArrayList<String> fValueAL = new ArrayList<String>();
-					for(int v = 0;v<resultTbl.alRecord.get(u).getAlValue().size();v++){
-						fValueAL.add(resultTbl.alRecord.get(u).getValue(v).data.toString());
-					}
-					// Sorted table is populated after this line
-					insertTable(resultTbl.tableName+"1", fNameAL, fValueAL);
-				}*/
+				
 			}catch(Exception ex){
 				System.out.println(ex.getMessage());
 			}

@@ -66,8 +66,10 @@ public class FileHandler
 	// delete file
 	public boolean deleteFile(String fname)
 	{
+		String strDbfile = FOLDER_NAME + "//" + fname;
+		
 		boolean re = false;		
-		File file = new File(fname);
+		File file = new File(strDbfile);
 		
 		if(file.exists())
 		{
@@ -77,7 +79,7 @@ public class FileHandler
 		}
 		else
 		{
-			System.out.println("[FH] " + fname + " file does not exist! ");
+			System.out.println("[FH] " + strDbfile + " file does not exist! ");
 		}		
 		return re; 
 	}
