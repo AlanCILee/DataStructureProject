@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane;
+
 
 public class Value <T extends Comparable<T>> implements Comparable <Object>{
 	Field field;	//	public enum TYPE{INTEGER,VARCHAR,FLOAT,DATE,NULL };

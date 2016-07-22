@@ -20,49 +20,6 @@ public class Controller {
 		sortObj = new Sort();
 		searchObj = new Search();
 		fileHandlerObj = new FileHandler();		
-/*
-		//Example to create table ==============================================
-		ArrayList<Field> newField = new ArrayList<Field>();
-		newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.INTEGER,"ID"));
-		newField.add(new Field(Field.TYPE.VARCHAR,"Name"));		
-		testTable = new Table(newField,"testTable");
-
-		//Example to add rows on table =========================================		
-		String names[] = {"Alan Lee","Matt","Ronnie","Joy","Park"};
-		for (int i=0;i<names.length;i++){
-			
-			Record newRecord = new Record(testTable);			// create record : specify table to check added data type	
-			try{
-				newRecord.addValue(new Value(testTable.getField("Name"),names[i]));
-			}catch(TableException e){
-				System.out.println(e.getMessage());				
-			}
-			try{
-				newRecord.addValue(new Value(testTable.getField("ID"),i));
-			}catch(TableException e){
-				System.out.println(e.getMessage());				
-			}			
-			if(!testTable.addRow(newRecord)){
-				System.out.println("Failed to add row");
-			}
-		}		
-		
-		System.out.println(sortObj.orderBy(testTable, "ID", true).toString());
-		
-*/		
-/*		System.out.println(testTable.toString());
-		try{
-			searchObj.doSearch(testTable, "ID >= 1 && name like a");
-		}catch(SearchException ex){
-			System.out.println(ex.getMessage());
-		}
-		//Example to create table ==============================================
-		
-		//Call back function to update Table List : Parameters need to be defined
-		guiObj.updateTableList(testTable);
-		
-		//Call back function to update Show Result : Parameters need to be defined		
-		guiObj.updateContents(testTable);*/
 	}
 	
 	public Table getCommand(String _input){
@@ -429,15 +386,20 @@ public class Controller {
 	public void doSelect(CommandSet command){
 		System.out.println("SE:"+command.tableName);
 		Table tTable = fileHandlerObj.getFile(command.tableName+".txt");
+		Table resultTbl;
+		
 		String whereC = command.whereC;
 		String orderC = command.orderC;
 		boolean orderDir = command.orderDir;
 		int primaryIdx;
 		
-		Table resultTbl = tTable.clone();
+		try{
+			resultTbl = tTable.clone();
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Table is not Exist", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		System.out.println("tTable:"+tTable);
-//		System.out.println("rTable:"+resultTbl);
-//		resultTbl = selectField(command.colNames,resultTbl);
 		
 		if(!command.joinTableName.equalsIgnoreCase("")){
 			int foreignIdx = tTable.getForeignFieldIdx();	//Foreign key index from main table
