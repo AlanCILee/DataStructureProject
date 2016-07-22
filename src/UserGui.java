@@ -143,10 +143,10 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 	}
 
 	public void valueChanged(ListSelectionEvent e) {
-/*		currentTable = ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue()));
-		updateContents(currentTable); Alan*/
-		updateContents(ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue())));
-//Alan		taResult.setText(updateContents(currentTable));
+		Table targetTable = ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue()));
+		updateContents(targetTable);
+		taCommand.setText("SELECT * FROM "+targetTable.tableName);
+
 	}
 
 	
