@@ -210,7 +210,10 @@ public class CommandFetch
 			{
 				tableName = command[2];
 				Controller.deleteTable(tableName);
-				ctrl.guiObj.taResult.setText("Table deleted");
+				ctrl.guiObj.updateContents("Table deleted");
+				ctrl.guiObj.tableArr.remove(ctrl.guiObj.tableList.getSelectedIndex());
+				ctrl.guiObj.tableList.setListData(ctrl.guiObj.vtTables);
+				System.out.println(ctrl.guiObj.vtTables);
 			}
 			else
 			{

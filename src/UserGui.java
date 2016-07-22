@@ -141,6 +141,10 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		System.out.println(result);
 		taResult.setText(result);
 	}
+	
+	public void updateContents(String input) {
+		taResult.setText(input);
+	}
 
 	public void valueChanged(ListSelectionEvent e) {
 		Table targetTable = ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue()));
