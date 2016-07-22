@@ -511,7 +511,7 @@ public class Controller {
 				//		 table name (string)
 				//		 column names (AL of string)
 				//		 and column data types (AL of string)
-				ArrayList<String> fNameAL = new ArrayList<String>();
+				/*ArrayList<String> fNameAL = new ArrayList<String>();
 				ArrayList<String> fTypeAL = new ArrayList<String>();
 				for(int x = 0; x<resultTbl.alField.size();x++){
 					fNameAL.add(resultTbl.alField.get(x).fName.toString());
@@ -536,7 +536,7 @@ public class Controller {
 					}
 					// Sorted table is populated after this line
 					insertTable(resultTbl.tableName+"1", fNameAL, fValueAL);
-				}
+				}*/
 			}catch(Exception ex){
 				System.out.println(ex.getMessage());
 			}
