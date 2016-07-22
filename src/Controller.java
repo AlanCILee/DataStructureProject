@@ -405,15 +405,20 @@ public class Controller {
 	public void doSelect(CommandSet command){
 		System.out.println("SE:"+command.tableName);
 		Table tTable = fileHandlerObj.getFile(command.tableName+".txt");
+		Table resultTbl;
+		
 		String whereC = command.whereC;
 		String orderC = command.orderC;
 		boolean orderDir = command.orderDir;
 		int primaryIdx;
 		
-		Table resultTbl = tTable.clone();
+		try{
+			resultTbl = tTable.clone();
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Table is not Exist", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		System.out.println("tTable:"+tTable);
-//		System.out.println("rTable:"+resultTbl);
-//		resultTbl = selectField(command.colNames,resultTbl);
 		
 		if(!command.joinTableName.equalsIgnoreCase("")){
 			int foreignIdx = tTable.getForeignFieldIdx();	//Foreign key index from main table
