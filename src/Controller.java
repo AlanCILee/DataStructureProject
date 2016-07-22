@@ -10,8 +10,10 @@ public class Controller {
 	CommandFetch fetchObj = new CommandFetch(this);
 	static Table testTable;
 	public static String aTable = "";
-	boolean flag = true; //NOBODY TOUCH THIS
+	
+	boolean flag = true;
 	Table selectTable = new Table("sTbl");
+	
 //	String userCommand;
 	
 	public Controller(UserGui _gui){
@@ -20,49 +22,6 @@ public class Controller {
 		sortObj = new Sort();
 		searchObj = new Search();
 		fileHandlerObj = new FileHandler();		
-/*
-		//Example to create table ==============================================
-		ArrayList<Field> newField = new ArrayList<Field>();
-		newField.add(new Field(Field.KEY.PRIMARY, Field.TYPE.INTEGER,"ID"));
-		newField.add(new Field(Field.TYPE.VARCHAR,"Name"));		
-		testTable = new Table(newField,"testTable");
-
-		//Example to add rows on table =========================================		
-		String names[] = {"Alan Lee","Matt","Ronnie","Joy","Park"};
-		for (int i=0;i<names.length;i++){
-			
-			Record newRecord = new Record(testTable);			// create record : specify table to check added data type	
-			try{
-				newRecord.addValue(new Value(testTable.getField("Name"),names[i]));
-			}catch(TableException e){
-				System.out.println(e.getMessage());				
-			}
-			try{
-				newRecord.addValue(new Value(testTable.getField("ID"),i));
-			}catch(TableException e){
-				System.out.println(e.getMessage());				
-			}			
-			if(!testTable.addRow(newRecord)){
-				System.out.println("Failed to add row");
-			}
-		}		
-		
-		System.out.println(sortObj.orderBy(testTable, "ID", true).toString());
-		
-*/		
-/*		System.out.println(testTable.toString());
-		try{
-			searchObj.doSearch(testTable, "ID >= 1 && name like a");
-		}catch(SearchException ex){
-			System.out.println(ex.getMessage());
-		}
-		//Example to create table ==============================================
-		
-		//Call back function to update Table List : Parameters need to be defined
-		guiObj.updateTableList(testTable);
-		
-		//Call back function to update Show Result : Parameters need to be defined		
-		guiObj.updateContents(testTable);*/
 	}
 	
 	public Table getCommand(String _input){
@@ -80,6 +39,9 @@ public class Controller {
 		{
 			return fileHandlerObj.getFile(aTable + ".txt");
 		}
+
+		
+		//return fileHandlerObj.getFile(aTable + ".txt");
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -359,7 +321,7 @@ public class Controller {
 			}
 			
 			//DEBUG MESSAGE
-			System.out.println("BEFORE: " + testTable.toString());
+			//System.out.println("BEFORE: " + testTable.toString());
 			
 			//find the correct index using the PK
 			int row = 0;
@@ -402,7 +364,7 @@ public class Controller {
 					found2 = true;
 					
 					activeTable.alRecord.get(row).getAlValue().get(i).data = value;
-					aTable = tName;
+					//aTable = tName;
 				}
 			}
 			
@@ -416,6 +378,7 @@ public class Controller {
 			
 			//TABLE SAVE GOES HERE
 			fileHandlerObj.setFile(tName + ".txt", activeTable);
+			aTable = tName;
 		}
 		catch(CriticalExistanceFailure z)
 		{
