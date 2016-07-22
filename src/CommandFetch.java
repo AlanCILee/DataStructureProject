@@ -113,9 +113,16 @@ public class CommandFetch
 					break;
 			}
 		}
-		catch(ReservedWordException | DataTypeException | GeneralSyntaxException | ArrayIndexOutOfBoundsException ex)
+		catch(ReservedWordException | DataTypeException | GeneralSyntaxException | ArrayIndexOutOfBoundsException | NumberFormatException ex)
 		{
-			JOptionPane.showMessageDialog(null, ex.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
+			if (ex instanceof NumberFormatException)
+			{
+				JOptionPane.showMessageDialog(null, "ERROR: The input data does not match the expected data type!", "whoops", JOptionPane.ERROR_MESSAGE);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, ex.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -212,6 +219,9 @@ public class CommandFetch
 				if (command[2].equalsIgnoreCase("FROM"))
 				{
 					tableName = command[3];
+					
+					
+					
 					int PK = Integer.parseInt(command[1]);
 					
 					Controller.deleteRow(tableName, PK);

@@ -170,6 +170,11 @@ public class Controller {
 				throw new CriticalExistanceFailure("ERROR: Referenced Table [" + tName + "] doesn't exist");
 			}
 			
+			if (fields.get(0).compareTo(activeTable.alField.get(0).fName) != 0)
+			{
+				throw new CriticalExistanceFailure("ERROR: A primary key is requred to insert!");
+			}
+			
 			Record newRecord = new Record(activeTable);
 			
 			for (int i = 0; i < fields.size(); i++)
