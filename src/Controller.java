@@ -37,6 +37,7 @@ public class Controller {
 		strUpperCmd = strUpperCmd.replace("delete", "DELETE");
 		strUpperCmd = strUpperCmd.replace("insert", "INSERT");
 		strUpperCmd = strUpperCmd.replace("update", "UPDATE");
+		strUpperCmd = strUpperCmd.replace("inner", "INNER");
 		strUpperCmd = strUpperCmd.replace("orderby", "ORDERBY");
 		strUpperCmd = strUpperCmd.replace("order by", "ORDERBY");
 		strUpperCmd = strUpperCmd.replace("ORDER BY", "ORDERBY");		
