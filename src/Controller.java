@@ -10,8 +10,10 @@ public class Controller {
 	CommandFetch fetchObj = new CommandFetch(this);
 	static Table testTable;
 	public static String aTable = "";
-	boolean flag = true; //NOBODY TOUCH THIS
+	
+	boolean flag = true;
 	Table selectTable = new Table("sTbl");
+	
 //	String userCommand;
 	
 	public Controller(UserGui _gui){
@@ -39,6 +41,9 @@ public class Controller {
 		{
 			return fileHandlerObj.getFile(aTable + ".txt");
 		}
+
+		
+		//return fileHandlerObj.getFile(aTable + ".txt");
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -318,7 +323,7 @@ public class Controller {
 			}
 			
 			//DEBUG MESSAGE
-			System.out.println("BEFORE: " + testTable.toString());
+			//System.out.println("BEFORE: " + testTable.toString());
 			
 			//find the correct index using the PK
 			int row = 0;
@@ -361,7 +366,7 @@ public class Controller {
 					found2 = true;
 					
 					activeTable.alRecord.get(row).getAlValue().get(i).data = value;
-					aTable = tName;
+					//aTable = tName;
 				}
 			}
 			
@@ -375,6 +380,7 @@ public class Controller {
 			
 			//TABLE SAVE GOES HERE
 			fileHandlerObj.setFile(tName + ".txt", activeTable);
+			aTable = tName;
 		}
 		catch(CriticalExistanceFailure z)
 		{
