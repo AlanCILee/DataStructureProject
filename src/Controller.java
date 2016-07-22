@@ -26,11 +26,24 @@ public class Controller {
 	
 	public Table getCommand(String _input){
 		//Deliver this input string to command fetch
-		System.out.println("TEST------"+_input); 	//test
-		System.out.println("TEST------"+_input.toUpperCase()); 	//test
+		System.out.println("Before TEST------"+_input); 	//test
 		
+		String strUpperCmd = _input;
+		strUpperCmd = strUpperCmd.replace("select", "SELECT");
+		strUpperCmd = strUpperCmd.replace("from", "FROM");
+		strUpperCmd = strUpperCmd.replace("where", "WHERE");
+		strUpperCmd = strUpperCmd.replace("create", "CREATE");
+		strUpperCmd = strUpperCmd.replace("table", "TABLE");
+		strUpperCmd = strUpperCmd.replace("delete", "DELETE");
+		strUpperCmd = strUpperCmd.replace("insert", "INSERT");
+		strUpperCmd = strUpperCmd.replace("update", "UPDATE");
+		strUpperCmd = strUpperCmd.replace("orderby", "ORDERBY");
+		strUpperCmd = strUpperCmd.replace("order by", "ORDERBY");
+		strUpperCmd = strUpperCmd.replace("ORDER BY", "ORDERBY");		
 		
-		fetchObj.loader(_input.toUpperCase()); //Matt: something like this?
+		System.out.println("After TEST------"+ strUpperCmd); 	//test
+				
+		fetchObj.loader(strUpperCmd); //Matt: something like this?
 		
 		if (!flag)
 		{
