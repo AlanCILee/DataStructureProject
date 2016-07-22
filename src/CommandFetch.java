@@ -113,9 +113,16 @@ public class CommandFetch
 					break;
 			}
 		}
-		catch(ReservedWordException | DataTypeException | GeneralSyntaxException | ArrayIndexOutOfBoundsException ex)
+		catch(ReservedWordException | DataTypeException | GeneralSyntaxException | ArrayIndexOutOfBoundsException | NumberFormatException ex)
 		{
-			JOptionPane.showMessageDialog(null, ex.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
+			if (ex instanceof NumberFormatException)
+			{
+				JOptionPane.showMessageDialog(null, "ERROR: The input data does not match the expected data type!", "whoops", JOptionPane.ERROR_MESSAGE);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, ex.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -160,6 +167,14 @@ public class CommandFetch
 			dataArr[i] = dataArr[i].trim();
 			String tempArr[] = dataArr[i].split(" ");
 			
+			if (i > 0)
+			{
+				if (colNames.contains(tempArr[0]))
+				{
+					throw new GeneralSyntaxException("ERROR: Duplicate column name detected!");
+				}
+			}
+			
 			if (reservedWords.contains(tempArr[0].toUpperCase()))
 			{
 				throw new ReservedWordException("ERROR: [" + tempArr[0] + "] is a reserved key word!");
@@ -184,8 +199,6 @@ public class CommandFetch
 		}
 		//AND THEN I JUST PASS THE TWO ARRAYLISTS TO THE CREATE TABLE METHOD
 		ctrl.createTable(tableName, colNames, dataTypes);
-		
-		
 	}
 
 	public void callDelete(String[] command) throws GeneralSyntaxException
@@ -205,6 +218,10 @@ public class CommandFetch
 			{
 				tableName = command[2];
 				Controller.deleteTable(tableName);
+				ctrl.guiObj.updateContents("Table deleted");
+				ctrl.guiObj.tableArr.remove(ctrl.guiObj.tableList.getSelectedIndex());
+				ctrl.guiObj.tableList.setListData(ctrl.guiObj.vtTables);
+				System.out.println(ctrl.guiObj.vtTables);
 			}
 			else
 			{
@@ -212,6 +229,9 @@ public class CommandFetch
 				if (command[2].equalsIgnoreCase("FROM"))
 				{
 					tableName = command[3];
+					
+					
+					
 					int PK = Integer.parseInt(command[1]);
 					
 					Controller.deleteRow(tableName, PK);
@@ -281,8 +301,11 @@ public class CommandFetch
 		boolean whereControl = false;
 		boolean orderControl = false;
 		
+		
+		
 		//DEBUG MESSAGE
 		System.out.println(command);
+				
 			
 		int tNameIDX = command.indexOf("FROM") + 1;
 		
@@ -324,7 +347,9 @@ public class CommandFetch
 		{
 			orderControl = true;
 		}
-			
+		
+		
+					
 		//Controller SELECT call, pass:
 			//tableName
 			//joinTableName

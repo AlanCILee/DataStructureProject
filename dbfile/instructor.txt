@@ -1,5 +1,6 @@
-[F]/PKID-INTEGER-PRIMARY/Inames-VARCHAR-NORMAL
-[R]/1/Stephan
-[R]/2/Mehwish
-[R]/3/Gilbert
-
+[F]/PKID-INTEGER-PRIMARY/first_name-VARCHAR-NORMAL/last_name-VARCHAR-NORMAL
+[R]/1/Stephen/Chiong
+[R]/2/Mehwish/
+[R]/3/Gilbert/Tsui
+[R]/4/Michael/Wufka
+[R]/5/Raymond/Yu

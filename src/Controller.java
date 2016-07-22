@@ -37,9 +37,22 @@ public class Controller {
 		strUpperCmd = strUpperCmd.replace("delete", "DELETE");
 		strUpperCmd = strUpperCmd.replace("insert", "INSERT");
 		strUpperCmd = strUpperCmd.replace("update", "UPDATE");
+		strUpperCmd = strUpperCmd.replace("inner", "INNER");
 		strUpperCmd = strUpperCmd.replace("orderby", "ORDERBY");
 		strUpperCmd = strUpperCmd.replace("order by", "ORDERBY");
 		strUpperCmd = strUpperCmd.replace("ORDER BY", "ORDERBY");		
+		strUpperCmd = strUpperCmd.replace("asc", "ASC");
+		strUpperCmd = strUpperCmd.replace("desc", "DESC");
+		
+		//check order by and put the default order
+		if(strUpperCmd.indexOf("ORDERBY") != -1)
+		{
+			if(strUpperCmd.indexOf("ASC") == -1 &&
+			   strUpperCmd.indexOf("DESC") == -1)								
+			{
+				strUpperCmd = strUpperCmd + " ASC";
+			}			
+		}
 		
 		System.out.println("After TEST------"+ strUpperCmd); 	//test
 				
@@ -181,6 +194,11 @@ public class Controller {
 			if (activeTable == null)
 			{
 				throw new CriticalExistanceFailure("ERROR: Referenced Table [" + tName + "] doesn't exist");
+			}
+			
+			if (fields.get(0).compareTo(activeTable.alField.get(0).fName) != 0)
+			{
+				throw new CriticalExistanceFailure("ERROR: A primary key is requred to insert!");
 			}
 			
 			Record newRecord = new Record(activeTable);
