@@ -105,11 +105,11 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == bRun){
 			currentTable = ctrl.getCommand(taCommand.getText());
-//			if (currentTable == null) {
-//				taResult.setText("The table selected is null");
-//			} else {
+			if (currentTable == null) {
+				taResult.setText("No table selected");
+			} else {
 				updateContents(currentTable);
-//			}
+			}
 		} else if (e.getSource() == bClear) {
 			taCommand.setText("");
 		}
