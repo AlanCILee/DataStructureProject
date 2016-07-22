@@ -10,6 +10,8 @@ public class Controller {
 	CommandFetch fetchObj = new CommandFetch(this);
 	static Table testTable;
 	public static String aTable = "";
+	boolean flag = true; //NOBODY TOUCH THIS
+	Table selectTable = new Table("sTbl");
 //	String userCommand;
 	
 	public Controller(UserGui _gui){
@@ -69,7 +71,15 @@ public class Controller {
 		
 		fetchObj.loader(_input); //Matt: something like this?
 		
-		return fileHandlerObj.getFile(aTable + ".txt");
+		if (!flag)
+		{
+			flag = true;
+			return selectTable;
+		}
+		else
+		{
+			return fileHandlerObj.getFile(aTable + ".txt");
+		}
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -536,6 +546,8 @@ public class Controller {
 		System.out.println("Final Table ===========================" );
 		System.out.println(resultTbl);
 		
+		flag = false;
+		selectTable = resultTbl.clone();
 		aTable = resultTbl.tableName;
 		
 		
