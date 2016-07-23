@@ -150,8 +150,8 @@ public class CommandFetch
 		}
 		
 		//DEBUG MESSAGE
-		System.out.println("CREATE TABLE DATA:" + data);
-		System.out.println("TABLENAME:" + tableName);
+		System.out.println("CREATE TABLE DATA: " + data);
+		System.out.println("TABLENAME: " + tableName);
 		
 		ArrayList<String> colNames = new ArrayList<String>();
 		ArrayList<String> dataTypes = new ArrayList<String>();
@@ -159,8 +159,9 @@ public class CommandFetch
 		String dataArr[] = data.split(",");
 		
 		//DEBUG MESSAGE
-		System.out.println(dataArr[0]);
-		System.out.println(dataArr[1]);
+		System.out.println("ARRAY: " + dataArr);
+		System.out.println("A0: " + dataArr[0]);
+		System.out.println("A1: " + dataArr[1]);
 		
 		for (int i = 0; i < dataArr.length; i++)
 		{
