@@ -15,7 +15,8 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 	JTextArea taResult;
 	JScrollPane scroll1;
 	JList tableList;
-	ArrayList tableArr = new ArrayList(); 
+	ArrayList<String> tableFileArr = new ArrayList<String>(); 
+	ArrayList<String> tableArr = new ArrayList<String>(); 
 	Vector vtTables;
 	JButton bRun;
 	JButton bClear;
@@ -30,7 +31,14 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		//Border border = new Border();
 		
 		ctrl = new Controller(this);
-		tableArr = ctrl.fileHandlerObj.getFileList();
+		tableFileArr = ctrl.fileHandlerObj.getFileList();
+		for(int i=0;i<tableFileArr.size();i++){
+			String tableFile = tableFileArr.get(i);
+			System.out.println(tableFile);
+			int idx = tableFile.indexOf(".");
+			String tableName = tableFile.substring(0, idx);
+			tableArr.add(tableName);
+		}
 		vtTables = new Vector(tableArr);
 		//----------Top Panel----------------------------
 		JPanel topGui = new JPanel();
@@ -115,11 +123,21 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		}
 	}
 
-	public void updateTableList(Table _table){
+	public void updateTableList(String _table){
 		System.out.println("updateTableList");
-		vtTables.addElement(_table.tableName);
+		vtTables.addElement(_table);
 		tableList.setListData(vtTables);
-		System.out.println(tableArr);
+	}
+	
+	public void deleteTableList(String _table){
+		System.out.println("updateTableList");
+		for (int i=0;i<vtTables.size();i++){
+			if(vtTables.get(i).equals(_table)){
+				vtTables.removeElementAt(i);
+				break;
+			}
+		}
+		tableList.setListData(vtTables);
 	}
 	
 	public void updateContents(Table _table) {
@@ -149,7 +167,7 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 	}
 
 	public void valueChanged(ListSelectionEvent e) {		
-		Table targetTable = ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue()));
+		Table targetTable = ctrl.fileHandlerObj.getFile(String.valueOf(tableList.getSelectedValue()+".txt"));
 		if(targetTable != null){
 			updateContents(targetTable);
 			taCommand.setText("SELECT * FROM "+targetTable.tableName);

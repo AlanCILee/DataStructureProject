@@ -223,11 +223,11 @@ public class CommandFetch
 				//DEBUG
 				System.out.println("CF: " + tableName);
 				
-				Controller.deleteTable(tableName);
+				ctrl.deleteTable(tableName);
 /*				ctrl.guiObj.updateContents("Table deleted");
 				ctrl.guiObj.tableArr.remove(ctrl.guiObj.tableList.getSelectedIndex());
-				ctrl.guiObj.tableList.setListData(ctrl.guiObj.vtTables); Alan*/
-				System.out.println(ctrl.guiObj.vtTables);
+				ctrl.guiObj.tableList.setListData(ctrl.guiObj.vtTables); 
+				System.out.println(ctrl.guiObj.vtTables);Alan*/
 			}
 			else
 			{

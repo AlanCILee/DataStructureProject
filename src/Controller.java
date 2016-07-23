@@ -115,7 +115,7 @@ public class Controller {
 			Table newTable = new Table(theFields, tName);
 			//I need to add this new table some sort of DB object?
 			fileHandlerObj.setFile(tName + ".txt", newTable);
-			guiObj.updateTableList(newTable);
+			guiObj.updateTableList(tName);
 			//DEBUG MESSAGE
 			System.out.println(newTable.toString());
 		}
@@ -270,7 +270,7 @@ public class Controller {
 		
 	}
 	
-	public static void deleteTable(String tName)
+	public void deleteTable(String tName)
 	{
 		System.out.println("CON: " + tName);
 		
@@ -285,6 +285,7 @@ public class Controller {
 			fileHandlerObj.deleteFile(tName +".txt");
 			
 			aTable = tName;
+			guiObj.deleteTableList(tName);
 		}
 		catch(CriticalExistanceFailure z)
 		{
