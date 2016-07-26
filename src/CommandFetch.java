@@ -158,8 +158,13 @@ public class CommandFetch
 		
 		String dataArr[] = data.split(",");
 		
+		if (dataArr.length < 2)
+		{
+			throw new GeneralSyntaxException("ERROR: Cannot have a table with only one column!");
+		}
+		
 		//DEBUG MESSAGE
-		System.out.println("ARRAY: " + dataArr);
+		System.out.println("ARRAY: " + dataArr.toString());
 		System.out.println("A0: " + dataArr[0]);
 		System.out.println("A1: " + dataArr[1]);
 		

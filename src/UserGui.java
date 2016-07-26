@@ -97,7 +97,7 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		bRun.setBackground(Color.white);
 		bRun.addActionListener(this);
 		
-			// ---------- clear button ----------------------
+	 		// ---------- clear button ----------------------
 		bClear = new JButton("Clear");
 		createGui(bClear,700,100,100,50,centerGui);
 		bClear.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
