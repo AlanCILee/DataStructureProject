@@ -78,7 +78,7 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		createGui(sqlTitle,50,10,300,50,centerGui); //add title label
 		taCommand = new JTextArea();
 		createGui(taCommand,50,50,500,150,centerGui);
-		taCommand.setBorder(BorderFactory.createLineBorder(Color.black));
+		taCommand.setBorder(BorderFactory.createLineBorder(Color.darkGray));
 
 		JLabel resTitle = new JLabel("Result");	
 		resTitle.setFont(titleFont);
@@ -137,7 +137,7 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 			}
 		}
 		tableList.setListData(vtTables);
-		JOptionPane.showMessageDialog(null, _table + "is deleted");
+		JOptionPane.showMessageDialog(null, _table + " is deleted");
 		taCommand.setText("");
 	}
 	
@@ -150,7 +150,7 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 			result += _table.alField.get(i).fName+ "\t";
 		}
 		
-		result += "\n------------------------------------------------------------------------------------------------\n";
+		result += "\n---------------------------------------------------------------------------------------------------\n";
 		
 		for (int i = 0; i < _table.alRecord.size(); i++) {
 			for (int x = 0; x < _table.alRecord.get(i).getAlValue().size(); x++) {
