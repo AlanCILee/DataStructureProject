@@ -28,7 +28,6 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		super(x, y, w, h);
 
 		Font titleFont = new Font("Arial", Font.BOLD, 15);
-		//Border border = new Border();
 		
 		ctrl = new Controller(this);
 		tableFileArr = ctrl.fileHandlerObj.getFileList();
@@ -54,7 +53,7 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		JPanel sideGui = new JPanel();
 		sideGui.setLayout(null);
 		createGui(sideGui,0,81,300,688,this);
-		sideGui.setBackground(Color.ORANGE);	//For test
+		sideGui.setBackground(Color.green);	
 		JLabel tableTitle = new JLabel("Tables");	
 		tableTitle.setFont(titleFont);
 		createGui(tableTitle,120,-10,300,50,sideGui); //add title label
@@ -72,14 +71,14 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		JPanel centerGui = new JPanel();
 		centerGui.setLayout(null);
 		createGui(centerGui,301,81,979,688,this);
-		centerGui.setBackground(Color.white);	//For test
+		centerGui.setBackground(Color.white);	
 		
 		JLabel sqlTitle = new JLabel("SQL Command");	
 		sqlTitle.setFont(titleFont);
 		createGui(sqlTitle,50,10,300,50,centerGui); //add title label
 		taCommand = new JTextArea();
 		createGui(taCommand,50,50,500,150,centerGui);
-		taCommand.setBorder(BorderFactory.createLineBorder(Color.black));
+		taCommand.setBorder(BorderFactory.createLineBorder(Color.darkGray));
 
 		JLabel resTitle = new JLabel("Result");	
 		resTitle.setFont(titleFont);
@@ -93,14 +92,14 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 			// ------------- run button ----------------------
 		bRun = new JButton("Run"); 
 		createGui(bRun,570,100,100,50,centerGui);
-		bRun.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+		bRun.setBorder(BorderFactory.createLineBorder(Color.green));
 		bRun.setBackground(Color.white);
 		bRun.addActionListener(this);
 		
 	 		// ---------- clear button ----------------------
 		bClear = new JButton("Clear");
 		createGui(bClear,700,100,100,50,centerGui);
-		bClear.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+		bClear.setBorder(BorderFactory.createLineBorder(Color.red));
 		bClear.setBackground(Color.white);
 		bClear.addActionListener(this);
 	}
@@ -138,6 +137,8 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 			}
 		}
 		tableList.setListData(vtTables);
+		JOptionPane.showMessageDialog(null, _table + " is deleted");
+		taCommand.setText("");
 	}
 	
 	public void updateContents(Table _table) {
@@ -149,7 +150,7 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 			result += _table.alField.get(i).fName+ "\t";
 		}
 		
-		result += "\n------------------------------------------------------------------------------------------------\n";
+		result += "\n---------------------------------------------------------------------------------------------------\n";
 		
 		for (int i = 0; i < _table.alRecord.size(); i++) {
 			for (int x = 0; x < _table.alRecord.get(i).getAlValue().size(); x++) {

@@ -30,16 +30,27 @@ public class Controller {
 		
 		String strUpperCmd = _input;
 		strUpperCmd = strUpperCmd.replace("select", "SELECT");
+		strUpperCmd = strUpperCmd.replace("Select", "SELECT");
 		strUpperCmd = strUpperCmd.replace("from", "FROM");
+		strUpperCmd = strUpperCmd.replace("From", "FROM");
 		strUpperCmd = strUpperCmd.replace("where", "WHERE");
+		strUpperCmd = strUpperCmd.replace("Where", "WHERE");
 		strUpperCmd = strUpperCmd.replace("create", "CREATE");
+		strUpperCmd = strUpperCmd.replace("Create", "CREATE");
 		strUpperCmd = strUpperCmd.replace("table", "TABLE");
+		strUpperCmd = strUpperCmd.replace("Table", "TABLE");
 		strUpperCmd = strUpperCmd.replace("delete", "DELETE");
+		strUpperCmd = strUpperCmd.replace("Delete", "DELETE");
 		strUpperCmd = strUpperCmd.replace("insert", "INSERT");
+		strUpperCmd = strUpperCmd.replace("Insert", "INSERT");
 		strUpperCmd = strUpperCmd.replace("update", "UPDATE");
+		strUpperCmd = strUpperCmd.replace("Update", "UPDATE");
 		strUpperCmd = strUpperCmd.replace("inner", "INNER");
+		strUpperCmd = strUpperCmd.replace("Inner", "INNER");
 		strUpperCmd = strUpperCmd.replace("orderby", "ORDERBY");
+		strUpperCmd = strUpperCmd.replace("Orderby", "ORDERBY");
 		strUpperCmd = strUpperCmd.replace("order by", "ORDERBY");
+		strUpperCmd = strUpperCmd.replace("Order by", "ORDERBY");
 		strUpperCmd = strUpperCmd.replace("ORDER BY", "ORDERBY");		
 		strUpperCmd = strUpperCmd.replace("asc", "ASC");
 		strUpperCmd = strUpperCmd.replace("desc", "DESC");
@@ -81,6 +92,12 @@ public class Controller {
 		
 		try
 		{
+			//check to see if a table already exists
+			if (fileHandlerObj.getFile(tName + ".txt") != null)
+			{
+				throw new CriticalExistanceFailure("ERROR: A table with the name ["+ tName + "] already exists!");
+			}
+			
 			for (int i = 0; i < colNames.size(); i++)
 			{
 				Field.TYPE theType = getDataType(dataTypes.get(i));
@@ -114,7 +131,7 @@ public class Controller {
 			
 			Table newTable = new Table(theFields, tName);
 			//I need to add this new table some sort of DB object?
-			fileHandlerObj.setFile(tName + ".txt", newTable);
+			fileHandlerObj.setFile(tName + ".txt", newTable); //this will create the file
 			guiObj.updateTableList(tName);
 			//DEBUG MESSAGE
 			System.out.println(newTable.toString());
@@ -436,7 +453,7 @@ public class Controller {
 		try{
 			resultTbl = tTable.clone();
 		}catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Table is not Exist", "ERROR", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Table does not Exist", "ERROR", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		System.out.println("tTable:"+tTable);

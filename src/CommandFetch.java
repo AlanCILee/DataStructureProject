@@ -229,10 +229,6 @@ public class CommandFetch
 				System.out.println("CF: " + tableName);
 				
 				ctrl.deleteTable(tableName);
-/*				ctrl.guiObj.updateContents("Table deleted");
-				ctrl.guiObj.tableArr.remove(ctrl.guiObj.tableList.getSelectedIndex());
-				ctrl.guiObj.tableList.setListData(ctrl.guiObj.vtTables); 
-				System.out.println(ctrl.guiObj.vtTables);Alan*/
 			}
 			else
 			{
@@ -304,15 +300,13 @@ public class CommandFetch
 	}
 	
 	
-	public void callSelect(List<String> command)
+	public void callSelect(List<String> command) throws GeneralSyntaxException
 	{
 		ArrayList<String> colNames = new ArrayList<String>();
 		String joinTableName = "";
 		
 		boolean whereControl = false;
-		boolean orderControl = false;
-		
-		
+		boolean orderControl = false;		
 		
 		//DEBUG MESSAGE
 		System.out.println(command);
@@ -346,6 +340,12 @@ public class CommandFetch
 		if (command.contains("INNER"))
 		{
 			int idx = command.indexOf("INNER");
+			
+			if (!command.get(idx+1).equalsIgnoreCase("JOIN"))
+			{
+				throw new GeneralSyntaxException("ERROR: Check syntax on Inner Join!");
+			}
+			
 			joinTableName = command.get(idx + 2);	
 		}
 			
@@ -444,31 +444,19 @@ public class CommandFetch
 
 		String direction = command.get(idx);	
 		
-		try
-		{
-			if (direction == null)
-			{
-				throw new GeneralSyntaxException("ERROR: A sort direction (DESC/ASC) was not declared!");
-			}
-		}
-		catch(GeneralSyntaxException d)
-		{
-			JOptionPane.showMessageDialog(null, d.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
-		}
-		
 		if (direction.contains(";"))
 		{
 			String s[] = direction.split(";");
 			direction = s[0];
 		}
 		
-		if (direction.equalsIgnoreCase("ASC"))
+		if (direction.equalsIgnoreCase("DESC"))
 		{
-			sortDir = false;
+			sortDir = true;
 		}
 		else
 		{
-			sortDir = true;
+			sortDir = false;
 		}
 		
 		return sortDir;
