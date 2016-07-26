@@ -54,7 +54,7 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		JPanel sideGui = new JPanel();
 		sideGui.setLayout(null);
 		createGui(sideGui,0,81,300,688,this);
-		sideGui.setBackground(Color.ORANGE);	//For test
+		sideGui.setBackground(Color.green);	
 		JLabel tableTitle = new JLabel("Tables");	
 		tableTitle.setFont(titleFont);
 		createGui(tableTitle,120,-10,300,50,sideGui); //add title label
@@ -72,7 +72,7 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		JPanel centerGui = new JPanel();
 		centerGui.setLayout(null);
 		createGui(centerGui,301,81,979,688,this);
-		centerGui.setBackground(Color.white);	//For test
+		centerGui.setBackground(Color.white);	
 		
 		JLabel sqlTitle = new JLabel("SQL Command");	
 		sqlTitle.setFont(titleFont);
@@ -138,6 +138,8 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 			}
 		}
 		tableList.setListData(vtTables);
+		JOptionPane.showMessageDialog(null, _table + "is deleted");
+		taCommand.setText("");
 	}
 	
 	public void updateContents(Table _table) {
