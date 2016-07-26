@@ -209,7 +209,7 @@ public class Search {
 			
 			for (int j=0; j<tempWord.length();j++){				
 				char tempChar = tempWord.charAt(j);
-				if ((tempChar >= 'A' && tempChar <='Z') || (tempChar >='a' && tempChar <='z') || (tempChar >='0' && tempChar <='9')){
+				if ((tempChar >= 'A' && tempChar <='Z') || (tempChar >='a' && tempChar <='z') || (tempChar >='0' && tempChar <='9') || (tempChar == '_')){
 					if (wordOrder != ALPHA.ALPHA){			//Character type changed from Non alphabet to Alphabet Type
 						if(wordOrder != ALPHA.INIT)
 							arrStr.add(tempStr);
