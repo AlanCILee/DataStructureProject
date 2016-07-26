@@ -450,13 +450,13 @@ public class CommandFetch
 			direction = s[0];
 		}
 		
-		if (direction.equalsIgnoreCase("ASC"))
+		if (direction.equalsIgnoreCase("DESC"))
 		{
-			sortDir = false;
+			sortDir = true;
 		}
 		else
 		{
-			sortDir = true;
+			sortDir = false;
 		}
 		
 		return sortDir;

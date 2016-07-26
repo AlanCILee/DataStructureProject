@@ -30,16 +30,27 @@ public class Controller {
 		
 		String strUpperCmd = _input;
 		strUpperCmd = strUpperCmd.replace("select", "SELECT");
+		strUpperCmd = strUpperCmd.replace("Select", "SELECT");
 		strUpperCmd = strUpperCmd.replace("from", "FROM");
+		strUpperCmd = strUpperCmd.replace("From", "FROM");
 		strUpperCmd = strUpperCmd.replace("where", "WHERE");
+		strUpperCmd = strUpperCmd.replace("Where", "WHERE");
 		strUpperCmd = strUpperCmd.replace("create", "CREATE");
+		strUpperCmd = strUpperCmd.replace("Create", "CREATE");
 		strUpperCmd = strUpperCmd.replace("table", "TABLE");
+		strUpperCmd = strUpperCmd.replace("Table", "TABLE");
 		strUpperCmd = strUpperCmd.replace("delete", "DELETE");
+		strUpperCmd = strUpperCmd.replace("Delete", "DELETE");
 		strUpperCmd = strUpperCmd.replace("insert", "INSERT");
+		strUpperCmd = strUpperCmd.replace("Insert", "INSERT");
 		strUpperCmd = strUpperCmd.replace("update", "UPDATE");
+		strUpperCmd = strUpperCmd.replace("Update", "UPDATE");
 		strUpperCmd = strUpperCmd.replace("inner", "INNER");
+		strUpperCmd = strUpperCmd.replace("Inner", "INNER");
 		strUpperCmd = strUpperCmd.replace("orderby", "ORDERBY");
+		strUpperCmd = strUpperCmd.replace("Orderby", "ORDERBY");
 		strUpperCmd = strUpperCmd.replace("order by", "ORDERBY");
+		strUpperCmd = strUpperCmd.replace("Order by", "ORDERBY");
 		strUpperCmd = strUpperCmd.replace("ORDER BY", "ORDERBY");		
 		strUpperCmd = strUpperCmd.replace("asc", "ASC");
 		strUpperCmd = strUpperCmd.replace("desc", "DESC");
