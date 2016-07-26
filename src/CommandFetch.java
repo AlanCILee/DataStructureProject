@@ -304,7 +304,7 @@ public class CommandFetch
 	}
 	
 	
-	public void callSelect(List<String> command)
+	public void callSelect(List<String> command) throws GeneralSyntaxException
 	{
 		ArrayList<String> colNames = new ArrayList<String>();
 		String joinTableName = "";
@@ -346,6 +346,12 @@ public class CommandFetch
 		if (command.contains("INNER"))
 		{
 			int idx = command.indexOf("INNER");
+			
+			if (!command.get(idx+1).equalsIgnoreCase("JOIN"))
+			{
+				throw new GeneralSyntaxException("ERROR: Check syntax on Inner Join!");
+			}
+			
 			joinTableName = command.get(idx + 2);	
 		}
 			
@@ -443,18 +449,6 @@ public class CommandFetch
 		int idx = command.indexOf("ORDERBY") + 2;
 
 		String direction = command.get(idx);	
-		
-		try
-		{
-			if (direction == null)
-			{
-				throw new GeneralSyntaxException("ERROR: A sort direction (DESC/ASC) was not declared!");
-			}
-		}
-		catch(GeneralSyntaxException d)
-		{
-			JOptionPane.showMessageDialog(null, d.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
-		}
 		
 		if (direction.contains(";"))
 		{
