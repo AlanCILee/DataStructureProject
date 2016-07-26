@@ -414,9 +414,6 @@ public class CommandFetch
 		if (command.contains("ORDERBY"))
 		{
 			end = command.indexOf("ORDERBY");
-			if (!command.contains("DESC") || !command.contains("ASC")) {
-				JOptionPane.showMessageDialog(null,"Please add \"ASC\" for ascending order or \"DESC\" for descending order");
-			}
 		}
 		else
 		{
