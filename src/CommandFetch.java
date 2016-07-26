@@ -229,10 +229,6 @@ public class CommandFetch
 				System.out.println("CF: " + tableName);
 				
 				ctrl.deleteTable(tableName);
-/*				ctrl.guiObj.updateContents("Table deleted");
-				ctrl.guiObj.tableArr.remove(ctrl.guiObj.tableList.getSelectedIndex());
-				ctrl.guiObj.tableList.setListData(ctrl.guiObj.vtTables); 
-				System.out.println(ctrl.guiObj.vtTables);Alan*/
 			}
 			else
 			{
@@ -310,9 +306,7 @@ public class CommandFetch
 		String joinTableName = "";
 		
 		boolean whereControl = false;
-		boolean orderControl = false;
-		
-		
+		boolean orderControl = false;		
 		
 		//DEBUG MESSAGE
 		System.out.println(command);

@@ -442,7 +442,7 @@ public class Controller {
 		try{
 			resultTbl = tTable.clone();
 		}catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Table is not Exist", "ERROR", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Table does not Exist", "ERROR", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		System.out.println("tTable:"+tTable);
