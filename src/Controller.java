@@ -54,6 +54,12 @@ public class Controller {
 		strUpperCmd = strUpperCmd.replace("ORDER BY", "ORDERBY");		
 		strUpperCmd = strUpperCmd.replace("asc", "ASC");
 		strUpperCmd = strUpperCmd.replace("desc", "DESC");
+		strUpperCmd = strUpperCmd.replace("in", "IN");
+		strUpperCmd = strUpperCmd.replace("set", "SET");
+		strUpperCmd = strUpperCmd.replace("to", "TO");
+		strUpperCmd = strUpperCmd.replace("all", "ALL");
+		strUpperCmd = strUpperCmd.replace("join", "JOIN");
+		strUpperCmd = strUpperCmd.replace("nojoin", "NOJOIN");
 		
 		//check order by and put the default order
 		if(strUpperCmd.indexOf("ORDERBY") != -1)
