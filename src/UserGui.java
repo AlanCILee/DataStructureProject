@@ -28,7 +28,6 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 		super(x, y, w, h);
 
 		Font titleFont = new Font("Arial", Font.BOLD, 15);
-		//Border border = new Border();
 		
 		ctrl = new Controller(this);
 		tableFileArr = ctrl.fileHandlerObj.getFileList();
@@ -93,14 +92,14 @@ public class UserGui extends CFrame implements ActionListener, ListSelectionList
 			// ------------- run button ----------------------
 		bRun = new JButton("Run"); 
 		createGui(bRun,570,100,100,50,centerGui);
-		bRun.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+		bRun.setBorder(BorderFactory.createLineBorder(Color.green));
 		bRun.setBackground(Color.white);
 		bRun.addActionListener(this);
 		
 	 		// ---------- clear button ----------------------
 		bClear = new JButton("Clear");
 		createGui(bClear,700,100,100,50,centerGui);
-		bClear.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+		bClear.setBorder(BorderFactory.createLineBorder(Color.red));
 		bClear.setBackground(Color.white);
 		bClear.addActionListener(this);
 	}
