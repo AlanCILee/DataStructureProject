@@ -13,7 +13,7 @@ public class CommandFetch
 	public String fullCommand;
 	
 	List<String> reservedWords = Arrays.asList("SELECT", "FROM", "INNER", "JOIN", "CREATE", "TABLE", "NOJOIN", "UPDATE", "IN", "SET", "TO", "DELETE", "ALL", "INSERT", "ORDERBY", "STRING", "INT", "DOUBLE", "DATE");
-	List<String> supportedDataTypes = Arrays.asList("String", "int", "double", "Date");
+	List<String> supportedDataTypes = Arrays.asList("String", "int", "double");
 	
 	//loader: takes the input from the GUI text area as input; removing the line
 	//breaks and placing the 'words' into a string array (command). This array is
