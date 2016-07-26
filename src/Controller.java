@@ -499,7 +499,13 @@ public class Controller {
 						}
 					}
 				}catch(TableException e){
-					System.out.println(e.getMessage());				
+					System.out.println(e.getMessage());		//In case of there is no Foreign key value, create null data 
+					
+					for (int j=0; j<jTable.alField.size();j++){
+						if(j!=primaryIdx){						
+							resultTbl.alRecord.get(i).getAlValue().add(new Value(new Field(Field.TYPE.VARCHAR,"null"),"null"));
+						}
+					}					
 				}
 			}
 			
@@ -577,6 +583,10 @@ public class Controller {
 			Record sampleR = _targetTable.alRecord.get(i);		//get n-th row record object
 			Record returnR = new Record(resultTbl);				//create New Record to be generated as a result record
 
+			System.out.println("alIndex================================:"+alIndex);
+			System.out.println("i ================================:"+i);
+
+			
 			for (int j=0;j<alIndex.size();j++){
 				int index = alIndex.get(j);
 				returnR.addValue(sampleR.getValue(index));
