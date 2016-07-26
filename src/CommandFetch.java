@@ -458,11 +458,11 @@ public class CommandFetch
 		
 		if (direction.equalsIgnoreCase("DESC"))
 		{
-			sortDir = false;
+			sortDir = true;
 		}
 		else
 		{
-			sortDir = true;
+			sortDir = false;
 		}
 		
 		return sortDir;
