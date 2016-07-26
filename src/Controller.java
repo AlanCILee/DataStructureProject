@@ -81,6 +81,12 @@ public class Controller {
 		
 		try
 		{
+			//check to see if a table already exists
+			if (fileHandlerObj.getFile(tName + ".txt") != null)
+			{
+				throw new CriticalExistanceFailure("ERROR: A table with the name ["+ tName + "] already exists!");
+			}
+			
 			for (int i = 0; i < colNames.size(); i++)
 			{
 				Field.TYPE theType = getDataType(dataTypes.get(i));
@@ -114,7 +120,7 @@ public class Controller {
 			
 			Table newTable = new Table(theFields, tName);
 			//I need to add this new table some sort of DB object?
-			fileHandlerObj.setFile(tName + ".txt", newTable);
+			fileHandlerObj.setFile(tName + ".txt", newTable); //this will create the file
 			guiObj.updateTableList(tName);
 			//DEBUG MESSAGE
 			System.out.println(newTable.toString());
