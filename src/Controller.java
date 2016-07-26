@@ -527,8 +527,16 @@ public class Controller {
 				resultTbl = searchObj.doSearch(resultTbl, whereC);
 				System.out.println("1st"+resultTbl.toString());
 				//resultTbl = selectField(command.colNames,resultTbl);
-			}catch(SearchException ex){
-				System.out.println(ex.getMessage());
+			}catch(SearchException | IndexOutOfBoundsException ex){
+				
+				if (ex instanceof IndexOutOfBoundsException)
+				{
+					JOptionPane.showMessageDialog(null, "ERROR: INVALID COMMAND", "whoops", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{	
+					System.out.println(ex.getMessage());
+				}
 			}
 		}		
 		
