@@ -450,18 +450,6 @@ public class CommandFetch
 
 		String direction = command.get(idx);	
 		
-		try
-		{
-			if (direction == null)
-			{
-				throw new GeneralSyntaxException("ERROR: A sort direction (DESC/ASC) was not declared!");
-			}
-		}
-		catch(GeneralSyntaxException d)
-		{
-			JOptionPane.showMessageDialog(null, d.getMessage(), "whoops", JOptionPane.ERROR_MESSAGE);
-		}
-		
 		if (direction.contains(";"))
 		{
 			String s[] = direction.split(";");
